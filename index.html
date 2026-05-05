@@ -890,33 +890,6 @@
             background: rgba(255,152,0,0.9);
             color: white;
         }
-
-        /* ========== VOICE ACTIVATION PROMPT ========== */
-        .voice-prompt {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
-            color: #FFD700;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            z-index: 9995;
-            cursor: pointer;
-            border: 2px solid #FFD700;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            animation: voicePromptBounce 2s ease-in-out infinite;
-            display: none;
-        }
-
-        .voice-prompt.show { display: block; }
-
-        @keyframes voicePromptBounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -924,7 +897,6 @@
             emailjs.init("S3_XQI5mfn8MMdGhM");
         })();
     </script>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -953,11 +925,6 @@
     ">
         <span id="welcomeText">👋 Welcome to Barangay Sibaguan KK Profiling System!</span>
     </div>
-    <!-- ========== VOICE ACTIVATION PROMPT ========== -->
-    <div class="voice-prompt" id="voicePrompt" onclick="activateVoice()">
-        🔊 Click here to enable Welcome Voice
-    </div>
-
     <style>
         #welcomeBanner.show { transform:translateY(0) !important; }
     </style>
@@ -1960,11 +1927,16 @@
             }
         };
 
-        // ========== AUTO VOICE GREETING ON PAGE LOAD ==========
+        // ========== INITIALIZATION ==========
         let audioInitialized = false;
-        let greetingPlayed = false;
 
-        function showWelcomeBanner() {
+        async function initAudio() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+
+            AudioEngine.init();
+            VoiceEngine.init();
+
             const banner = document.getElementById('welcomeBanner');
             const welcomeText = document.getElementById('welcomeText');
             const hour = new Date().getHours();
@@ -1980,62 +1952,19 @@
 
             welcomeText.textContent = greetingText;
             banner.classList.add('show');
-            setTimeout(() => banner.classList.remove('show'), 5000);
-        }
-
-        async function playAutoGreeting() {
-            if (greetingPlayed) return;
-            greetingPlayed = true;
-
-            AudioEngine.init();
-            VoiceEngine.init();
-
-            showWelcomeBanner();
 
             setTimeout(() => {
-                AudioEngine.playWelcomeMusic();
-            }, 300);
+                banner.classList.remove('show');
+            }, 5000);
 
             setTimeout(async () => {
+                AudioEngine.playWelcomeMusic();
                 await VoiceEngine.greetingByTime();
-            }, 800);
+            }, 600);
         }
 
-        // Try auto-play on load (may be blocked by browser)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const testUtterance = new SpeechSynthesisUtterance('');
-                testUtterance.volume = 0;
-                testUtterance.onend = () => {
-                    playAutoGreeting();
-                };
-                testUtterance.onerror = () => {
-                    document.getElementById('voicePrompt').classList.add('show');
-                };
-                window.speechSynthesis.speak(testUtterance);
-            }, 1000);
-        });
-
-        // Manual activation fallback
-        function activateVoice() {
-            document.getElementById('voicePrompt').classList.remove('show');
-            playAutoGreeting();
-        }
-
-        // Also activate on first interaction
-        document.addEventListener('click', () => {
-            if (!greetingPlayed) {
-                document.getElementById('voicePrompt').classList.remove('show');
-                playAutoGreeting();
-            }
-        }, { once: true });
-
-        document.addEventListener('touchstart', () => {
-            if (!greetingPlayed) {
-                document.getElementById('voicePrompt').classList.remove('show');
-                playAutoGreeting();
-            }
-        }, { once: true });
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
 
         // ========== FORM INTERACTION SOUNDS ==========
         document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
