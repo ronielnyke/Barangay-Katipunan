@@ -1,0 +1,129 @@
+# ============================================
+# APPSHEET IMAGE DISPLAY CONFIGURATION GUIDE
+# For Barangay Sibaguan KK Profiling System
+# ============================================
+
+## STEP 1: Create AppSheet App from Google Sheet
+1. Go to https://www.appsheet.com
+2. Click "Start for free" or "My Apps"
+3. Click "+ Create" → "App"
+4. Choose "Use data from my own sources"
+5. Select your Google Sheet (Sibaguan_KK_Profiling)
+6. Click "Customize your app"
+
+## STEP 2: Configure Data Source
+1. In the AppSheet Editor, go to Data → Tables
+2. Make sure "Sibaguan_KK_Profiling" is listed as a table
+3. Click on the table name to review columns
+
+## STEP 3: Set IDPictureURL Column as IMAGE Type (CRITICAL!)
+1. Go to Data → Columns → Sibaguan_KK_Profiling
+2. Find the column "IDPictureURL" (Column X)
+3. Click on "IDPictureURL" to edit
+4. Set the following:
+   - Type: **Image** (NOT Text!)
+   - Image Type: **Image from URL**
+   - Image URL Column: (leave as is - it IS the URL column)
+
+## STEP 4: Set IDPictureDisplay Column
+1. Find the column "IDPictureDisplay" (Column Y)
+2. Set Type: **Image**
+3. Set Image Type: **Image from URL**
+4. This column has the IMAGE() formula from Google Sheets
+
+## STEP 5: IMPORTANT SECURITY SETTING
+1. Go to Security → Options
+2. Find "Require Image and File URL Signing"
+3. **UNCHECK / DISABLE** this option
+   - This is REQUIRED for external Google Drive URLs to display
+   - Without disabling this, AppSheet will block the images
+
+## STEP 6: Configure the Form View (For Adding New Members)
+1. Go to UX → Views
+2. Create or edit a Form view
+3. Add all fields including IDPicture
+4. For the image upload field:
+   - Type: Image
+   - Allow users to upload photos
+   - Set "Image folder" to: Sibaguan_KK_ID_Pictures
+
+## STEP 7: Configure Detail View (For Viewing Member Profile)
+1. Create a Detail view
+2. Add IDPictureURL as an Image element
+3. Set image size to Large or Medium
+4. Add other fields as needed
+
+## STEP 8: Configure Gallery/Deck View (For Member List)
+1. Create a Gallery or Deck view
+2. Set IDPictureURL as the Image column
+3. Set FullName as the Title
+4. Set Status as the Subtitle
+
+## STEP 9: Sync and Test
+1. Click "Save" in the AppSheet Editor
+2. Click "Sync" to refresh data
+3. Open the app on your phone or preview
+4. Test adding a new member with photo
+5. Verify the image displays in both:
+   - Google Sheet (Column Y with IMAGE formula)
+   - AppSheet app (Detail view and Gallery view)
+
+## ============================================
+## TROUBLESHOOTING
+## ============================================
+
+### Problem: Images not showing in AppSheet
+1. Check that the Google Drive file is shared:
+   - Go to your Google Drive
+   - Find the folder "Sibaguan_KK_ID_Pictures"
+   - Right-click → Share → "Anyone with the link can view"
+
+2. Check the URL format in the sheet:
+   - Should be: https://drive.google.com/thumbnail?sz=w1000&id=FILE_ID
+   - NOT: https://drive.google.com/uc?export=view&id=FILE_ID (old format)
+
+3. Check AppSheet Security setting:
+   - Security → Options → "Require Image and File URL Signing" MUST be DISABLED
+
+4. Check column type:
+   - IDPictureURL MUST be set to "Image" type, not "Text"
+
+### Problem: Images not showing in Google Sheets
+1. Check Column Y has the IMAGE() formula
+2. The formula should be: =IF(X2="","",IMAGE(X2,4,120,120))
+3. Make sure row height is set to 130 or more
+4. Run the function "addImageFormulasToExisting()" if needed
+
+### Problem: New uploads don't show images
+1. Make sure the Apps Script is using the thumbnail URL format
+2. The saveImageToDrive() function should return:
+   https://drive.google.com/thumbnail?sz=w1000&id=FILE_ID
+3. Check the Apps Script execution log for errors
+
+## ============================================
+## APPSHEET EXPRESSION FOR IMAGE (Optional)
+## ============================================
+
+If you want to create a custom image display in AppSheet, 
+you can use this expression in a Virtual Column:
+
+```
+IF(ISBLANK([IDPictureURL]), "", [IDPictureURL])
+```
+
+Then set that Virtual Column's type to "Image".
+
+## ============================================
+## URL FORMAT REFERENCE
+## ============================================
+
+GOOGLE SHEETS IMAGE() formula works with:
+- https://drive.google.com/thumbnail?sz=w1000&id=FILE_ID  ✓ BEST
+- https://drive.google.com/uc?export=view&id=FILE_ID      ✗ Sometimes blocked
+
+APPSHEET displays images from:
+- https://drive.google.com/thumbnail?sz=w1000&id=FILE_ID  ✓ BEST (with sharing enabled)
+- Requires "Anyone with link can view" permission
+- Requires "Require Image and File URL Signing" DISABLED
+
+## ============================================

@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Barangay Sibaguan KK Profiling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .login-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+            overflow: hidden;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.08);
+            animation: floatCircle 8s ease-in-out infinite;
+        }
+
+        .login-bg-circle:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
+        .login-bg-circle:nth-child(2) { width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: 2s; }
+        .login-bg-circle:nth-child(3) { width: 150px; height: 150px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s; }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            border: 4px solid #FFD700;
+            animation: slideUp 0.6s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(60px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-logo {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 4px solid #FFD700;
+            margin-bottom: 15px;
+            object-fit: cover;
+            background: white;
+            animation: logoPulse 3s ease-in-out infinite;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0033A0;
+            margin-bottom: 5px;
+        }
+
+        .login-subtitle {
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #0033A0;
+            box-shadow: 0 0 0 4px rgba(0,51,160,0.1);
+            transform: translateY(-2px);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+            color: #FFD700;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,51,160,0.3);
+        }
+
+        .login-error {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            animation: shake 0.4s ease;
+        }
+
+        .login-error.show { display: block; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .dash-header {
+            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dash-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dash-logo {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 3px solid #FFD700;
+            object-fit: cover;
+            background: white;
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        .dash-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #FFD700;
+            line-height: 1.3;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dash-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .dash-header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header-clock {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            padding: 8px 15px;
+            text-align: center;
+        }
+
+        .header-clock-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #FFD700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .header-clock-date {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .realtime-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,200,83,0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #00C853;
+            border: 1px solid rgba(0,200,83,0.3);
+        }
+
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: #00C853;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.5); }
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+            color: #0033A0;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255,215,0,0.5); }
+            50% { box-shadow: 0 0 20px rgba(255,215,0,0.8); }
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border-left: 5px solid #0033A0;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, transparent 50%, rgba(0,51,160,0.05) 50%);
+            border-radius: 0 0 0 80px;
+        }
+
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .stat-icon.blue { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
+        .stat-icon.green { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); }
+        .stat-icon.orange { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); }
+        .stat-icon.red { background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%); }
+        .stat-icon.purple { background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%); }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #0033A0;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .filters-container {
+            padding: 0 20px 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .filter-input, .filter-select {
+            padding: 12px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            min-width: 180px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #0033A0;
+            box-shadow: 0 0 0 4px rgba(0,51,160,0.08);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: #FFD700;
+            box-shadow: 0 4px 15px rgba(0,51,160,0.2);
+        }
+
+        .btn-export:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,51,160,0.3);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231,76,60,0.2);
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(231,76,60,0.3);
+        }
+
+        .table-container {
+            padding: 0 20px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease 0.4s both;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .table-wrapper:hover {
+            border-color: #FFD700;
+        }
+
+        .table-header {
+            padding: 18px 25px;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-count {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        thead { background: #f8f9fa; }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #0033A0;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid #FFD700;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+            color: #444;
+            transition: background 0.2s;
+        }
+
+        tr {
+            transition: all 0.2s;
+            animation: slideInLeft 0.4s ease both;
+        }
+
+        tr:nth-child(1) { animation-delay: 0.05s; }
+        tr:nth-child(2) { animation-delay: 0.1s; }
+        tr:nth-child(3) { animation-delay: 0.15s; }
+        tr:nth-child(4) { animation-delay: 0.2s; }
+        tr:nth-child(5) { animation-delay: 0.25s; }
+        tr:nth-child(6) { animation-delay: 0.3s; }
+        tr:nth-child(7) { animation-delay: 0.35s; }
+        tr:nth-child(8) { animation-delay: 0.4s; }
+        tr:nth-child(9) { animation-delay: 0.45s; }
+        tr:nth-child(10) { animation-delay: 0.5s; }
+
+        tr:hover {
+            background: linear-gradient(90deg, #f8f9fa 0%, #fff8e1 100%);
+            transform: scale(1.01);
+        }
+
+        .table-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #FFD700;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .table-photo:hover {
+            transform: scale(3);
+            z-index: 100;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .table-photo-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            color: #E65100;
+            border: 1px solid #FFB74D;
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            color: #2E7D32;
+            border: 1px solid #81C784;
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+            color: #C62828;
+            border: 1px solid #E57373;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 7px 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            color: #1565C0;
+        }
+
+        .btn-view:hover { background: #1565C0; color: white; }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            color: #2E7D32;
+        }
+
+        .btn-approve:hover { background: #2E7D32; color: white; }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+            color: #C62828;
+        }
+
+        .btn-reject:hover { background: #C62828; color: white; }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+            color: #C62828;
+        }
+
+        .btn-delete:hover { background: #C62828; color: white; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .empty-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .empty-text {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-box {
+            background: white;
+            border-radius: 25px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.4s ease;
+            border: 4px solid #FFD700;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8) rotate(-2deg); opacity: 0; }
+            to { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .detail-section { margin-bottom: 25px; }
+
+        .detail-section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #0033A0;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .detail-item:hover {
+            border-color: #FFD700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .detail-label {
+            font-size: 0.72rem;
+            color: #888;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .detail-photo {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 4px solid #FFD700;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        .detail-photo-placeholder {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 50px;
+            color: #FFD700;
+            border: 4px solid #FFD700;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox-overlay.active { display: flex; }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: scaleIn 0.3s ease;
+            border: 4px solid #FFD700;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover { transform: rotate(90deg); }
+
+        .toast {
+            position: fixed;
+            top: 90px;
+            right: 25px;
+            background: white;
+            padding: 18px 24px;
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 3000;
+            transform: translateX(450px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-left: 5px solid #00C853;
+            max-width: 380px;
+        }
+
+        .toast.show { transform: translateX(0); }
+
+        .toast.error { border-left-color: #e74c3c; }
+        .toast.warning { border-left-color: #FF8F00; }
+        .toast.info { border-left-color: #0033A0; }
+
+        .toast-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .toast.success .toast-icon { background: #E8F5E9; }
+        .toast.error .toast-icon { background: #FFEBEE; }
+        .toast.warning .toast-icon { background: #FFF3E0; }
+        .toast.info .toast-icon { background: #E3F2FD; }
+
+        .toast-content h4 {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .toast-content p {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        .page-btn {
+            padding: 8px 16px;
+            border: 2px solid #e8e8e8;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            border-color: #0033A0;
+            color: #0033A0;
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: #FFD700;
+            border-color: #0033A0;
+            box-shadow: 0 4px 15px rgba(0,51,160,0.3);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px; height: 16px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 6px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sync-status.syncing { color: #FFD700; }
+        .sync-status.online { color: #00C853; }
+        .sync-status.offline { color: #e74c3c; }
+
+        @media (max-width: 768px) {
+            .dash-header { flex-direction: column; text-align: center; padding: 15px; }
+            .dash-header-right { justify-content: center; flex-wrap: wrap; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 12px; }
+            .filters-container { flex-direction: column; align-items: stretch; padding: 0 15px 12px; }
+            .filter-input, .filter-select { width: 100%; }
+            .table-container { padding: 0 15px 15px; }
+            th, td { padding: 10px 6px; font-size: 0.78rem; }
+            .action-btns { flex-direction: column; gap: 4px; }
+            .action-btn { width: 100%; text-align: center; justify-content: center; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .login-box { padding: 30px 20px; }
+            .modal-box { margin: 10px; }
+            .toast { right: 10px; left: 10px; max-width: none; }
+            .header-clock { display: none; }
+        }
+
+        /* ========== FOOTER STYLES ========== */
+        .site-footer {
+            position: relative;
+            z-index: 10;
+            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(0,51,160,0.95) 0%, rgba(0,32,128,0.95) 50%, rgba(0,21,96,0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-top: 3px solid #FFD700;
+            overflow: hidden;
+        }
+
+        .footer-waves {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .footer-waves svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+
+        .footer-waves .shape-fill {
+            fill: rgba(0,51,160,0.95);
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+            animation: footerGlow 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .footer-glow:nth-child(1) { top: -100px; left: -100px; animation-delay: 0s; }
+        .footer-glow:nth-child(2) { bottom: -100px; right: -100px; animation-delay: 3s; }
+
+        @keyframes footerGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,215,0,0.15);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .footer-badge-icon {
+            font-size: 1.2rem;
+            animation: rotateBadge 4s linear infinite;
+        }
+
+        @keyframes rotateBadge {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .footer-badge-text {
+            color: #FFD700;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-developer {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #FFD700;
+            margin-bottom: 8px;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .footer-company {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            margin: 0 auto 20px;
+            border-radius: 2px;
+            animation: expandLine 1.5s ease 0.6s both;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; opacity: 0; }
+            to { width: 80px; opacity: 1; }
+        }
+
+        .footer-copyright {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .footer-copyright strong {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .footer-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .footer-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,215,0,0.4);
+            border-radius: 50%;
+            animation: footerParticleFloat 10s ease-in-out infinite;
+        }
+
+        .footer-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
+        .footer-particle:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 12s; }
+        .footer-particle:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 10s; }
+        .footer-particle:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 9s; }
+        .footer-particle:nth-child(5) { left: 90%; animation-delay: 3s; animation-duration: 11s; }
+
+        @keyframes footerParticleFloat {
+            0%, 100% { transform: translateY(100%) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20px) scale(0.5); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-developer { font-size: 1.1rem; }
+            .footer-company { font-size: 0.9rem; }
+            .footer-content { padding: 40px 15px 25px; }
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("S3_XQI5mfn8MMdGhM");
+        })();
+    </script>
+<base target="_blank">
+</head>
+<body>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-bg-circle"></div>
+        <div class="login-bg-circle"></div>
+        <div class="login-bg-circle"></div>
+
+        <div class="login-box">
+            <img src="logo.png" alt="SK Logo" class="login-logo" onerror="this.style.display='none'">
+
+            <h2 class="login-title">🔐 Admin Login</h2>
+            <p class="login-subtitle">Barangay Sibaguan KK Profiling System</p>
+
+            <input type="text" class="login-input" id="adminUser" placeholder="Username" autocomplete="off">
+            <input type="password" class="login-input" id="adminPass" placeholder="Password" autocomplete="off">
+
+            <button class="login-btn" onclick="login()" id="loginBtn">
+                <span class="btn-text">MAG-LOGIN</span>
+            </button>
+
+            <p class="login-error" id="loginError">❌ Maling username o password!</p>
+
+            <p style="margin-top:18px;font-size:0.72rem;color:#bbb;">
+                Default: <strong>admin</strong> / <strong>admin123</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="image.jpg" alt="Barangay Logo" class="dash-logo" onerror="this.style.display='none'">
+                <div>
+                    <div class="dash-title">BARANGAY SIBAGUAN</div>
+                    <div class="dash-subtitle">KK Profiling Admin Dashboard</div>
+                </div>
+            </div>
+            <div class="dash-header-right">
+                <div class="header-clock">
+                    <div class="header-clock-time" id="headerClockTime">00:00:00</div>
+                    <div class="header-clock-date" id="headerClockDate">Loading...</div>
+                </div>
+                <div class="sync-status" id="syncStatus">
+                    <span id="syncIcon">🔄</span>
+                    <span id="syncText">Syncing...</span>
+                </div>
+                <div class="realtime-badge">
+                    <div class="pulse-dot"></div>
+                    <span>Real-time</span>
+                </div>
+                <span class="admin-badge">👤 ADMIN</span>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon blue">👥</div>
+                <div class="stat-label">Total Members</div>
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-desc">All submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">✅</div>
+                <div class="stat-label">Approved</div>
+                <div class="stat-value" id="statApproved">0</div>
+                <div class="stat-desc">Verified members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">⏳</div>
+                <div class="stat-label">Pending</div>
+                <div class="stat-value" id="statPending">0</div>
+                <div class="stat-desc">Needs review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">📅</div>
+                <div class="stat-label">New Today</div>
+                <div class="stat-value" id="statToday">0</div>
+                <div class="stat-desc">Last 24 hours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red">🚫</div>
+                <div class="stat-label">Rejected</div>
+                <div class="stat-value" id="statRejected">0</div>
+                <div class="stat-desc">Not qualified</div>
+            </div>
+        </div>
+
+        <div class="filters-container">
+            <input type="text" class="filter-input" id="searchInput" placeholder="🔍 Hanapin sa pangalan..." oninput="filterData()">
+            <select class="filter-select" id="filterPurok" onchange="filterData()">
+                <option value="">Lahat ng Purok</option>
+                <option value="Purok 1">Purok 1</option>
+                <option value="Purok 2">Purok 2</option>
+                <option value="Purok 3">Purok 3</option>
+                <option value="Purok 4">Purok 4</option>
+                <option value="Purok 5">Purok 5</option>
+                <option value="Purok 6">Purok 6</option>
+                <option value="Purok 7">Purok 7</option>
+            </select>
+            <select class="filter-select" id="filterStatus" onchange="filterData()">
+                <option value="">Lahat ng Status</option>
+                <option value="Pending Review">Pending Review</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <select class="filter-select" id="filterGender" onchange="filterData()">
+                <option value="">Lahat ng Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <button class="btn btn-clear" onclick="clearAllData()">🗑️ Clear All</button>
+            <button class="btn btn-export" onclick="exportToCSV()">📥 Export CSV</button>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <div class="table-header">
+                    <span class="table-title">📋 KK Member Profiles</span>
+                    <span class="table-count" id="tableCount">0 records</span>
+                </div>
+                <div id="tableContent"></div>
+            </div>
+        </div>
+
+        <!-- ========== FOOTER ========== -->
+        <footer class="site-footer">
+            <div class="footer-waves">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
+            <div class="footer-glow"></div>
+            <div class="footer-glow"></div>
+            <div class="footer-particles">
+                <div class="footer-particle"></div>
+                <div class="footer-particle"></div>
+                <div class="footer-particle"></div>
+                <div class="footer-particle"></div>
+                <div class="footer-particle"></div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-badge">
+                    <span class="footer-badge-icon">⚙️</span>
+                    <span class="footer-badge-text">System Developer</span>
+                </div>
+                <div class="footer-developer">Developed by: Roniel Nyke Gonzales</div>
+                <div class="footer-company">Lambunao Web Developer</div>
+                <div class="footer-divider"></div>
+                <div class="footer-copyright">
+                    © 2026 <strong>Barangay Sibaguan</strong> — KK Profiling System. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-header-title">👤 Member Details</h3>
+                <button class="modal-close" onclick="closeDetailModal()">✕</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+        </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img src="" alt="ID Picture" class="lightbox-img" id="lightboxImg">
+    </div>
+
+    <div class="toast" id="toast">
+        <div class="toast-icon">🔔</div>
+        <div class="toast-content">
+            <h4 id="toastTitle">Notification</h4>
+            <p id="toastMessage">Message here</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== GOOGLE SHEETS WEB APP URL ==========
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZ-tAcWtrLtspqkus8IUBgOhhiV0b0iYMJdpBUGEEN6iDQJ8DXtAxk7TGO8XYx-Wgd/exec';
+
+        const ADMIN_USER = 'admin';
+        const ADMIN_PASS = 'admin123';
+        const CURRENT_YEAR = 2026;
+        const DB_NAME = 'sibaguan_kk_db';
+
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let isSyncing = false;
+
+        // ========== REAL-TIME CLOCK ==========
+        function updateHeaderClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-PH', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            const dateString = now.toLocaleDateString('fil-PH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            const clockTime = document.getElementById('headerClockTime');
+            const clockDate = document.getElementById('headerClockDate');
+            
+            if (clockTime) clockTime.textContent = timeString;
+            if (clockDate) clockDate.textContent = dateString;
+        }
+
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        // ========== BROADCAST CHANNEL ==========
+        let broadcastChannel = null;
+        try {
+            broadcastChannel = new BroadcastChannel('sibaguan_kk_sync');
+            broadcastChannel.onmessage = function(event) {
+                if (event.data && event.data.type === 'new_submission') {
+                    console.log('📡 New submission received via BroadcastChannel');
+                    showToast('📬 New Submission', 'New KK member profile submitted!', 'info');
+                    loadData();
+                }
+            };
+            console.log('✅ BroadcastChannel connected');
+        } catch(e) {
+            console.log('⚠️ BroadcastChannel not supported');
+        }
+
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'kk_last_update' || event.key === 'kk_new_submission') {
+                console.log('📡 Data change detected via localStorage event:', event.key);
+                showToast('📬 New Submission', 'New KK member profile submitted!', 'info');
+                loadData();
+            }
+        });
+
+        // ========== SYNC STATUS ==========
+        function setSyncStatus(status, text) {
+            const el = document.getElementById('syncStatus');
+            const icon = document.getElementById('syncIcon');
+            const txt = document.getElementById('syncText');
+
+            el.className = 'sync-status ' + status;
+            txt.textContent = text;
+
+            if (status === 'syncing') icon.textContent = '🔄';
+            else if (status === 'online') icon.textContent = '✅';
+            else if (status === 'offline') icon.textContent = '❌';
+        }
+
+        // ========== FETCH DATA FROM GOOGLE SHEETS ==========
+        async function fetchFromGoogleSheets() {
+            if (GOOGLE_SCRIPT_URL.includes('YOUR_WEB_APP_URL')) {
+                console.warn('⚠️ Google Sheets URL not configured. Using localStorage only.');
+                setSyncStatus('offline', 'Local Only');
+                return null;
+            }
+
+            setSyncStatus('syncing', 'Syncing...');
+            isSyncing = true;
+
+            try {
+                const url = GOOGLE_SCRIPT_URL + '?action=read&t=' + Date.now();
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+
+                const result = await response.json();
+                console.log('✅ Data fetched from Google Sheets:', result);
+
+                if (result.success && result.data) {
+                    localStorage.setItem(DB_NAME, JSON.stringify(result.data));
+                    localStorage.setItem('kk_last_sync', Date.now().toString());
+                    setSyncStatus('online', 'Synced (' + result.data.length + ' records)');
+                    return result.data;
+                } else if (result.success) {
+                    setSyncStatus('online', 'No Data');
+                    return [];
+                } else {
+                    throw new Error(result.error || 'Unknown error');
+                }
+
+            } catch (error) {
+                console.error('❌ Error fetching from Google Sheets:', error);
+                setSyncStatus('offline', 'Offline Mode');
+
+                const cached = localStorage.getItem(DB_NAME);
+                if (cached) {
+                    console.log('📦 Using cached data');
+                    return JSON.parse(cached);
+                }
+                return null;
+            } finally {
+                isSyncing = false;
+            }
+        }
+
+        // ========== UPDATE STATUS IN GOOGLE SHEETS ==========
+        async function updateStatusInSheets(id, status) {
+            if (GOOGLE_SCRIPT_URL.includes('YOUR_WEB_APP_URL')) {
+                console.warn('⚠️ Google Sheets URL not configured. Skipping cloud update.');
+                return { success: false, error: 'URL not configured' };
+            }
+
+            setSyncStatus('syncing', 'Updating...');
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'updateStatus',
+                        id: id,
+                        status: status,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                console.log('✅ Status updated in Google Sheets:', id, '->', status);
+                setSyncStatus('online', 'Updated');
+                return { success: true };
+            } catch (error) {
+                console.error('❌ Error updating status:', error);
+                setSyncStatus('offline', 'Update Failed');
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ========== DELETE FROM GOOGLE SHEETS ==========
+        async function deleteFromSheets(id) {
+            if (GOOGLE_SCRIPT_URL.includes('YOUR_WEB_APP_URL')) {
+                console.warn('⚠️ Google Sheets URL not configured. Skipping cloud delete.');
+                return { success: false, error: 'URL not configured' };
+            }
+
+            setSyncStatus('syncing', 'Deleting...');
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'delete',
+                        id: id
+                    })
+                });
+
+                console.log('✅ Deleted from Google Sheets:', id);
+                setSyncStatus('online', 'Deleted');
+                return { success: true };
+            } catch (error) {
+                console.error('❌ Error deleting:', error);
+                setSyncStatus('offline', 'Delete Failed');
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ========== CLEAR ALL FROM GOOGLE SHEETS ==========
+        async function clearAllFromSheets() {
+            if (GOOGLE_SCRIPT_URL.includes('YOUR_WEB_APP_URL')) {
+                console.warn('⚠️ Google Sheets URL not configured. Skipping cloud clear.');
+                return { success: false, error: 'URL not configured' };
+            }
+
+            setSyncStatus('syncing', 'Clearing...');
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'clearAll'
+                    })
+                });
+
+                console.log('✅ All data cleared from Google Sheets');
+                setSyncStatus('online', 'Cleared');
+                return { success: true };
+            } catch (error) {
+                console.error('❌ Error clearing:', error);
+                setSyncStatus('offline', 'Clear Failed');
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ========== LOGIN ==========
+        function login() {
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPass').value;
+
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                loadData();
+
+                setInterval(function() { 
+                    if (!isSyncing) loadData(); 
+                }, 5000);
+                console.log('✅ Admin logged in');
+            } else {
+                const error = document.getElementById('loginError');
+                error.classList.add('show');
+                setTimeout(function() { error.classList.remove('show'); }, 3000);
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('adminPass').value = '';
+        }
+
+        // ========== DATA FUNCTIONS ==========
+        async function loadData() {
+            try {
+                const sheetData = await fetchFromGoogleSheets();
+
+                if (sheetData !== null) {
+                    allData = sheetData;
+                } else {
+                    const stored = localStorage.getItem(DB_NAME);
+                    allData = stored ? JSON.parse(stored) : [];
+                }
+
+                filterData();
+                updateStats();
+            } catch (e) {
+                console.error('Error loading data:', e);
+                const stored = localStorage.getItem(DB_NAME);
+                allData = stored ? JSON.parse(stored) : [];
+                filterData();
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            const total = allData.length;
+            const approved = allData.filter(function(d) { return d.status === 'Approved'; }).length;
+            const pending = allData.filter(function(d) { return d.status === 'Pending Review'; }).length;
+            const rejected = allData.filter(function(d) { return d.status === 'Rejected'; }).length;
+
+            const today = new Date().toDateString();
+            const todayCount = allData.filter(function(d) {
+                return new Date(d.timestamp).toDateString() === today;
+            }).length;
+
+            animateNumber('statTotal', total);
+            animateNumber('statApproved', approved);
+            animateNumber('statPending', pending);
+            animateNumber('statToday', todayCount);
+            animateNumber('statRejected', rejected);
+        }
+
+        function animateNumber(elementId, target) {
+            const element = document.getElementById(elementId);
+            const current = parseInt(element.textContent) || 0;
+            if (current === target) return;
+
+            const diff = target - current;
+            const steps = 20;
+            const increment = diff / steps;
+            let step = 0;
+
+            const timer = setInterval(function() {
+                step++;
+                element.textContent = Math.round(current + (increment * step));
+                if (step >= steps) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 30);
+        }
+
+        function filterData() {
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const purok = document.getElementById('filterPurok').value;
+            const status = document.getElementById('filterStatus').value;
+            const gender = document.getElementById('filterGender').value;
+
+            filteredData = allData.filter(function(item) {
+                const matchSearch = !search || 
+                    (item.fullName && item.fullName.toLowerCase().includes(search)) ||
+                    (item.contactNumber && item.contactNumber.includes(search)) ||
+                    (item.email && item.email.toLowerCase().includes(search));
+
+                const matchPurok = !purok || item.purok === purok;
+                const matchStatus = !status || item.status === status;
+                const matchGender = !gender || item.gender === gender;
+
+                return matchSearch && matchPurok && matchStatus && matchGender;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function renderTable() {
+            const container = document.getElementById('tableContent');
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">Walang Records</div><div class="empty-text">Maghintay ng bagong submissions mula sa KK members.</div></div>';
+                document.getElementById('tableCount').textContent = '0 records';
+                return;
+            }
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filteredData.slice(start, end);
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+            let html = '<div style="overflow-x:auto;"><table><thead><tr><th>#</th><th>Photo</th><th>Name</th><th>Age</th><th>Gender</th><th>Purok</th><th>Contact</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+
+            pageData.forEach(function(item, index) {
+                const itemId = String(item.id).replace(/"/g, '&quot;');
+                const statusClass = item.status === 'Approved' ? 'status-approved' : item.status === 'Rejected' ? 'status-rejected' : 'status-pending';
+
+                let photoHtml = '';
+                if (item.IDPictureURL && item.IDPictureURL.toString().startsWith('http')) {
+                    photoHtml = '<img src="' + escapeHtml(item.IDPictureURL) + '" class="table-photo" alt="ID" onclick="openLightbox(\'' + escapeHtml(item.IDPictureURL) + '\')">';
+                } else if (item.idPicture && item.idPicture.toString().startsWith('data:image')) {
+                    photoHtml = '<img src="' + escapeHtml(item.idPicture) + '" class="table-photo" alt="ID" onclick="openLightbox(\'' + escapeHtml(item.idPicture) + '\')">';
+                } else {
+                    photoHtml = '<div class="table-photo-placeholder">👤</div>';
+                }
+
+                let actionButtons = '<button class="action-btn btn-view" data-action="view" data-id="' + itemId + '">👁️ View</button>';
+
+                if (item.status === 'Pending Review') {
+                    actionButtons += '<button class="action-btn btn-approve" data-action="approve" data-id="' + itemId + '">✓ Approve</button>';
+                    actionButtons += '<button class="action-btn btn-reject" data-action="reject" data-id="' + itemId + '">✕ Reject</button>';
+                } else if (item.status === 'Approved') {
+                    actionButtons += '<button class="action-btn btn-reject" data-action="reject" data-id="' + itemId + '">✕ Reject</button>';
+                } else if (item.status === 'Rejected') {
+                    actionButtons += '<button class="action-btn btn-approve" data-action="approve" data-id="' + itemId + '">✓ Approve</button>';
+                }
+
+                actionButtons += '<button class="action-btn btn-delete" data-action="delete" data-id="' + itemId + '">🗑️ Delete</button>';
+
+                html += '<tr><td>' + (start + index + 1) + '</td><td>' + photoHtml + '</td><td><strong>' + escapeHtml(item.fullName) + '</strong></td><td>' + (item.age || 'N/A') + '</td><td>' + (item.gender || 'N/A') + '</td><td>' + (item.purok || 'N/A') + '</td><td>' + escapeHtml(item.contactNumber) + '</td><td>' + escapeHtml(item.formattedDate || item.FormattedDate) + '</td><td><span class="status-badge ' + statusClass + '">' + (item.status || 'Pending') + '</span></td><td><div class="action-btns">' + actionButtons + '</div></td></tr>';
+            });
+
+            html += '</tbody></table></div>';
+
+            if (totalPages > 1) {
+                html += '<div class="pagination">';
+                html += '<button class="page-btn" onclick="changePage(' + (currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>◀ Prev</button>';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        html += '<button class="page-btn ' + (i === currentPage ? 'active' : '') + '" onclick="changePage(' + i + ')">' + i + '</button>';
+                    } else if (i === currentPage - 2 || i === currentPage + 2) {
+                        html += '<span style="padding:8px;">...</span>';
+                    }
+                }
+
+                html += '<button class="page-btn" onclick="changePage(' + (currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>Next ▶</button>';
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+            document.getElementById('tableCount').textContent = filteredData.length + ' records';
+            attachTableEvents();
+        }
+
+        function attachTableEvents() {
+            const container = document.getElementById('tableContent');
+            if (!container) return;
+            container.querySelectorAll('.action-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const action = this.getAttribute('data-action');
+                    const id = this.getAttribute('data-id');
+                    if (action === 'view') viewDetail(id);
+                    else if (action === 'approve') approveMember(id);
+                    else if (action === 'reject') rejectMember(id);
+                    else if (action === 'delete') deleteMember(id);
+                });
+            });
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderTable();
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ========== LIGHTBOX ==========
+        function openLightbox(src) {
+            const overlay = document.getElementById('lightboxOverlay');
+            const img = document.getElementById('lightboxImg');
+            img.src = src;
+            overlay.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxOverlay').classList.remove('active');
+        }
+
+        // ========== VIEW DETAIL ==========
+        function viewDetail(id) {
+            const item = allData.find(function(d) { return String(d.id) === String(id); });
+            if (!item) { showToast('Error', 'Record not found', 'error'); return; }
+
+            const modal = document.getElementById('detailModal');
+            const body = document.getElementById('detailBody');
+
+            const imageUrl = item.IDPictureURL || item.idPicture || '';
+            
+            const photoHtml = imageUrl && imageUrl.toString().startsWith('http') 
+                ? '<img src="' + escapeHtml(imageUrl) + '" class="detail-photo" alt="ID" onclick="openLightbox(\'' + escapeHtml(imageUrl) + '\')">'
+                : (imageUrl && imageUrl.toString().startsWith('data:image')
+                    ? '<img src="' + escapeHtml(imageUrl) + '" class="detail-photo" alt="ID" onclick="openLightbox(\'' + escapeHtml(imageUrl) + '\')">'
+                    : '<div class="detail-photo-placeholder">👤</div>');
+
+            body.innerHTML = photoHtml + '<h3 style="text-align:center;margin-bottom:20px;color:#0033A0;font-size:1.2rem;font-weight:800;">' + escapeHtml(item.fullName) + '</h3>' +
+                '<div class="detail-section"><div class="detail-section-title">👤 Personal Information</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Full Name</div><div class="detail-value">' + escapeHtml(item.fullName) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Age</div><div class="detail-value">' + item.age + ' years old</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Birth Date</div><div class="detail-value">' + (item.birthDate || item.BirthDate || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Gender</div><div class="detail-value">' + (item.gender || item.Gender || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Civil Status</div><div class="detail-value">' + (item.civilStatus || item.CivilStatus || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Purok</div><div class="detail-value">' + (item.purok || item.Purok || 'N/A') + '</div></div>' +
+                '</div></div>' +
+                '<div class="detail-section"><div class="detail-section-title">📞 Contact Information</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Contact Number</div><div class="detail-value">' + escapeHtml(item.contactNumber || item.ContactNumber) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Email Address</div><div class="detail-value">' + (escapeHtml(item.email || item.Email) || 'N/A') + '</div></div>' +
+                '</div></div>' +
+                '<div class="detail-section"><div class="detail-section-title">🎓 Education & Work</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Education</div><div class="detail-value">' + (item.education || item.Education || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Employment</div><div class="detail-value">' + (item.employment || item.Employment || 'N/A') + '</div></div>' +
+                '</div></div>' +
+                '<div class="detail-section"><div class="detail-section-title">⭐ Skills & Programs</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Skills</div><div class="detail-value">' + (Array.isArray(item.skills || item.Skills) ? (item.skills || item.Skills).join(', ') : (item.skills || item.Skills || 'N/A')) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">KK Member Before?</div><div class="detail-value">' + (item.kkBefore || item.KKBefore || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Interested Programs</div><div class="detail-value">' + (Array.isArray(item.programs || item.Programs) ? (item.programs || item.Programs).join(', ') : (item.programs || item.Programs || 'N/A')) + '</div></div>' +
+                '</div></div>' +
+                '<div class="detail-section"><div class="detail-section-title">🚨 Emergency Contact</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Name</div><div class="detail-value">' + escapeHtml(item.emergencyName || item.EmergencyName) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Contact</div><div class="detail-value">' + escapeHtml(item.emergencyContact || item.EmergencyContact) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Relationship</div><div class="detail-value">' + (escapeHtml(item.emergencyRelation || item.EmergencyRelation) || 'N/A') + '</div></div>' +
+                '</div></div>' +
+                '<div class="detail-section"><div class="detail-section-title">📝 Other Information</div><div class="detail-grid">' +
+                '<div class="detail-item"><div class="detail-label">Comments</div><div class="detail-value">' + (escapeHtml(item.comments || item.Comments) || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Date Submitted</div><div class="detail-value">' + escapeHtml(item.formattedDate || item.FormattedDate || item.timestamp) + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Current Status</div><div class="detail-value" style="color:' + (item.status === 'Approved' ? '#00C853' : item.status === 'Rejected' ? '#e74c3c' : '#E65100') + '">' + (item.status || 'N/A') + '</div></div>' +
+                '<div class="detail-item"><div class="detail-label">Member ID</div><div class="detail-value" style="font-size:0.75rem;color:#999;">' + item.id + '</div></div>' +
+                '</div></div>';
+
+            modal.classList.add('active');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // ========== EMAILJS SEND APPROVAL EMAIL ==========
+        async function sendApprovalEmail(member) {
+            try {
+                const templateParams = {
+                    to_name: member.fullName || member.FullName,
+                    from_name: "Barangay Sibaguan KK Profiling",
+                    message: "Maligayang bati! Ang iyong application sa Katipunan ng Kabataan (KK) Profiling ay APPROVED na. Ikaw ay opisyal na kasapi ng KK. Maaari ka nang makilahok sa mga programa at aktibidad ng SK.",
+                    reply_to: member.email || member.Email,
+                    to_email: member.email || member.Email,
+                    member_id: member.id,
+                    address: "Barangay Sibaguan",
+                    purok: member.purok || member.Purok,
+                    date: member.formattedDate || member.FormattedDate,
+                    contact: member.contactNumber || member.ContactNumber,
+                    education: member.education || member.Education,
+                    employment: member.employment || member.Employment,
+                    status_class: "status-approved",
+                    status_icon: "✅",
+                    status_text: "APPROVED"
+                };
+
+                await emailjs.send(
+                    "service_djne9ym",
+                    "template_q5v9o8w",
+                    templateParams
+                );
+
+                console.log('✅ Approval email sent to:', member.email || member.Email);
+                return true;
+            } catch (error) {
+                console.error('❌ Approval email sending failed:', error);
+                return false;
+            }
+        }
+
+        // ========== EMAILJS SEND REJECTION EMAIL ==========
+        async function sendRejectionEmail(member) {
+            try {
+                const templateParams = {
+                    to_name: member.fullName || member.FullName,
+                    from_name: "Barangay Sibaguan KK Profiling",
+                    message: "Paumanhin, ang iyong application sa Katipunan ng Kabataan (KK) Profiling ay hindi na-approve sa ngayon. Maaaring hindi ka pa kasalukuyang kwalipikado o may kailangang maayos sa application. Mangyaring makipag-ugnayan sa Barangay Office para sa karagdagang impormasyon.",
+                    reply_to: member.email || member.Email,
+                    to_email: member.email || member.Email,
+                    member_id: member.id,
+                    address: "Barangay Sibaguan",
+                    purok: member.purok || member.Purok,
+                    date: member.formattedDate || member.FormattedDate,
+                    contact: member.contactNumber || member.ContactNumber,
+                    education: member.education || member.Education,
+                    employment: member.employment || member.Employment,
+                    status_class: "status-rejected",
+                    status_icon: "❌",
+                    status_text: "REJECTED"
+                };
+
+                await emailjs.send(
+                    "service_djne9ym",
+                    "template_q5v9o8w",
+                    templateParams
+                );
+
+                console.log('✅ Rejection email sent to:', member.email || member.Email);
+                return true;
+            } catch (error) {
+                console.error('❌ Rejection email sending failed:', error);
+                return false;
+            }
+        }
+
+        // ========== APPROVE MEMBER ==========
+        async function approveMember(id) {
+            const index = allData.findIndex(function(d) { return String(d.id) === String(id); });
+            if (index === -1) return;
+
+            const member = allData[index];
+            member.status = 'Approved';
+            member.approvedDate = new Date().toLocaleDateString('fil-PH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            member.approvedBy = 'Barangay Admin';
+
+            localStorage.setItem(DB_NAME, JSON.stringify(allData));
+            localStorage.setItem('kk_last_update', Date.now().toString());
+
+            await updateStatusInSheets(id, 'Approved');
+            await sendApprovalEmail(member);
+
+            try {
+                if (broadcastChannel) {
+                    broadcastChannel.postMessage({ type: 'status_update', id: id, status: 'Approved' });
+                }
+            } catch(e) {}
+
+            showToast('✅ Approved!', (member.fullName || member.FullName) + ' has been approved. Email sent!', 'success');
+            loadData();
+        }
+
+        // ========== REJECT MEMBER ==========
+        async function rejectMember(id) {
+            const index = allData.findIndex(function(d) { return String(d.id) === String(id); });
+            if (index === -1) return;
+
+            const member = allData[index];
+            member.status = 'Rejected';
+            member.rejectedDate = new Date().toLocaleDateString('fil-PH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            member.rejectedBy = 'Barangay Admin';
+
+            localStorage.setItem(DB_NAME, JSON.stringify(allData));
+            localStorage.setItem('kk_last_update', Date.now().toString());
+
+            await updateStatusInSheets(id, 'Rejected');
+            await sendRejectionEmail(member);
+
+            try {
+                if (broadcastChannel) {
+                    broadcastChannel.postMessage({ type: 'status_update', id: id, status: 'Rejected' });
+                }
+            } catch(e) {}
+
+            showToast('❌ Rejected!', (member.fullName || member.FullName) + ' has been rejected. Email sent!', 'warning');
+            loadData();
+        }
+
+        // ========== DELETE MEMBER ==========
+        async function deleteMember(id) {
+            if (!confirm('⚠️ Sigurado ka bang burahin ang record na ito?')) return;
+
+            const index = allData.findIndex(function(d) { return String(d.id) === String(id); });
+            if (index !== -1) {
+                const member = allData[index];
+                const name = member.fullName || member.FullName;
+
+                allData.splice(index, 1);
+                localStorage.setItem(DB_NAME, JSON.stringify(allData));
+                localStorage.setItem('kk_last_update', Date.now().toString());
+
+                await deleteFromSheets(id);
+
+                showToast('🗑️ Deleted', name + ' has been removed from the system', 'warning');
+                loadData();
+            }
+        }
+
+        // ========== CLEAR ALL DATA ==========
+        async function clearAllData() {
+            if (!confirm('⚠️ SIGURADO KA BA?\n\nBurahin LAHAT ng records?')) return;
+            if (!confirm('FINAL CONFIRMATION: Lahat ng data mabubura permanently. Continue?')) return;
+
+            localStorage.setItem(DB_NAME, JSON.stringify([]));
+            localStorage.setItem('kk_last_update', Date.now().toString());
+
+            await clearAllFromSheets();
+
+            showToast('🗑️ All Cleared', 'All records have been permanently deleted', 'warning');
+            loadData();
+        }
+
+        // ========== EXPORT TO CSV ==========
+        function exportToCSV() {
+            if (filteredData.length === 0) {
+                alert('Walang data para i-export!');
+                return;
+            }
+
+            const headers = [
+                'ID', 'Timestamp', 'FullName', 'Age', 'BirthDate', 'Gender', 'CivilStatus',
+                'Purok', 'ContactNumber', 'Email', 'Education', 'Employment', 'Skills', 'KKBefore',
+                'Programs', 'EmergencyName', 'EmergencyContact', 'EmergencyRelation', 'Comments',
+                'Status', 'FormattedDate', 'ApprovedDate', 'ApprovedBy', 'IDPictureURL'
+            ];
+
+            let csv = headers.join(',') + '\n';
+
+            filteredData.forEach(function(item) {
+                const row = [
+                    item.id,
+                    item.timestamp || '',
+                    '"' + (item.fullName || item.FullName || '').replace(/"/g, '""') + '"',
+                    item.age || item.Age || '',
+                    item.birthDate || item.BirthDate || '',
+                    item.gender || item.Gender || '',
+                    item.civilStatus || item.CivilStatus || '',
+                    item.purok || item.Purok || '',
+                    item.contactNumber || item.ContactNumber || '',
+                    item.email || item.Email || '',
+                    item.education || item.Education || '',
+                    item.employment || item.Employment || '',
+                    '"' + (Array.isArray(item.skills || item.Skills) ? (item.skills || item.Skills).join(', ') : (item.skills || item.Skills || '')) + '"',
+                    item.kkBefore || item.KKBefore || '',
+                    '"' + (Array.isArray(item.programs || item.Programs) ? (item.programs || item.Programs).join(', ') : (item.programs || item.Programs || '')) + '"',
+                    item.emergencyName || item.EmergencyName || '',
+                    item.emergencyContact || item.EmergencyContact || '',
+                    item.emergencyRelation || item.EmergencyRelation || '',
+                    '"' + (item.comments || item.Comments || '').replace(/"/g, '""') + '"',
+                    item.status || '',
+                    item.formattedDate || item.FormattedDate || '',
+                    item.approvedDate || item.ApprovedDate || '',
+                    item.approvedBy || item.ApprovedBy || '',
+                    item.IDPictureURL || item.idPicture || ''
+                ];
+                csv += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'Sibaguan_KK_' + new Date().toISOString().split('T')[0] + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast('📥 Exported!', 'CSV file downloaded successfully', 'success');
+        }
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(title, message, type) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            toast.className = 'toast ' + (type || 'success');
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 5000);
+        }
+
+        // ========== EVENT LISTENERS ==========
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDetailModal();
+        });
+
+        document.getElementById('adminPass').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetailModal();
+                closeLightbox();
+            }
+        });
+
+        // ========== INITIALIZATION ==========
+        console.log('🚀 Admin Dashboard loaded');
+        console.log('📅 Current Year:', CURRENT_YEAR);
+        console.log('🔐 Login: admin / admin123');
+        console.log('☁️ Cloud Sync: Google Sheets');
+        console.log('📡 Auto-refresh: Every 5 seconds');
+        console.log('⏰ Real-time clock: Active');
+        console.log('📷 ID Picture support: Enabled');
+    </script>
+</body>
+</html>

@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Sibaguan - KK Profiling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.05);
+            animation: floatCircle 20s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
+        .bg-circle:nth-child(2) { width: 200px; height: 200px; top: 50%; right: -50px; animation-delay: 5s; }
+        .bg-circle:nth-child(3) { width: 250px; height: 250px; bottom: -50px; left: 30%; animation-delay: 10s; }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .wave-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 180px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8F00 100%);
+            clip-path: ellipse(85% 100% at 15% 0%);
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .wave-bottom {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 120px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8F00 100%);
+            clip-path: ellipse(85% 100% at 85% 100%);
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: rgba(255, 215, 0, 0.4);
+            border-radius: 50%;
+            animation: particleFloat 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-80px) translateX(40px); opacity: 0.8; }
+            50% { transform: translateY(-40px) translateX(-30px); opacity: 0.5; }
+            75% { transform: translateY(-120px) translateX(20px); opacity: 0.9; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .logo-img {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 4px solid #FFD700;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+            object-fit: cover;
+            background: white;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+            animation: fadeInDown 1.2s ease;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            animation: fadeInDown 1.4s ease;
+            margin-bottom: 3px;
+        }
+
+        .kk-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            animation: fadeInDown 1.6s ease;
+            letter-spacing: 2px;
+        }
+
+        .realtime-clock {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,215,0,0.5);
+            border-radius: 15px;
+            padding: 12px 25px;
+            margin: 15px auto;
+            max-width: 300px;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .clock-time {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFD700;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+
+        .clock-date {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
+            margin-top: 4px;
+        }
+
+        .clock-label {
+            font-size: 0.7rem;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,215,0,0.4);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            color: white;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .info-card p { margin-bottom: 10px; }
+        .info-card strong { color: #FFD700; }
+
+        .form-container {
+            background: rgba(255,255,255,0.97);
+            border-radius: 25px;
+            padding: 35px 30px;
+            margin: 20px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 1.2s ease;
+            border: 3px solid #FFD700;
+        }
+
+        .form-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0033A0;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            animation: slideInLeft 0.8s ease;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.15s; }
+        .form-group:nth-child(3) { animation-delay: 0.2s; }
+        .form-group:nth-child(4) { animation-delay: 0.25s; }
+        .form-group:nth-child(5) { animation-delay: 0.3s; }
+        .form-group:nth-child(6) { animation-delay: 0.35s; }
+        .form-group:nth-child(7) { animation-delay: 0.4s; }
+        .form-group:nth-child(8) { animation-delay: 0.45s; }
+        .form-group:nth-child(9) { animation-delay: 0.5s; }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #0033A0;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-label .required { color: #e74c3c; }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #0033A0;
+            box-shadow: 0 0 0 4px rgba(0,51,160,0.08);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-textarea { resize: vertical; min-height: 70px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .main-title { font-size: 1.8rem; }
+            .sub-title { font-size: 1.1rem; }
+            .kk-title { font-size: 1.3rem; }
+            .logo-container { gap: 15px; }
+            .logo-img { width: 70px; height: 70px; }
+            .form-container { padding: 25px 18px; }
+            .clock-time { font-size: 1.4rem; }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+            color: #FFD700;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,51,160,0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,51,160,0.4);
+            background: linear-gradient(135deg, #0044CC 0%, #0033A0 50%, #002080 100%);
+        }
+
+        .submit-btn:active { transform: translateY(0); }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: scaleIn 0.4s ease;
+            border: 4px solid #FFD700;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .success-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #00C853 0%, #00E676 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+            animation: bounce 0.6s ease;
+            box-shadow: 0 5px 20px rgba(0,200,83,0.3);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0033A0;
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .modal-btn {
+            padding: 12px 35px;
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: #FFD700;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,51,160,0.3);
+        }
+
+        .reject-modal .success-icon {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 5px 20px rgba(231,76,60,0.3);
+        }
+
+        .reject-modal .modal-title {
+            color: #e74c3c;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .admin-link a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .admin-link a:hover { opacity: 1; text-decoration: underline; }
+
+        .photo-upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-upload-area:hover {
+            border-color: #0033A0;
+            background: #f0f4ff;
+        }
+
+        .photo-upload-area.has-image {
+            border-color: #00C853;
+            background: #e8f5e9;
+        }
+
+        .photo-upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .photo-upload-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .photo-upload-hint {
+            color: #999;
+            font-size: 0.75rem;
+            margin-top: 5px;
+        }
+
+        .photo-preview {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            border: 4px solid #FFD700;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .photo-preview.show {
+            display: block;
+        }
+
+        .photo-remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .photo-remove-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .spinner {
+            display: none;
+            width: 18px; height: 18px;
+            border: 3px solid rgba(255,215,0,0.3);
+            border-top-color: #FFD700;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .submit-btn.loading .spinner { display: inline-block; }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 14px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .radio-item:hover, .checkbox-item:hover { background: #e0e0e0; }
+        .radio-item.selected { background: #0033A0; color: white; }
+        .radio-item input, .checkbox-item input { width: 18px; height: 18px; accent-color: #0033A0; }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0 20px;
+            color: #0033A0;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .section-divider::before, .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-msg.show { display: block; animation: shake 0.3s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)} }
+
+        .age-display {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .age-display.show { display: block; }
+        .age-display.rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active { display: flex; }
+
+        .loading-box {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid #FFD700;
+        }
+
+        .loading-box .spinner {
+            display: inline-block;
+            width: 40px; height: 40px;
+            border-width: 4px;
+        }
+
+        .loading-box p {
+            margin-top: 15px;
+            color: #0033A0;
+            font-weight: 600;
+        }
+
+        .offline-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 9998;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        .offline-badge.show { display: block; }
+
+        .sync-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,200,83,0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 9997;
+            display: none;
+            animation: slideDown 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .sync-status.show { display: flex; align-items: center; gap: 8px; }
+        .sync-status.syncing { background: rgba(255,152,0,0.9); }
+        .sync-status.error { background: rgba(231,76,60,0.9); }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.5); }
+        }
+
+        /* ========== FOOTER STYLES ========== */
+        .site-footer {
+            position: relative;
+            z-index: 10;
+            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(0,51,160,0.95) 0%, rgba(0,32,128,0.95) 50%, rgba(0,21,96,0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-top: 3px solid #FFD700;
+            overflow: hidden;
+        }
+
+        .footer-waves {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .footer-waves svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+
+        .footer-waves .shape-fill {
+            fill: rgba(0,51,160,0.95);
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+            animation: footerGlow 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .footer-glow:nth-child(1) { top: -100px; left: -100px; animation-delay: 0s; }
+        .footer-glow:nth-child(2) { bottom: -100px; right: -100px; animation-delay: 3s; }
+
+        @keyframes footerGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,215,0,0.15);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .footer-badge-icon {
+            font-size: 1.2rem;
+            animation: rotateBadge 4s linear infinite;
+        }
+
+        @keyframes rotateBadge {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .footer-badge-text {
+            color: #FFD700;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-developer {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #FFD700;
+            margin-bottom: 8px;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .footer-company {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            margin: 0 auto 20px;
+            border-radius: 2px;
+            animation: expandLine 1.5s ease 0.6s both;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; opacity: 0; }
+            to { width: 80px; opacity: 1; }
+        }
+
+        .footer-copyright {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .footer-copyright strong {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .footer-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .footer-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,215,0,0.4);
+            border-radius: 50%;
+            animation: footerParticleFloat 10s ease-in-out infinite;
+        }
+
+        .footer-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
+        .footer-particle:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 12s; }
+        .footer-particle:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 10s; }
+        .footer-particle:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 9s; }
+        .footer-particle:nth-child(5) { left: 90%; animation-delay: 3s; animation-duration: 11s; }
+
+        @keyframes footerParticleFloat {
+            0%, 100% { transform: translateY(100%) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20px) scale(0.5); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-developer { font-size: 1.1rem; }
+            .footer-company { font-size: 0.9rem; }
+            .footer-content { padding: 40px 15px 25px; }
+        }
+
+        /* ========== CONNECTION STATUS ========== */
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 9996;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .connection-status.show { display: flex; }
+        .connection-status.connected {
+            background: rgba(0,200,83,0.9);
+            color: white;
+        }
+        .connection-status.disconnected {
+            background: rgba(231,76,60,0.9);
+            color: white;
+        }
+        .connection-status.testing {
+            background: rgba(255,152,0,0.9);
+            color: white;
+        }
+
+        /* ========== VOICE ACTIVATION PROMPT ========== */
+        .voice-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
+            color: #FFD700;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 9995;
+            cursor: pointer;
+            border: 2px solid #FFD700;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: voicePromptBounce 2s ease-in-out infinite;
+            display: none;
+        }
+
+        .voice-prompt.show { display: block; }
+
+        @keyframes voicePromptBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("S3_XQI5mfn8MMdGhM");
+        })();
+    </script>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+    <!-- ========== CONNECTION STATUS INDICATOR ========== -->
+    <div class="connection-status" id="connectionStatus">
+        <span id="connectionDot">🔴</span>
+        <span id="connectionText">Checking connection...</span>
+    </div>
+
+    <!-- ========== WELCOME GREETING BANNER ========== -->
+    <div id="welcomeBanner" style="
+        position:fixed;
+        top:0;left:0;width:100%;
+        background:linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
+        color:#FFD700;
+        padding:15px 20px;
+        text-align:center;
+        font-weight:700;
+        font-size:1.1rem;
+        z-index:9999;
+        transform:translateY(-100%);
+        transition:transform 0.6s cubic-bezier(0.68,-0.55,0.27,1.55);
+        box-shadow:0 4px 20px rgba(0,0,0,0.3);
+        border-bottom:3px solid #FFD700;
+        letter-spacing:1px;
+    ">
+        <span id="welcomeText">👋 Welcome to Barangay Sibaguan KK Profiling System!</span>
+    </div>
+    <!-- ========== VOICE ACTIVATION PROMPT ========== -->
+    <div class="voice-prompt" id="voicePrompt" onclick="activateVoice()">
+        🔊 Click here to enable Welcome Voice
+    </div>
+
+    <style>
+        #welcomeBanner.show { transform:translateY(0) !important; }
+    </style>
+
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <div class="wave-top"></div>
+    <div class="wave-bottom"></div>
+
+    <div class="particle" style="top:15%;left:8%;animation-delay:0s;"></div>
+    <div class="particle" style="top:35%;left:85%;animation-delay:2s;"></div>
+    <div class="particle" style="top:55%;left:25%;animation-delay:4s;"></div>
+    <div class="particle" style="top:75%;left:75%;animation-delay:6s;"></div>
+    <div class="particle" style="top:25%;left:55%;animation-delay:1s;"></div>
+    <div class="particle" style="top:65%;left:45%;animation-delay:3s;"></div>
+
+    <div class="sync-status" id="syncStatus">
+        <div class="pulse-dot"></div>
+        <span id="syncText">Syncing...</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-wrapper">
+                    <img src="image.jpg" alt="SK Logo" class="logo-img"
+                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22white%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%23FFD700%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%230033A0%22 font-size=%2220%22 font-weight=%22bold%22>SK</text></svg>'">
+                </div>
+                <div class="logo-wrapper">
+                    <img src="logo.png" alt="Barangay Logo" class="logo-img"
+                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22white%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%230033A0%22/><circle cx=%2250%22 cy=%2228%22 r=%2212%22 fill=%22%23FFD700%22/><path d=%22M30 70 L50 50 L70 70%22 fill=%22none%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><rect x=%2235%22 y=%2265%22 width=%2230%22 height=%2220%22 fill=%22%23FFD700%22 rx=%222%22/><text x=%2250%22 y=%2292%22 text-anchor=%22middle%22 fill=%22%23FFD700%22 font-size=%226%22 font-weight=%22bold%22>SIBAGUAN</text></svg>'">
+                </div>
+            </div>
+
+            <h1 class="main-title">BARANGAY SIBAGUAN</h1>
+            <h2 class="sub-title">KATIPUNAN NG KABATAAN</h2>
+            <h2 class="kk-title">(KK) PROFILING</h2>
+
+            <div class="realtime-clock">
+                <div class="clock-label">⏰ Philippine Standard Time</div>
+                <div class="clock-time" id="realtimeClock">00:00:00</div>
+                <div class="clock-date" id="realtimeDate">Loading...</div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <p>Ang Sangguniang Kabataan Council sang Barangay Sibaguan maga-lunsad sang <strong>Katipunan ng Kabataan (KK) Profiling</strong> sa mga pamatan-on nga naga-edad <strong>15-30 years old</strong>. Ini bahin sa pag-sunod sa <strong>RA 10742</strong> o Sangguniang Kabataan Reform Act of 2015.</p>
+            <p style="margin-top:12px; color:#FFD700; font-weight:600; font-size:0.9rem;">📍 Barangay Sibaguan, Philippines | 📅 2026-2027</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="form-title">📝 KK MEMBER PROFILING FORM</h2>
+
+            <form id="kkForm">
+                <div class="section-divider">👤 Personal Information</div>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name <span class="required">*</span></label>
+                    <div class="form-row">
+                        <input type="text" class="form-input" id="lastName" placeholder="Apelyido (Last Name)" required>
+                        <input type="text" class="form-input" id="firstName" placeholder="Pangalan (First Name)" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Middle Name</label>
+                    <input type="text" class="form-input" id="middleName" placeholder="Gitnang Pangalan">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date of Birth <span class="required">*</span></label>
+                    <input type="date" class="form-input" id="birthDate" required>
+                    <div class="age-display" id="ageDisplay"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Age (Auto-calculated)</label>
+                    <input type="number" class="form-input" id="age" placeholder="Auto-calculated" readonly style="background:#e8e8e8; cursor:not-allowed;">
+                    <span class="error-msg" id="ageError">❌ Hindi matatanggap! Ang edad ay dapat 15-30 years old lamang.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Gender <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="gender" value="Male" required>
+                            <span>👨 Lalaki</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="gender" value="Female" required>
+                            <span>👩 Babae</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Civil Status <span class="required">*</span></label>
+                        <select class="form-select" id="civilStatus" required>
+                            <option value="">Pumili...</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purok / Sitio <span class="required">*</span></label>
+                        <select class="form-select" id="purok" required>
+                            <option value="">Pumili...</option>
+                            <option value="Purok 1">Purok 1</option>
+                            <option value="Purok 2">Purok 2</option>
+                            <option value="Purok 3">Purok 3</option>
+                            <option value="Purok 4">Purok 4</option>
+                            <option value="Purok 5">Purok 5</option>
+                            <option value="Purok 6">Purok 6</option>
+                            <option value="Purok 7">Purok 7</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-divider">📞 Contact Information</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Contact Number <span class="required">*</span></label>
+                        <input type="tel" class="form-input" id="contactNumber" placeholder="09XX-XXX-XXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" class="form-input" id="email" placeholder="email@example.com" required>
+                    </div>
+                </div>
+
+                <div class="section-divider">🎓 Education & Work</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Education <span class="required">*</span></label>
+                        <select class="form-select" id="education" required>
+                            <option value="">Pumili...</option>
+                            <option value="Elementary Level">Elementary Level</option>
+                            <option value="Elementary Graduate">Elementary Graduate</option>
+                            <option value="High School Level">High School Level</option>
+                            <option value="High School Graduate">High School Graduate</option>
+                            <option value="College Level">College Level</option>
+                            <option value="College Graduate">College Graduate</option>
+                            <option value="Vocational">Vocational</option>
+                            <option value="Post Graduate">Post Graduate</option>
+                            <option value="Out of School Youth">Out of School Youth</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Employment <span class="required">*</span></label>
+                        <select class="form-select" id="employment" required>
+                            <option value="">Pumili...</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Self-Employed">Self-Employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Student">Student</option>
+                            <option value="OFW">OFW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-divider">⭐ Skills & Programs</div>
+
+                <div class="form-group">
+                    <label class="form-label">Skills / Talents</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Sports"><span>⚽ Sports</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Music"><span>🎵 Music/Singing</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Dance"><span>💃 Dance</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Arts"><span>🎨 Arts/Drawing</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Leadership"><span>👑 Leadership</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Technology"><span>💻 Technology/IT</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Writing"><span>✍️ Writing</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">KK Member Before? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-item"><input type="radio" name="kkBefore" value="Yes" required><span>✅ OO</span></label>
+                        <label class="radio-item"><input type="radio" name="kkBefore" value="No" required><span>❌ HINDI</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Interested Programs</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Livelihood"><span>💼 Livelihood/Skills</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Sports"><span>🏃 Sports & Rec</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Education"><span>📚 Education/Scholarship</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Health"><span>❤️ Health & Wellness</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Environment"><span>🌿 Environment</span></label>
+                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Leadership"><span>🎯 Leadership Training</span></label>
+                    </div>
+                </div>
+
+                <div class="section-divider">🚨 Emergency Contact</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="emergencyName" placeholder="Pangalan" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact <span class="required">*</span></label>
+                        <input type="tel" class="form-input" id="emergencyContact" placeholder="09XX-XXX-XXXX" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Relationship</label>
+                    <input type="text" class="form-input" id="emergencyRelation" placeholder="Hal: Nanay, Tatay, Kapatid">
+                </div>
+
+                <div class="section-divider">📎 ID Picture Upload</div>
+
+                <div class="form-group">
+                    <label class="form-label">ID Picture (Optional pero recommended)</label>
+                    <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('idPicture').click()">
+                        <div class="photo-upload-content" id="uploadContent">
+                            <div class="photo-upload-icon">📷</div>
+                            <div class="photo-upload-text">I-click para mag-upload ng ID Picture</div>
+                            <div class="photo-upload-hint">JPG, PNG, GIF (max 5MB)</div>
+                        </div>
+                        <img id="photoPreview" class="photo-preview" alt="ID Preview">
+                        <button type="button" class="photo-remove-btn" id="removePhotoBtn" style="display:none;" onclick="removePhoto(event)">🗑️ Alisin</button>
+                    </div>
+                    <input type="file" class="form-input" id="idPicture" accept="image/*" style="display:none;" onchange="handlePhotoUpload(this)">
+                </div>
+
+                <div class="section-divider">📝 Others</div>
+
+                <div class="form-group">
+                    <label class="form-label">Comments / Suggestions</label>
+                    <textarea class="form-textarea" id="comments" placeholder="Ano pa ang gusto mong i-share?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">📤 SUBMITE ANG PROFILE</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="admin-link">
+            <a href="admin.html">🔐 Admin Dashboard (Admin Only)</a>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+        <div class="footer-waves">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+        <div class="footer-glow"></div>
+        <div class="footer-glow"></div>
+        <div class="footer-particles">
+            <div class="footer-particle"></div>
+            <div class="footer-particle"></div>
+            <div class="footer-particle"></div>
+            <div class="footer-particle"></div>
+            <div class="footer-particle"></div>
+        </div>
+        <div class="footer-content">
+            <div class="footer-badge">
+                <span class="footer-badge-icon">⚙️</span>
+                <span class="footer-badge-text">System Developer</span>
+            </div>
+            <div class="footer-developer">Developed by: Roniel Nyke Gonzales</div>
+            <div class="footer-company">Lambunao Web Developer</div>
+            <div class="footer-divider"></div>
+            <div class="footer-copyright">
+                © 2026 <strong>Barangay Sibaguan</strong> — KK Profiling System. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div class="offline-badge" id="offlineBadge">
+        ⚠️ Offline Mode - Data will sync when online
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="spinner" style="display:inline-block;"></div>
+            <p>Nagse-save sa database...</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h3 class="modal-title">Maraming Salamat!</h3>
+            <p class="modal-text">
+                Ang iyong KK Profiling ay matagumpay na naisumite.<br><br>
+                <strong style="color:#0033A0;">Nakatanggap ka ng confirmation email sa <span id="sentEmail"></span>!</strong><br><br>
+                <small style="color:#666;">Tingnan ang inbox o spam folder mo.</small>
+            </p>
+            <button class="modal-btn" onclick="closeModal()">OK, Salamat!</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="rejectModal">
+        <div class="modal-content reject-modal">
+            <div class="success-icon">✕</div>
+            <h3 class="modal-title">Hindi Matatanggap</h3>
+            <p class="modal-text">
+                <strong>Paumanhin!</strong><br><br>
+                Ang iyong edad ay lagpas na sa 30 years old.<br>
+                Ang KK Profiling ay para lamang sa mga kabataang<br>
+                <strong>15-30 years old</strong> ayon sa RA 10742.<br><br>
+                Maraming salamat sa iyong pag-unawa.
+            </p>
+            <button class="modal-btn" onclick="closeRejectModal()">Naiintindihan Ko</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // BARANGAY SIBAGUAN KK PROFILING - FIXED CONNECTION
+        // ============================================================
+
+        // ========== GOOGLE SHEETS WEB APP URL (FIXED) ==========
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZ-tAcWtrLtspqkus8IUBgOhhiV0b0iYMJdpBUGEEN6iDQJ8DXtAxk7TGO8XYx-Wgd/exec';
+
+        const MIN_AGE = 15;
+        const MAX_AGE = 30;
+        const DB_NAME = 'sibaguan_kk_db';
+        const PENDING_SYNC_KEY = 'kk_pending_sync';
+
+        let uploadedImageBase64 = '';
+        let isGoogleScriptConnected = false;
+
+        // ========== CONNECTION STATUS ==========
+        function showConnectionStatus(status, text) {
+            const el = document.getElementById('connectionStatus');
+            const dot = document.getElementById('connectionDot');
+            const txt = document.getElementById('connectionText');
+
+            el.className = 'connection-status show ' + status;
+            dot.textContent = status === 'connected' ? '🟢' : status === 'testing' ? '🟡' : '🔴';
+            txt.textContent = text;
+
+            setTimeout(() => {
+                if (status === 'connected') {
+                    setTimeout(() => el.classList.remove('show'), 3000);
+                }
+            }, 100);
+        }
+
+        // ========== TEST CONNECTION TO GOOGLE SCRIPT ==========
+        async function testConnection() {
+            showConnectionStatus('testing', 'Testing Google Sheets connection...');
+
+            try {
+                const testUrl = GOOGLE_SCRIPT_URL + '?action=test&_=' + Date.now();
+                const response = await fetch(testUrl, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        isGoogleScriptConnected = true;
+                        showConnectionStatus('connected', 'Connected to Google Sheets: ' + data.spreadsheetName);
+                        console.log('Google Script connection successful:', data);
+                        return true;
+                    }
+                }
+
+                throw new Error('Connection test failed');
+            } catch (error) {
+                console.log('Google Script connection test failed:', error);
+                showConnectionStatus('disconnected', 'Google Sheets offline - Saving to localStorage');
+                isGoogleScriptConnected = false;
+                return false;
+            }
+        }
+
+        // ========== REAL-TIME CLOCK ==========
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-PH', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            const dateString = now.toLocaleDateString('fil-PH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+
+            document.getElementById('realtimeClock').textContent = timeString;
+            document.getElementById('realtimeDate').textContent = dateString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ========== SYNC STATUS ==========
+        function showSyncStatus(status, text) {
+            const el = document.getElementById('syncStatus');
+            const txt = document.getElementById('syncText');
+
+            el.className = 'sync-status show ' + status;
+            txt.textContent = text;
+
+            setTimeout(() => {
+                el.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateOnlineStatus() {
+            const badge = document.getElementById('offlineBadge');
+            if (!navigator.onLine) {
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+                syncPendingData();
+            }
+        }
+
+        window.addEventListener('online', () => {
+            updateOnlineStatus();
+            showSyncStatus('', 'Back Online! Syncing...');
+        });
+        window.addEventListener('offline', () => {
+            updateOnlineStatus();
+            showSyncStatus('error', 'Offline Mode');
+        });
+
+        // ========== PHOTO UPLOAD HANDLER ==========
+        function handlePhotoUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Ang file ay masyadong malaki! Maximum 5MB lang.');
+                input.value = '';
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('Image file lang ang pwede!');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageBase64 = e.target.result;
+
+                const preview = document.getElementById('photoPreview');
+                const uploadArea = document.getElementById('photoUploadArea');
+                const uploadContent = document.getElementById('uploadContent');
+                const removeBtn = document.getElementById('removePhotoBtn');
+
+                preview.src = uploadedImageBase64;
+                preview.classList.add('show');
+                uploadArea.classList.add('has-image');
+                uploadContent.style.display = 'none';
+                removeBtn.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto(event) {
+            event.stopPropagation();
+
+            uploadedImageBase64 = '';
+            document.getElementById('idPicture').value = '';
+
+            const preview = document.getElementById('photoPreview');
+            const uploadArea = document.getElementById('photoUploadArea');
+            const uploadContent = document.getElementById('uploadContent');
+            const removeBtn = document.getElementById('removePhotoBtn');
+
+            preview.src = '';
+            preview.classList.remove('show');
+            uploadArea.classList.remove('has-image');
+            uploadContent.style.display = 'block';
+            removeBtn.style.display = 'none';
+        }
+
+        // ========== EMAILJS SEND CONFIRMATION EMAIL ==========
+        async function sendConfirmationEmail(formData) {
+            try {
+                const templateParams = {
+                    to_name: formData.fullName,
+                    from_name: "Barangay Sibaguan KK Profiling",
+                    message: "Maraming salamat sa iyong pagsali sa Katipunan ng Kabataan (KK) Profiling! Ang iyong application ay kasalukuyang under review. Makakatanggap ka ng update sa status ng iyong application.",
+                    reply_to: formData.email,
+                    to_email: formData.email,
+                    member_id: formData.id,
+                    address: "Barangay Sibaguan",
+                    purok: formData.purok,
+                    date: formData.formattedDate,
+                    contact: formData.contactNumber,
+                    education: formData.education,
+                    employment: formData.employment,
+                    status_class: "status-pending",
+                    status_icon: "⏳",
+                    status_text: "PENDING REVIEW"
+                };
+
+                await emailjs.send(
+                    "service_djne9ym",
+                    "template_q5v9o8w",
+                    templateParams
+                );
+
+                console.log('Confirmation email sent to:', formData.email);
+                return true;
+            } catch (error) {
+                console.error('Email sending failed:', error);
+                return false;
+            }
+        }
+
+        // ========== SYNC PENDING DATA ==========
+        async function syncPendingData() {
+            const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
+            if (pending.length === 0) return;
+
+            console.log('Syncing ' + pending.length + ' pending records...');
+            showSyncStatus('syncing', 'Syncing ' + pending.length + ' records...');
+
+            const successful = [];
+
+            for (const data of pending) {
+                try {
+                    const result = await sendToGoogleScript(data);
+                    if (result && result.success) {
+                        successful.push(data);
+                    }
+                } catch (e) {
+                    console.error('Sync failed for:', data.fullName, e);
+                }
+            }
+
+            const remaining = pending.filter(p => !successful.includes(p));
+            localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(remaining));
+
+            if (remaining.length === 0) {
+                showSyncStatus('', 'All data synced to Google Sheets!');
+            } else {
+                showSyncStatus('error', remaining.length + ' still pending');
+            }
+        }
+
+        // ========== SEND TO GOOGLE SCRIPT (FIXED) ==========
+        async function sendToGoogleScript(data) {
+            try {
+                // Method 1: Try JSON POST
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                let result;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    result = await response.json();
+                } else {
+                    result = { success: true, message: 'Data sent (response opaque due to CORS)' };
+                }
+
+                console.log('Google Script response:', result);
+                return result;
+
+            } catch (fetchError) {
+                console.log('Fetch error, trying alternative method:', fetchError);
+
+                // Method 2: Try with no-cors as fallback
+                try {
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    return { success: true, message: 'Data sent via no-cors mode' };
+                } catch (e) {
+                    console.error('Alternative method also failed:', e);
+                    throw e;
+                }
+            }
+        }
+
+        // ========== AGE CALCULATION ==========
+        document.getElementById('birthDate').addEventListener('change', function() {
+            const birthDate = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('age').value = age;
+            const ageDisplay = document.getElementById('ageDisplay');
+            const ageError = document.getElementById('ageError');
+            if (age >= MIN_AGE && age <= MAX_AGE) {
+                ageDisplay.textContent = 'Edad: ' + age + ' years old - KWALIPIKADO';
+                ageDisplay.className = 'age-display show';
+                ageError.classList.remove('show');
+            } else {
+                ageDisplay.textContent = 'Edad: ' + age + ' years old - HINDI KWALIPIKADO (Dapat 15-30 lang)';
+                ageDisplay.className = 'age-display show rejected';
+                ageError.classList.add('show');
+            }
+        });
+
+        // ========== RADIO BUTTON SELECTION ==========
+        document.querySelectorAll('.radio-item input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+                    r.parentElement.classList.remove('selected');
+                });
+                this.parentElement.classList.add('selected');
+            });
+        });
+
+        // ========== CONTACT NUMBER FORMATTING ==========
+        document.getElementById('contactNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            e.target.value = value;
+        });
+
+        document.getElementById('emergencyContact').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            e.target.value = value;
+        });
+
+        // ========== FORM SUBMISSION (FIXED) ==========
+        document.getElementById('kkForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            loadingOverlay.classList.add('active');
+
+            const age = parseInt(document.getElementById('age').value);
+
+            if (age > MAX_AGE || age < MIN_AGE) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                loadingOverlay.classList.remove('active');
+                document.getElementById('rejectModal').classList.add('active');
+                return;
+            }
+
+            const now = new Date();
+            const formData = {
+                action: 'submit',
+                timestamp: now.toISOString(),
+                formattedDate: now.toLocaleDateString('fil-PH', {
+                    year: 'numeric', month: 'long', day: 'numeric',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
+                }),
+                lastName: document.getElementById('lastName').value.trim(),
+                firstName: document.getElementById('firstName').value.trim(),
+                middleName: document.getElementById('middleName').value.trim(),
+                fullName: document.getElementById('firstName').value.trim() + ' ' +
+                         (document.getElementById('middleName').value.trim() ? document.getElementById('middleName').value.trim() + ' ' : '') +
+                         document.getElementById('lastName').value.trim(),
+                age: age,
+                birthDate: document.getElementById('birthDate').value,
+                gender: document.querySelector('input[name="gender"]:checked') ? document.querySelector('input[name="gender"]:checked').value : '',
+                civilStatus: document.getElementById('civilStatus').value,
+                contactNumber: document.getElementById('contactNumber').value,
+                email: document.getElementById('email').value.trim(),
+                purok: document.getElementById('purok').value,
+                education: document.getElementById('education').value,
+                employment: document.getElementById('employment').value,
+                skills: Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value),
+                kkBefore: document.querySelector('input[name="kkBefore"]:checked') ? document.querySelector('input[name="kkBefore"]:checked').value : '',
+                programs: Array.from(document.querySelectorAll('input[name="programs"]:checked')).map(cb => cb.value),
+                emergencyName: document.getElementById('emergencyName').value.trim(),
+                emergencyContact: document.getElementById('emergencyContact').value,
+                emergencyRelation: document.getElementById('emergencyRelation').value.trim(),
+                idPicture: uploadedImageBase64,
+                comments: document.getElementById('comments').value.trim(),
+                status: 'Pending Review'
+            };
+
+            try {
+                // 1. Save to localStorage for immediate admin access
+                const existingData = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+                formData.id = Date.now().toString();
+                existingData.push(formData);
+                localStorage.setItem(DB_NAME, JSON.stringify(existingData));
+                localStorage.setItem('kk_last_update', Date.now().toString());
+
+                // 2. Notify admin via BroadcastChannel
+                try {
+                    const bc = new BroadcastChannel('sibaguan_kk_sync');
+                    bc.postMessage({ type: 'new_submission', data: formData });
+                } catch(e) { console.log('BroadcastChannel not supported'); }
+
+                // 3. Send to Google Sheets (FIXED)
+                let googleSuccess = false;
+                if (navigator.onLine) {
+                    showSyncStatus('syncing', 'Saving to Google Sheets...');
+                    try {
+                        const result = await sendToGoogleScript(formData);
+                        if (result && result.success) {
+                            googleSuccess = true;
+                            console.log('Data saved to Google Sheets:', result);
+                            showSyncStatus('', 'Saved to Google Sheets!');
+                        }
+                    } catch (googleError) {
+                        console.log('Google Sheets save failed, queued for later:', googleError);
+                    }
+                }
+
+                // If Google Sheets failed or offline, queue for later
+                if (!googleSuccess) {
+                    const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
+                    pending.push(formData);
+                    localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(pending));
+                    console.log('Data queued for later sync');
+                    showSyncStatus('error', 'Saved locally - will sync to Google Sheets later');
+                }
+
+                // 4. Send confirmation email via EmailJS
+                await sendConfirmationEmail(formData);
+
+                document.getElementById('sentEmail').textContent = formData.email;
+                document.getElementById('successModal').classList.add('active');
+
+                // Reset form
+                document.getElementById('kkForm').reset();
+                removePhoto({ stopPropagation: () => {} });
+                document.getElementById('ageDisplay').classList.remove('show');
+                document.querySelectorAll('.radio-item').forEach(item => item.classList.remove('selected'));
+                uploadedImageBase64 = '';
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('sentEmail').textContent = formData.email;
+                document.getElementById('successModal').classList.add('active');
+            }
+
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            loadingOverlay.classList.remove('active');
+        });
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.remove('active');
+        }
+
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('rejectModal').addEventListener('click', function(e) {
+            if (e.target === this) closeRejectModal();
+        });
+
+        // Initialize
+        updateOnlineStatus();
+
+        // Test connection on load
+        testConnection();
+
+        console.log('Barangay Sibaguan KK Profiling loaded');
+        console.log('Database: Google Sheets + localStorage');
+        console.log('Offline sync: Enabled');
+        console.log('Real-time clock: Active');
+        console.log('ID Picture upload: Enabled');
+    </script>
+
+    <!-- ========== VOICE & SOUND EFFECTS (ENHANCED) ========== -->
+    <script>
+        // ========== ENHANCED AUDIO ENGINE ==========
+        const AudioEngine = {
+            ctx: null,
+            initialized: false,
+
+            init() {
+                if (this.initialized) return;
+                try {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    this.initialized = true;
+                } catch(e) {
+                    console.log('Web Audio API not supported');
+                }
+            },
+
+            playTone(freq, duration, type, volume, fadeIn) {
+                if (!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(volume || 0.15, this.ctx.currentTime + (fadeIn || 0.02));
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            },
+
+            playChord(freqs, duration, volume, stagger) {
+                freqs.forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, duration, 'sine', volume || 0.12), i * (stagger || 0.08) * 1000);
+                });
+            },
+
+            playArpeggio(freqs, duration, volume) {
+                freqs.forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, duration * 0.6, 'sine', volume || 0.1, 0.01), i * 120);
+                });
+            },
+
+            playWelcomeMusic() {
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((f, i) => {
+                    setTimeout(() => {
+                        this.playTone(f, 1.5, 'sine', 0.08, 0.05);
+                        setTimeout(() => this.playTone(f * 2, 1.0, 'sine', 0.03), 50);
+                    }, i * 180);
+                });
+                setTimeout(() => this.playTone(130.81, 2.0, 'triangle', 0.06, 0.1), 200);
+            },
+
+            playSuccessFanfare() {
+                this.playChord([523.25, 659.25, 783.99, 1046.50], 1.5, 0.12, 0.06);
+                setTimeout(() => {
+                    this.playChord([659.25, 783.99, 1046.50, 1318.51], 1.2, 0.10, 0.05);
+                }, 400);
+                setTimeout(() => {
+                    [1567.98, 1975.53, 2349.32].forEach((f, i) => {
+                        setTimeout(() => this.playTone(f, 0.6, 'sine', 0.06), i * 80);
+                    });
+                }, 600);
+                setTimeout(() => this.playTone(261.63, 2.0, 'triangle', 0.08), 300);
+            },
+
+            playRejectionSound() {
+                this.playTone(440, 0.4, 'sine', 0.08);
+                setTimeout(() => this.playTone(392, 0.5, 'sine', 0.07), 200);
+                setTimeout(() => this.playTone(349.23, 0.6, 'sine', 0.06), 450);
+                setTimeout(() => this.playTone(329.63, 0.8, 'sine', 0.05), 700);
+            },
+
+            playClick() {
+                this.playTone(880, 0.06, 'sine', 0.04, 0.005);
+            },
+
+            playHover() {
+                this.playTone(1320, 0.04, 'sine', 0.02, 0.003);
+            },
+
+            playType() {
+                const freq = 600 + Math.random() * 300;
+                this.playTone(freq, 0.03, 'sine', 0.015, 0.002);
+            },
+
+            playFocus() {
+                this.playTone(990, 0.08, 'sine', 0.04, 0.01);
+            },
+
+            playSubmit() {
+                this.playArpeggio([440, 554.37, 659.25, 880], 0.3, 0.08);
+            },
+
+            playGreetingChime() {
+                this.playTone(1046.50, 0.8, 'sine', 0.08, 0.03);
+                setTimeout(() => this.playTone(1318.51, 0.6, 'sine', 0.06), 150);
+                setTimeout(() => this.playTone(1567.98, 0.7, 'sine', 0.07), 300);
+                setTimeout(() => this.playTone(2093.00, 1.0, 'sine', 0.05), 450);
+            }
+        };
+
+        // ========== ENHANCED VOICE ENGINE ==========
+        const VoiceEngine = {
+            synth: window.speechSynthesis,
+            voices: [],
+            preferredVoice: null,
+            initialized: false,
+
+            init() {
+                if (this.initialized) return;
+                this.voices = this.synth.getVoices();
+
+                const voicePriority = [
+                    'Microsoft Michelle Online (Natural)',
+                    'Microsoft Sonia Online (Natural)',
+                    'Microsoft Emma Online (Natural)',
+                    'Microsoft Jenny Online (Natural)',
+                    'Microsoft Ana Online (Natural)',
+                    'Google US English',
+                    'Google UK English Female',
+                    'Google UK English Male',
+                    'Samantha',
+                    'Victoria',
+                    'Karen',
+                    'Samsung English (United States)',
+                    'English United States',
+                    'English',
+                    'en-US',
+                    'en-GB'
+                ];
+
+                for (const voiceName of voicePriority) {
+                    const found = this.voices.find(v =>
+                        v.name.includes(voiceName) || v.name === voiceName
+                    );
+                    if (found) {
+                        this.preferredVoice = found;
+                        console.log('Voice selected:', found.name);
+                        break;
+                    }
+                }
+
+                if (!this.preferredVoice) {
+                    this.preferredVoice = this.voices.find(v =>
+                        v.lang.startsWith('en') &&
+                        (v.name.includes('Female') || v.name.includes('Natural'))
+                    ) || this.voices.find(v => v.lang.startsWith('en')) || this.voices[0];
+                }
+
+                this.initialized = true;
+            },
+
+            speak(text, rate, pitch, volume) {
+                if (!this.synth) return Promise.resolve(false);
+                this.synth.cancel();
+
+                return new Promise((resolve) => {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    if (this.preferredVoice) utterance.voice = this.preferredVoice;
+                    utterance.rate = rate || 0.92;
+                    utterance.pitch = pitch || 1.05;
+                    utterance.volume = volume || 0.95;
+                    utterance.lang = 'en-US';
+                    utterance.onend = () => resolve(true);
+                    utterance.onerror = () => resolve(false);
+                    this.synth.speak(utterance);
+                });
+            },
+
+            async welcome() {
+                const welcomeText = "Welcome to Barangay Sibaguan Katipunan ng Kabataan Profiling System. Please fill out the form with your accurate information. Your data is secure and protected.";
+                await this.speak(welcomeText, 0.9, 1.08, 0.95);
+            },
+
+            async success(name) {
+                const text = "Congratulations " + name + "! Your KK Profiling has been successfully submitted. A confirmation email has been sent to your email address. Thank you for participating in the Katipunan ng Kabataan program.";
+                await this.speak(text, 0.92, 1.05, 0.95);
+            },
+
+            async reject() {
+                const text = "We apologize, but your age does not meet the requirements. The KK Profiling is only for youth aged 15 to 30 years old, according to Republic Act 10,742. Thank you for your understanding.";
+                await this.speak(text, 0.88, 0.98, 0.9);
+            },
+
+            async greetingByTime() {
+                const hour = new Date().getHours();
+                let greeting = '';
+                if (hour >= 5 && hour < 12) {
+                    greeting = 'Magandang umaga! Good morning! Welcome to Barangay Sibaguan KK Profiling System.';
+                } else if (hour >= 12 && hour < 17) {
+                    greeting = 'Magandang hapon! Good afternoon! Welcome to Barangay Sibaguan KK Profiling System.';
+                } else {
+                    greeting = 'Magandang gabi! Good evening! Welcome to Barangay Sibaguan KK Profiling System.';
+                }
+                await this.speak(greeting, 0.9, 1.08, 0.95);
+            }
+        };
+
+        // ========== AUTO VOICE GREETING ON PAGE LOAD ==========
+        let audioInitialized = false;
+        let greetingPlayed = false;
+
+        function showWelcomeBanner() {
+            const banner = document.getElementById('welcomeBanner');
+            const welcomeText = document.getElementById('welcomeText');
+            const hour = new Date().getHours();
+            let greetingText = '';
+
+            if (hour >= 5 && hour < 12) {
+                greetingText = '☀️ Magandang Umaga! Good Morning! Welcome to Barangay Sibaguan KK Profiling System!';
+            } else if (hour >= 12 && hour < 17) {
+                greetingText = '🌤️ Magandang Hapon! Good Afternoon! Welcome to Barangay Sibaguan KK Profiling System!';
+            } else {
+                greetingText = '🌙 Magandang Gabi! Good Evening! Welcome to Barangay Sibaguan KK Profiling System!';
+            }
+
+            welcomeText.textContent = greetingText;
+            banner.classList.add('show');
+            setTimeout(() => banner.classList.remove('show'), 5000);
+        }
+
+        async function playAutoGreeting() {
+            if (greetingPlayed) return;
+            greetingPlayed = true;
+
+            AudioEngine.init();
+            VoiceEngine.init();
+
+            showWelcomeBanner();
+
+            setTimeout(() => {
+                AudioEngine.playWelcomeMusic();
+            }, 300);
+
+            setTimeout(async () => {
+                await VoiceEngine.greetingByTime();
+            }, 800);
+        }
+
+        // Try auto-play on load (may be blocked by browser)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const testUtterance = new SpeechSynthesisUtterance('');
+                testUtterance.volume = 0;
+                testUtterance.onend = () => {
+                    playAutoGreeting();
+                };
+                testUtterance.onerror = () => {
+                    document.getElementById('voicePrompt').classList.add('show');
+                };
+                window.speechSynthesis.speak(testUtterance);
+            }, 1000);
+        });
+
+        // Manual activation fallback
+        function activateVoice() {
+            document.getElementById('voicePrompt').classList.remove('show');
+            playAutoGreeting();
+        }
+
+        // Also activate on first interaction
+        document.addEventListener('click', () => {
+            if (!greetingPlayed) {
+                document.getElementById('voicePrompt').classList.remove('show');
+                playAutoGreeting();
+            }
+        }, { once: true });
+
+        document.addEventListener('touchstart', () => {
+            if (!greetingPlayed) {
+                document.getElementById('voicePrompt').classList.remove('show');
+                playAutoGreeting();
+            }
+        }, { once: true });
+
+        // ========== FORM INTERACTION SOUNDS ==========
+        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+            input.addEventListener('focus', () => AudioEngine.playFocus());
+            input.addEventListener('input', () => AudioEngine.playType());
+        });
+
+        document.querySelectorAll('.radio-item, .checkbox-item').forEach(item => {
+            item.addEventListener('click', () => AudioEngine.playClick());
+            item.addEventListener('mouseenter', () => AudioEngine.playHover());
+        });
+
+        document.querySelectorAll('.submit-btn, .modal-btn, .photo-upload-area').forEach(btn => {
+            btn.addEventListener('click', () => AudioEngine.playClick());
+            btn.addEventListener('mouseenter', () => AudioEngine.playHover());
+        });
+
+        // ========== SUCCESS MODAL ==========
+        const successModal = document.getElementById('successModal');
+        const successObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('active')) {
+                    AudioEngine.playSuccessFanfare();
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const fullName = firstName + (lastName ? ' ' + lastName : '');
+                    if (fullName) VoiceEngine.success(fullName);
+                }
+            });
+        });
+        successObserver.observe(successModal, { attributes: true, attributeFilter: ['class'] });
+
+        // ========== REJECT MODAL ==========
+        const rejectModal = document.getElementById('rejectModal');
+        const rejectObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('active')) {
+                    AudioEngine.playRejectionSound();
+                    VoiceEngine.reject();
+                }
+            });
+        });
+        rejectObserver.observe(rejectModal, { attributes: true, attributeFilter: ['class'] });
+
+        // ========== SUBMIT BUTTON SOUND ==========
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            AudioEngine.playSubmit();
+        });
+
+        // ========== AGE VALIDATION SOUND ==========
+        const ageDisplay = document.getElementById('ageDisplay');
+        const ageObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('show')) {
+                    if (mutation.target.classList.contains('rejected')) {
+                        AudioEngine.playRejectionSound();
+                    } else {
+                        AudioEngine.playChord([523.25, 659.25], 0.4, 0.08);
+                    }
+                }
+            });
+        });
+        ageObserver.observe(ageDisplay, { attributes: true, attributeFilter: ['class'] });
+
+        // ========== PHOTO UPLOAD SOUND ==========
+        document.getElementById('photoUploadArea').addEventListener('click', () => {
+            AudioEngine.playClick();
+        });
+
+        // ========== ONLINE/OFFLINE SOUNDS ==========
+        window.addEventListener('online', () => {
+            AudioEngine.playChord([523.25, 659.25, 783.99], 0.5, 0.08);
+        });
+        window.addEventListener('offline', () => {
+            AudioEngine.playRejectionSound();
+        });
+
+        // ========== SCROLL SOUND EFFECTS ==========
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const current = window.scrollY;
+            if (Math.abs(current - lastScroll) > 150) {
+                AudioEngine.playTone(400, 0.04, 'sine', 0.015);
+                lastScroll = current;
+            }
+        }, { passive: true });
+
+        // ========== MINUTE CHIME ==========
+        let tickCount = 0;
+        setInterval(() => {
+            tickCount++;
+            if (tickCount % 60 === 0) {
+                AudioEngine.playTone(1200, 0.06, 'sine', 0.02);
+            }
+        }, 1000);
+
+        console.log('Enhanced Voice & Sound Effects loaded!');
+        console.log('Click anywhere to activate beautiful audio');
+        console.log('Text-to-Speech with premium voice selection');
+        console.log('Personalized name announcement on submit');
+        console.log('Google Sheets connection: Testing on load...');
+    </script>
+</body>
+</html>

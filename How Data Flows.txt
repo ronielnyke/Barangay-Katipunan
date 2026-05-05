@@ -1,0 +1,15 @@
+┌─────────────┐     POST (submit)      ┌──────────────────┐
+│ index.html  │ ─────────────────────► │ Google Sheets    │
+│ (User Form) │                        │ (Cloud Database) │
+└─────────────┘                        └──────────────────┘
+       │                                        │
+       │ localStorage fallback                  │ doGet()
+       │ (if offline/no cloud)                  │
+       ▼                                        ▼
+┌─────────────┐     GET (read)         ┌──────────────────┐
+│ admin.html  │ ◄───────────────────── │ Google Sheets    │
+│ (Dashboard) │                        │ (Cloud Database) │
+└─────────────┘                        └──────────────────┘
+       ▲
+       │ BroadcastChannel (real-time tab-to-tab sync)
+       └────────────────────────────────────────┘
