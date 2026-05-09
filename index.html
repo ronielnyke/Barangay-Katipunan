@@ -3,941 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Sibaguan - KK Profiling</title>
+    <title>Barangay Sibaguan - KK Profiling System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #0033A0; --primary-light: #1a4db8; --secondary: #FFD700; --secondary-light: #ffe44d;
+            --accent: #FF6B35; --success: #28a745; --danger: #dc3545; --warning: #ffc107; --info: #17a2b8;
+            --dark: #1a1a2e; --light: #f8f9fa; --gray: #6c757d; --white: #ffffff;
+            --shadow: 0 10px 40px rgba(0,51,160,0.15); --shadow-lg: 0 20px 60px rgba(0,51,160,0.2);
+            --radius: 16px; --radius-sm: 8px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            min-height: 100vh; overflow-x: hidden; position: relative; color: var(--dark);
         }
-
-        .bg-animation {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.05);
-            animation: floatCircle 20s ease-in-out infinite;
-        }
-
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+        .bg-circle { position: absolute; border-radius: 50%; background: rgba(255,215,0,0.05); animation: floatCircle 20s ease-in-out infinite; }
         .bg-circle:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
         .bg-circle:nth-child(2) { width: 200px; height: 200px; top: 50%; right: -50px; animation-delay: 5s; }
         .bg-circle:nth-child(3) { width: 250px; height: 250px; bottom: -50px; left: 30%; animation-delay: 10s; }
-
-        @keyframes floatCircle {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        .wave-top {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 180px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8F00 100%);
-            clip-path: ellipse(85% 100% at 15% 0%);
-            z-index: 1;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .wave-bottom {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 120px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8F00 100%);
-            clip-path: ellipse(85% 100% at 85% 100%);
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 6px; height: 6px;
-            background: rgba(255, 215, 0, 0.4);
-            border-radius: 50%;
-            animation: particleFloat 8s ease-in-out infinite;
-            z-index: 0;
-        }
-
-        @keyframes particleFloat {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-            25% { transform: translateY(-80px) translateX(40px); opacity: 0.8; }
-            50% { transform: translateY(-40px) translateX(-30px); opacity: 0.5; }
-            75% { transform: translateY(-120px) translateX(20px); opacity: 0.9; }
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 30px 20px 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 25px;
-            animation: fadeInDown 1s ease;
-        }
-
-        .logo-wrapper {
-            position: relative;
-            animation: logoPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
-
-        .logo-img {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            border: 4px solid #FFD700;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
-            object-fit: cover;
-            background: white;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .main-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #FFD700;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
-            letter-spacing: 3px;
-            animation: fadeInDown 1.2s ease;
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
-
-        .sub-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            animation: fadeInDown 1.4s ease;
-            margin-bottom: 3px;
-        }
-
-        .kk-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            animation: fadeInDown 1.6s ease;
-            letter-spacing: 2px;
-        }
-
-        .realtime-clock {
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,215,0,0.5);
-            border-radius: 15px;
-            padding: 12px 25px;
-            margin: 15px auto;
-            max-width: 300px;
-            text-align: center;
-            animation: fadeInUp 1s ease;
-        }
-
-        .clock-time {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #FFD700;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
-        }
-
-        .clock-date {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.9);
-            margin-top: 4px;
-        }
-
-        .clock-label {
-            font-size: 0.7rem;
-            color: #FFD700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 5px;
-        }
-
-        .info-card {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255,215,0,0.4);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 20px 0;
-            color: white;
-            font-size: 0.95rem;
-            line-height: 1.8;
-            animation: fadeInUp 1s ease;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
-
-        .info-card p { margin-bottom: 10px; }
-        .info-card strong { color: #FFD700; }
-
-        .form-container {
-            background: rgba(255,255,255,0.97);
-            border-radius: 25px;
-            padding: 35px 30px;
-            margin: 20px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeInUp 1.2s ease;
-            border: 3px solid #FFD700;
-        }
-
-        .form-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #0033A0;
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #FFD700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            animation: slideInLeft 0.8s ease;
-            animation-fill-mode: both;
-        }
-
-        .form-group:nth-child(1) { animation-delay: 0.1s; }
-        .form-group:nth-child(2) { animation-delay: 0.15s; }
-        .form-group:nth-child(3) { animation-delay: 0.2s; }
-        .form-group:nth-child(4) { animation-delay: 0.25s; }
-        .form-group:nth-child(5) { animation-delay: 0.3s; }
-        .form-group:nth-child(6) { animation-delay: 0.35s; }
-        .form-group:nth-child(7) { animation-delay: 0.4s; }
-        .form-group:nth-child(8) { animation-delay: 0.45s; }
+        @keyframes floatCircle { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-30px) scale(1.1); } 66% { transform: translate(-20px,20px) scale(0.9); } }
+        .wave-top { position: absolute; top: 0; left: 0; width: 100%; height: 180px; background: linear-gradient(135deg,#FFD700 0%,#FFC107 50%,#FF8F00 100%); clip-path: ellipse(85% 100% at 15% 0%); z-index: 1; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .wave-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(135deg,#FFD700 0%,#FFC107 50%,#FF8F00 100%); clip-path: ellipse(85% 100% at 85% 100%); z-index: 1; }
+        .particle { position: absolute; width: 6px; height: 6px; background: rgba(255,215,0,0.4); border-radius: 50%; animation: particleFloat 8s ease-in-out infinite; z-index: 0; }
+        @keyframes particleFloat { 0%,100% { transform: translateY(0) translateX(0); opacity: 0.3; } 25% { transform: translateY(-80px) translateX(40px); opacity: 0.8; } 50% { transform: translateY(-40px) translateX(-30px); opacity: 0.5; } 75% { transform: translateY(-120px) translateX(20px); opacity: 0.9; } }
+        .header { position: relative; z-index: 10; text-align: center; padding: 30px 20px 20px; }
+        .logo-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 25px; animation: fadeInDown 1s ease; }
+        .logo-wrapper { position: relative; animation: logoPulse 3s ease-in-out infinite; }
+        @keyframes logoPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        .logo-img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #FFD700; box-shadow: 0 6px 25px rgba(0,0,0,0.4); object-fit: cover; background: white; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        .main-title { font-size: 2.5rem; font-weight: 900; color: #FFD700; text-shadow: 3px 3px 6px rgba(0,0,0,0.5); letter-spacing: 3px; animation: fadeInDown 1.2s ease; margin-bottom: 5px; line-height: 1.2; }
+        .sub-title { font-size: 1.4rem; font-weight: 700; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); animation: fadeInDown 1.4s ease; margin-bottom: 3px; }
+        .kk-title { font-size: 1.8rem; font-weight: 800; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); animation: fadeInDown 1.6s ease; letter-spacing: 2px; }
+        .realtime-clock { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 2px solid rgba(255,215,0,0.5); border-radius: 15px; padding: 12px 25px; margin: 15px auto; max-width: 300px; text-align: center; animation: fadeInUp 1s ease; }
+        .clock-time { font-size: 1.8rem; font-weight: 800; color: #FFD700; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .clock-date { font-size: 0.85rem; color: rgba(255,255,255,0.9); margin-top: 4px; }
+        .clock-label { font-size: 0.7rem; color: #FFD700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
+        .greeting-banner { background: linear-gradient(90deg, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0.05) 100%); padding: 12px 30px; display: flex; align-items: center; gap: 15px; border-left: 4px solid var(--secondary); margin: 20px auto; max-width: 900px; border-radius: 0 12px 12px 0; animation: fadeInUp 1s ease; }
+        .greeting-icon { font-size: 28px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        .greeting-text h2 { font-size: 1.1rem; font-weight: 600; color: var(--secondary); }
+        .greeting-text p { font-size: 0.8rem; opacity: 0.8; color: white; }
+        .voice-btn { margin-left: auto; background: var(--secondary); color: var(--primary); border: none; padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .voice-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,215,0,0.4); }
+        .voice-btn.speaking { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 0 10px rgba(255,215,0,0); } }
+        .container { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; animation: fadeInUp 1s ease; }
+        .stat-card { background: var(--white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 15px; transition: transform 0.3s; border-left: 4px solid var(--primary); animation: slideInLeft 0.8s ease; animation-fill-mode: both; position: relative; }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; } .stat-card:nth-child(2) { animation-delay: 0.2s; } .stat-card:nth-child(3) { animation-delay: 0.3s; } .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .stat-icon.blue { background: rgba(0,51,160,0.1); color: var(--primary); }
+        .stat-icon.gold { background: rgba(255,215,0,0.2); color: #b8860b; }
+        .stat-icon.green { background: rgba(40,167,69,0.1); color: var(--success); }
+        .stat-icon.orange { background: rgba(255,107,53,0.1); color: var(--accent); }
+        .stat-info h3 { font-size: 1.5rem; font-weight: 700; color: var(--dark); }
+        .stat-info p { font-size: 0.8rem; color: var(--gray); }
+        .stat-refresh { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--gray); cursor: pointer; font-size: 0.75rem; opacity: 0.6; transition: all 0.3s; padding: 4px; }
+        .stat-refresh:hover { opacity: 1; color: var(--primary); transform: rotate(180deg); }
+        .stat-refresh.spinning { animation: spin 1s linear infinite; opacity: 1; color: var(--primary); }
+        .form-card { background: var(--white); border-radius: 25px; box-shadow: var(--shadow-lg); overflow: hidden; margin-bottom: 25px; border: 3px solid #FFD700; animation: fadeInUp 1.2s ease; }
+        .form-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: var(--white); padding: 25px 30px; position: relative; }
+        .form-header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 30px; background: var(--white); clip-path: ellipse(60% 100% at 50% 100%); }
+        .form-header h2 { font-size: 1.3rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .form-header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; }
+        .form-body { padding: 30px; }
+        .section-title { display: flex; align-items: center; gap: 10px; margin: 25px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #e9ecef; color: var(--primary); font-weight: 600; font-size: 1rem; }
+        .section-title:first-child { margin-top: 0; }
+        .section-number { width: 30px; height: 30px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .form-group { position: relative; animation: slideInLeft 0.8s ease; animation-fill-mode: both; }
+        .form-group:nth-child(1) { animation-delay: 0.1s; } .form-group:nth-child(2) { animation-delay: 0.15s; } .form-group:nth-child(3) { animation-delay: 0.2s; } .form-group:nth-child(4) { animation-delay: 0.25s; }
+        .form-group:nth-child(5) { animation-delay: 0.3s; } .form-group:nth-child(6) { animation-delay: 0.35s; } .form-group:nth-child(7) { animation-delay: 0.4s; } .form-group:nth-child(8) { animation-delay: 0.45s; }
         .form-group:nth-child(9) { animation-delay: 0.5s; }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: #0033A0;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-        }
-
-        .form-label .required { color: #e74c3c; }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-            background: #fafafa;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #0033A0;
-            box-shadow: 0 0 0 4px rgba(0,51,160,0.08);
-            background: white;
-            transform: translateY(-1px);
-        }
-
-        .form-textarea { resize: vertical; min-height: 70px; }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        @media (max-width: 600px) {
-            .form-row { grid-template-columns: 1fr; }
-            .main-title { font-size: 1.8rem; }
-            .sub-title { font-size: 1.1rem; }
-            .kk-title { font-size: 1.3rem; }
-            .logo-container { gap: 15px; }
-            .logo-img { width: 70px; height: 70px; }
-            .form-container { padding: 25px 18px; }
-            .clock-time { font-size: 1.4rem; }
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
-            color: #FFD700;
-            border: none;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 15px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,51,160,0.3);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,51,160,0.4);
-            background: linear-gradient(135deg, #0044CC 0%, #0033A0 50%, #002080 100%);
-        }
-
-        .submit-btn:active { transform: translateY(0); }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-overlay.active { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.7); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 25px;
-            padding: 40px 30px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            animation: scaleIn 0.4s ease;
-            border: 4px solid #FFD700;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .success-icon {
-            width: 80px; height: 80px;
-            background: linear-gradient(135deg, #00C853 0%, #00E676 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 40px;
-            color: white;
-            animation: bounce 0.6s ease;
-            box-shadow: 0 5px 20px rgba(0,200,83,0.3);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0033A0;
-            margin-bottom: 10px;
-        }
-
-        .modal-text {
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .modal-btn {
-            padding: 12px 35px;
-            background: linear-gradient(135deg, #0033A0 0%, #002080 100%);
-            color: #FFD700;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,51,160,0.3);
-        }
-
-        .reject-modal .success-icon {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            box-shadow: 0 5px 20px rgba(231,76,60,0.3);
-        }
-
-        .reject-modal .modal-title {
-            color: #e74c3c;
-        }
-
-        .admin-link {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-        }
-
-        .admin-link a {
-            color: #FFD700;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            opacity: 0.7;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .admin-link a:hover { opacity: 1; text-decoration: underline; }
-
-        .photo-upload-area {
-            border: 3px dashed #ccc;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #fafafa;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .photo-upload-area:hover {
-            border-color: #0033A0;
-            background: #f0f4ff;
-        }
-
-        .photo-upload-area.has-image {
-            border-color: #00C853;
-            background: #e8f5e9;
-        }
-
-        .photo-upload-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-            color: #999;
-        }
-
-        .photo-upload-text {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .photo-upload-hint {
-            color: #999;
-            font-size: 0.75rem;
-            margin-top: 5px;
-        }
-
-        .photo-preview {
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 4px solid #FFD700;
-            object-fit: cover;
-            margin: 0 auto 15px;
-            display: none;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            animation: scaleIn 0.3s ease;
-        }
-
-        .photo-preview.show {
-            display: block;
-        }
-
-        .photo-remove-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            transition: all 0.3s;
-        }
-
-        .photo-remove-btn:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-        }
-
-        .spinner {
-            display: none;
-            width: 18px; height: 18px;
-            border: 3px solid rgba(255,215,0,0.3);
-            border-top-color: #FFD700;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
+        .form-group.full-width { grid-column: 1 / -1; }
+        label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--dark); margin-bottom: 6px; }
+        label .required { color: var(--danger); margin-left: 3px; }
+        .input-wrapper { position: relative; }
+        .input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 16px; }
+        input, select, textarea { width: 100%; padding: 12px 12px 12px 40px; border: 2px solid #e9ecef; border-radius: var(--radius-sm); font-family: 'Poppins', sans-serif; font-size: 0.9rem; transition: all 0.3s; background: #fafbfc; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 4px rgba(0,51,160,0.1); transform: translateY(-1px); }
+        input.error, select.error, textarea.error { border-color: var(--danger); background: rgba(220,53,69,0.05); }
+        input.success, select.success, textarea.success { border-color: var(--success); }
+        .error-message { color: var(--danger); font-size: 0.75rem; margin-top: 4px; display: none; }
+        .error-message.show { display: block; animation: shake 0.5s; }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .age-display { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: var(--primary); color: var(--white); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+        .age-display.invalid { background: var(--danger); }
+        .age-display.valid { background: var(--success); }
+        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: #f8f9fa; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .checkbox-item:hover { background: #e9ecef; border-color: var(--primary); }
+        .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; padding: 0; }
+        .checkbox-item label { margin: 0; cursor: pointer; font-size: 0.85rem; }
+        .radio-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .radio-item { display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: #f8f9fa; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .radio-item:hover, .radio-item.selected { background: rgba(0,51,160,0.05); border-color: var(--primary); }
+        .radio-item input[type="radio"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; padding: 0; }
+        .radio-item label { margin: 0; cursor: pointer; font-size: 0.85rem; }
+        .conditional-field { display: none; animation: slideDown 0.3s ease; }
+        .conditional-field.show { display: block; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        textarea { min-height: 100px; resize: vertical; padding-left: 12px; }
+        .photo-upload-area { border: 3px dashed #ccc; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; background: #fafafa; position: relative; overflow: hidden; }
+        .photo-upload-area:hover { border-color: var(--primary); background: #f0f4ff; }
+        .photo-upload-area.has-image { border-color: var(--success); background: #e8f5e9; }
+        .photo-upload-icon { font-size: 48px; margin-bottom: 10px; color: #999; }
+        .photo-upload-text { color: #666; font-size: 0.9rem; }
+        .photo-upload-hint { color: #999; font-size: 0.75rem; margin-top: 5px; }
+        .photo-preview { width: 150px; height: 150px; border-radius: 50%; border: 4px solid #FFD700; object-fit: cover; margin: 0 auto 15px; display: none; box-shadow: 0 8px 25px rgba(0,0,0,0.2); animation: scaleIn 0.3s ease; }
+        .photo-preview.show { display: block; }
+        .photo-remove-btn { background: #e74c3c; color: white; border: none; padding: 8px 20px; border-radius: 10px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.8rem; margin-top: 10px; transition: all 0.3s; }
+        .photo-remove-btn:hover { background: #c0392b; transform: translateY(-2px); }
+        .submit-section { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 25px 30px; border-top: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .submit-info { font-size: 0.8rem; color: var(--gray); }
+        .submit-info i { color: var(--success); margin-right: 5px; }
+        .btn-submit { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: var(--white); border: none; padding: 14px 35px; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 20px rgba(0,51,160,0.3); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,51,160,0.4); }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-submit.loading { pointer-events: none; }
+        .btn-submit.loading::after { content: ''; width: 20px; height: 20px; border: 2px solid transparent; border-top-color: var(--white); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .submit-btn.loading .spinner { display: inline-block; }
-
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .radio-item, .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 8px 14px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .radio-item:hover, .checkbox-item:hover { background: #e0e0e0; }
-        .radio-item.selected { background: #0033A0; color: white; }
-        .radio-item input, .checkbox-item input { width: 18px; height: 18px; accent-color: #0033A0; }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .section-divider {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 25px 0 20px;
-            color: #0033A0;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .section-divider::before, .section-divider::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #FFD700, transparent);
-        }
-
-        .error-msg {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .error-msg.show { display: block; animation: shake 0.3s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)} }
-
-        .age-display {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 8px;
-            display: none;
-        }
-
-        .age-display.show { display: block; }
-        .age-display.rejected {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .loading-overlay.active { display: flex; }
-
-        .loading-box {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 3px solid #FFD700;
-        }
-
-        .loading-box .spinner {
-            display: inline-block;
-            width: 40px; height: 40px;
-            border-width: 4px;
-        }
-
-        .loading-box p {
-            margin-top: 15px;
-            color: #0033A0;
-            font-weight: 600;
-        }
-
-        .offline-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 9998;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-
-        .offline-badge.show { display: block; }
-
-        .sync-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,200,83,0.9);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 9997;
-            display: none;
-            animation: slideDown 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .sync-status.show { display: flex; align-items: center; gap: 8px; }
-        .sync-status.syncing { background: rgba(255,152,0,0.9); }
-        .sync-status.error { background: rgba(231,76,60,0.9); }
-
-        @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .pulse-dot {
-            width: 8px; height: 8px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse-dot 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.5); }
-        }
-
-        /* ========== FOOTER STYLES ========== */
-        .site-footer {
-            position: relative;
-            z-index: 10;
-            margin-top: 40px;
-            background: linear-gradient(135deg, rgba(0,51,160,0.95) 0%, rgba(0,32,128,0.95) 50%, rgba(0,21,96,0.95) 100%);
-            backdrop-filter: blur(20px);
-            border-top: 3px solid #FFD700;
-            overflow: hidden;
-        }
-
-        .footer-waves {
-            position: absolute;
-            top: -60px;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            overflow: hidden;
-            line-height: 0;
-        }
-
-        .footer-waves svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 60px;
-        }
-
-        .footer-waves .shape-fill {
-            fill: rgba(0,51,160,0.95);
-        }
-
-        .footer-content {
-            position: relative;
-            z-index: 2;
-            padding: 50px 20px 30px;
-            text-align: center;
-        }
-
-        .footer-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
-            animation: footerGlow 6s ease-in-out infinite;
-            pointer-events: none;
-        }
-
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.show { display: flex; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal { background: var(--white); border-radius: var(--radius); max-width: 450px; width: 100%; padding: 35px; text-align: center; box-shadow: var(--shadow-lg); animation: scaleIn 0.3s; }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; }
+        .modal-icon.success { background: rgba(40,167,69,0.1); color: var(--success); }
+        .modal-icon.error { background: rgba(220,53,69,0.1); color: var(--danger); }
+        .modal-icon.warning { background: rgba(255,193,7,0.1); color: var(--warning); }
+        .modal h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--dark); }
+        .modal p { color: var(--gray); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5; }
+        .modal-btn { padding: 12px 30px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: 'Poppins', sans-serif; font-size: 0.9rem; }
+        .modal-btn.primary { background: var(--primary); color: var(--white); }
+        .modal-btn.primary:hover { background: var(--primary-light); }
+        .modal-btn.danger { background: var(--danger); color: var(--white); }
+        .modal-btn.danger:hover { background: #c82333; }
+        .modal-btn.warning { background: var(--warning); color: var(--dark); }
+        .site-footer { position: relative; z-index: 10; margin-top: 40px; background: linear-gradient(135deg, rgba(0,51,160,0.95) 0%, rgba(0,32,128,0.95) 50%, rgba(0,21,96,0.95) 100%); backdrop-filter: blur(20px); border-top: 3px solid #FFD700; overflow: hidden; }
+        .footer-waves { position: absolute; top: -60px; left: 0; width: 100%; height: 60px; overflow: hidden; line-height: 0; }
+        .footer-waves svg { position: relative; display: block; width: calc(100% + 1.3px); height: 60px; }
+        .footer-waves .shape-fill { fill: rgba(0,51,160,0.95); }
+        .footer-content { position: relative; z-index: 2; padding: 50px 20px 30px; text-align: center; }
+        .footer-glow { position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%); animation: footerGlow 6s ease-in-out infinite; pointer-events: none; }
         .footer-glow:nth-child(1) { top: -100px; left: -100px; animation-delay: 0s; }
         .footer-glow:nth-child(2) { bottom: -100px; right: -100px; animation-delay: 3s; }
-
-        @keyframes footerGlow {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.3); opacity: 0.8; }
-        }
-
-        .footer-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,215,0,0.15);
-            border: 1px solid rgba(255,215,0,0.3);
-            padding: 10px 25px;
-            border-radius: 50px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .footer-badge-icon {
-            font-size: 1.2rem;
-            animation: rotateBadge 4s linear infinite;
-        }
-
-        @keyframes rotateBadge {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .footer-badge-text {
-            color: #FFD700;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .footer-developer {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #FFD700;
-            margin-bottom: 8px;
-            animation: fadeInUp 1s ease 0.2s both;
-            text-shadow: 0 0 20px rgba(255,215,0,0.3);
-        }
-
-        .footer-company {
-            font-size: 1rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 20px;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        .footer-divider {
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #FFD700, transparent);
-            margin: 0 auto 20px;
-            border-radius: 2px;
-            animation: expandLine 1.5s ease 0.6s both;
-        }
-
-        @keyframes expandLine {
-            from { width: 0; opacity: 0; }
-            to { width: 80px; opacity: 1; }
-        }
-
-        .footer-copyright {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-            animation: fadeInUp 1s ease 0.8s both;
-        }
-
-        .footer-copyright strong {
-            color: #FFD700;
-            font-weight: 600;
-        }
-
-        .footer-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .footer-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255,215,0,0.4);
-            border-radius: 50%;
-            animation: footerParticleFloat 10s ease-in-out infinite;
-        }
-
+        @keyframes footerGlow { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.3); opacity: 0.8; } }
+        .footer-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); padding: 10px 25px; border-radius: 50px; margin-bottom: 20px; animation: fadeInUp 0.8s ease; }
+        .footer-badge-icon { font-size: 1.2rem; animation: rotateBadge 4s linear infinite; }
+        @keyframes rotateBadge { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .footer-badge-text { color: #FFD700; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+        .footer-developer { font-size: 1.3rem; font-weight: 800; color: #FFD700; margin-bottom: 8px; animation: fadeInUp 1s ease 0.2s both; text-shadow: 0 0 20px rgba(255,215,0,0.3); }
+        .footer-company { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 20px; animation: fadeInUp 1s ease 0.4s both; }
+        .footer-divider { width: 80px; height: 3px; background: linear-gradient(90deg, transparent, #FFD700, transparent); margin: 0 auto 20px; border-radius: 2px; animation: expandLine 1.5s ease 0.6s both; }
+        @keyframes expandLine { from { width: 0; opacity: 0; } to { width: 80px; opacity: 1; } }
+        .footer-copyright { font-size: 0.8rem; color: rgba(255,255,255,0.6); animation: fadeInUp 1s ease 0.8s both; }
+        .footer-copyright strong { color: #FFD700; font-weight: 600; }
+        .footer-particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; }
+        .footer-particle { position: absolute; width: 4px; height: 4px; background: rgba(255,215,0,0.4); border-radius: 50%; animation: footerParticleFloat 10s ease-in-out infinite; }
         .footer-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
         .footer-particle:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 12s; }
         .footer-particle:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 10s; }
         .footer-particle:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 9s; }
         .footer-particle:nth-child(5) { left: 90%; animation-delay: 3s; animation-duration: 11s; }
-
-        @keyframes footerParticleFloat {
-            0%, 100% { transform: translateY(100%) scale(1); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-20px) scale(0.5); opacity: 0; }
+        @keyframes footerParticleFloat { 0%,100% { transform: translateY(100%) scale(1); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-20px) scale(0.5); opacity: 0; } }
+        .connection-status { position: fixed; bottom: 20px; right: 20px; background: var(--white); padding: 12px 20px; border-radius: 30px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px; font-size: 0.8rem; z-index: 100; transition: all 0.3s; }
+        .connection-status.connected { border-left: 4px solid var(--success); }
+        .connection-status.disconnected { border-left: 4px solid var(--danger); }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; animation: pulse-dot 2s infinite; }
+        .status-dot.connected { background: var(--success); }
+        .status-dot.disconnected { background: var(--danger); }
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .sync-status { position: fixed; top: 20px; right: 20px; background: rgba(0,200,83,0.9); color: white; padding: 10px 20px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; z-index: 9997; display: none; align-items: center; gap: 8px; animation: slideDown 0.3s ease; backdrop-filter: blur(10px); }
+        .sync-status.show { display: flex; }
+        .sync-status.syncing { background: rgba(255,152,0,0.9); }
+        .sync-status.error { background: rgba(231,76,60,0.9); }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .offline-badge { position: fixed; bottom: 20px; right: 20px; background: #e74c3c; color: white; padding: 10px 20px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; z-index: 9998; display: none; animation: slideUp 0.3s ease; }
+        .offline-badge.show { display: block; }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
+        .loading-overlay.active { display: flex; }
+        .loading-box { background: white; padding: 30px 40px; border-radius: 20px; text-align: center; border: 3px solid #FFD700; }
+        .loading-box .spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid rgba(0,51,160,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-box p { margin-top: 15px; color: var(--primary); font-weight: 600; }
+        .auto-greet-banner { background: linear-gradient(135deg, rgba(0,51,160,0.9) 0%, rgba(0,32,128,0.95) 100%); border: 2px solid var(--secondary); border-radius: 20px; padding: 20px 30px; margin: 20px auto; max-width: 900px; display: flex; align-items: center; gap: 20px; animation: fadeInUp 1s ease; position: relative; overflow: hidden; }
+        .auto-greet-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%); animation: rotate 10s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .auto-greet-icon { font-size: 40px; animation: wave 2s ease-in-out infinite; z-index: 1; }
+        @keyframes wave { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(20deg); } 75% { transform: rotate(-20deg); } }
+        .auto-greet-content { flex: 1; z-index: 1; }
+        .auto-greet-content h3 { color: var(--secondary); font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+        .auto-greet-content p { color: rgba(255,255,255,0.9); font-size: 0.85rem; }
+        .auto-greet-btn { background: var(--secondary); color: var(--primary); border: none; padding: 10px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.3s; z-index: 1; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .auto-greet-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,215,0,0.4); }
+        .auto-greet-btn.speaking { animation: pulse 1s infinite; }
+        .developer-credit { background: rgba(255,215,0,0.1); border-left: 3px solid var(--secondary); padding: 8px 15px; border-radius: 0 10px 10px 0; margin-top: 8px; }
+        .developer-credit small { color: var(--secondary); font-size: 0.75rem; font-weight: 600; }
+        .language-selector { position: fixed; top: 20px; left: 20px; z-index: 100; background: rgba(0,51,160,0.9); border: 2px solid var(--secondary); border-radius: 12px; padding: 8px 15px; display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .lang-btn { background: transparent; color: var(--secondary); border: 1px solid var(--secondary); padding: 5px 12px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .lang-btn:hover { transform: scale(1.05); }
+        .lang-btn.active { background: var(--secondary) !important; color: var(--primary) !important; border-color: var(--secondary) !important; }
+        @media (max-width: 768px) {
+            .greeting-banner { flex-direction: column; text-align: center; }
+            .voice-btn { margin-left: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+            .submit-section { flex-direction: column; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .main-title { font-size: 1.8rem; }
+            .sub-title { font-size: 1.1rem; }
+            .kk-title { font-size: 1.3rem; }
+            .logo-container { gap: 15px; }
+            .logo-img { width: 70px; height: 70px; }
+            .clock-time { font-size: 1.4rem; }
+            .auto-greet-banner { flex-direction: column; text-align: center; }
         }
-
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .checkbox-group { grid-template-columns: 1fr; }
             .footer-developer { font-size: 1.1rem; }
             .footer-company { font-size: 0.9rem; }
             .footer-content { padding: 40px 15px 25px; }
         }
-
-        /* ========== CONNECTION STATUS ========== */
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 9996;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .connection-status.show { display: flex; }
-        .connection-status.connected {
-            background: rgba(0,200,83,0.9);
-            color: white;
-        }
-        .connection-status.disconnected {
-            background: rgba(231,76,60,0.9);
-            color: white;
-        }
-        .connection-status.testing {
-            background: rgba(255,152,0,0.9);
-            color: white;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
     </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("S3_XQI5mfn8MMdGhM");
-        })();
-    </script>
 <base target="_blank">
 </head>
 <body>
-    <!-- ========== CONNECTION STATUS INDICATOR ========== -->
-    <div class="connection-status" id="connectionStatus">
-        <span id="connectionDot">🔴</span>
-        <span id="connectionText">Checking connection...</span>
-    </div>
-
-    <!-- ========== WELCOME GREETING BANNER ========== -->
-    <div id="welcomeBanner" style="
-        position:fixed;
-        top:0;left:0;width:100%;
-        background:linear-gradient(135deg, #0033A0 0%, #002080 50%, #001560 100%);
-        color:#FFD700;
-        padding:15px 20px;
-        text-align:center;
-        font-weight:700;
-        font-size:1.1rem;
-        z-index:9999;
-        transform:translateY(-100%);
-        transition:transform 0.6s cubic-bezier(0.68,-0.55,0.27,1.55);
-        box-shadow:0 4px 20px rgba(0,0,0,0.3);
-        border-bottom:3px solid #FFD700;
-        letter-spacing:1px;
-    ">
-        <span id="welcomeText">👋 Welcome to Barangay Sibaguan KK Profiling System!</span>
-    </div>
-    <style>
-        #welcomeBanner.show { transform:translateY(0) !important; }
-    </style>
 
     <div class="bg-animation">
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
+        <div class="bg-circle"></div><div class="bg-circle"></div><div class="bg-circle"></div>
     </div>
-
-    <div class="wave-top"></div>
-    <div class="wave-bottom"></div>
-
+    <div class="wave-top"></div><div class="wave-bottom"></div>
     <div class="particle" style="top:15%;left:8%;animation-delay:0s;"></div>
     <div class="particle" style="top:35%;left:85%;animation-delay:2s;"></div>
     <div class="particle" style="top:55%;left:25%;animation-delay:4s;"></div>
@@ -946,518 +254,1013 @@
     <div class="particle" style="top:65%;left:45%;animation-delay:3s;"></div>
 
     <div class="sync-status" id="syncStatus">
-        <div class="pulse-dot"></div>
+        <div class="status-dot connected"></div>
         <span id="syncText">Syncing...</span>
     </div>
 
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <img src="image.jpg" alt="SK Logo" class="logo-img"
+                     onerror="this.src='data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;48&quot; fill=&quot;white&quot; stroke=&quot;%23FFD700&quot; stroke-width=&quot;3&quot;/&gt;&lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;42&quot; fill=&quot;%23FFD700&quot;/&gt;&lt;text x=&quot;50&quot; y=&quot;55&quot; text-anchor=&quot;middle&quot; fill=&quot;%230033A0&quot; font-size=&quot;20&quot; font-weight=&quot;bold&quot;&gt;SK&lt;/text&gt;&lt;/svg&gt;'">
+            </div>
+            <div class="logo-wrapper">
+                <img src="logo.png" alt="Barangay Logo" class="logo-img"
+                     onerror="this.src='data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;48&quot; fill=&quot;white&quot; stroke=&quot;%23FFD700&quot; stroke-width=&quot;3&quot;/&gt;&lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;42&quot; fill=&quot;%230033A0&quot;/&gt;&lt;circle cx=&quot;50&quot; cy=&quot;28&quot; r=&quot;12&quot; fill=&quot;%23FFD700&quot;/&gt;&lt;path d=&quot;M30 70 L50 50 L70 70&quot; fill=&quot;none&quot; stroke=&quot;%23FFD700&quot; stroke-width=&quot;3&quot;/&gt;&lt;rect x=&quot;35&quot; y=&quot;65&quot; width=&quot;30&quot; height=&quot;20&quot; fill=&quot;%23FFD700&quot; rx=&quot;2&quot;/&gt;&lt;text x=&quot;50&quot; y=&quot;92&quot; text-anchor=&quot;middle&quot; fill=&quot;%23FFD700&quot; font-size=&quot;6&quot; font-weight=&quot;bold&quot;&gt;SIBAGUAN&lt;/text&gt;&lt;/svg&gt;'">
+            </div>
+        </div>
+        <h1 class="main-title">BARANGAY SIBAGUAN</h1>
+        <h2 class="sub-title">KATIPUNAN NG KABATAAN</h2>
+        <h2 class="kk-title">(KK) PROFILING SYSTEM</h2>
+        <div style="margin-top: 8px; animation: fadeInDown 1.8s ease;">
+            <p style="font-size: 0.9rem; color: rgba(255,255,255,0.85); font-weight: 500;">SK Chairperson: <strong style="color: #FFD700; font-weight: 700;">Baeta Segura</strong></p>
+        </div>
+
+        <div class="realtime-clock">
+            <div class="clock-label">&#9200; Philippine Standard Time</div>
+            <div class="clock-time" id="realtimeClock">00:00:00</div>
+            <div class="clock-date" id="realtimeDate">Loading...</div>
+        </div>
+    </header>
+
+    <!-- LANGUAGE SELECTOR -->
+    <div class="language-selector">
+        <span style="color: var(--secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Voice:</span>
+        <button class="lang-btn active" data-lang="tagalog" onclick="setLanguage('tagalog')">Tagalog</button>
+        <button class="lang-btn" data-lang="english" onclick="setLanguage('english')">English</button>
+        <button class="lang-btn" data-lang="karaya" onclick="setLanguage('karaya')">Karay-a</button>
+    </div>
+
+    <div class="auto-greet-banner" id="autoGreetBanner">
+        <div class="auto-greet-icon" id="autoGreetIcon">&#128075;</div>
+        <div class="auto-greet-content">
+            <h3 id="autoGreetTitle">Welcome!</h3>
+            <p id="autoGreetText">Loading greeting...</p>
+            <div class="developer-credit">
+                <small>&#9881; System by Roniel Nyke Gonzales | Lambunao Web Developer | Digital Barangay Solutions Inc.</small>
+            </div>
+        </div>
+        <button class="auto-greet-btn" id="autoGreetBtn" onclick="playAutoGreeting()">
+            <i class="fas fa-volume-up"></i> <span id="greetBtnText">Play Greeting</span>
+        </button>
+    </div>
+
+    <div class="greeting-banner">
+        <div class="greeting-icon" id="greetingIcon">&#9728;&#65039;</div>
+        <div class="greeting-text">
+            <h2 id="greetingText">Magandang Umaga!</h2>
+            <p id="greetingSub">Welcome to Barangay Sibaguan KK Profiling System</p>
+        </div>
+        <button class="voice-btn" id="voiceBtn" onclick="speakGreeting()"><i class="fas fa-volume-up"></i><span>Magbati</span></button>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <div class="logo-wrapper">
-                    <img src="image.jpg" alt="SK Logo" class="logo-img"
-                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22white%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%23FFD700%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%230033A0%22 font-size=%2220%22 font-weight=%22bold%22>SK</text></svg>'">
-                </div>
-                <div class="logo-wrapper">
-                    <img src="logo.png" alt="Barangay Logo" class="logo-img"
-                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22white%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%230033A0%22/><circle cx=%2250%22 cy=%2228%22 r=%2212%22 fill=%22%23FFD700%22/><path d=%22M30 70 L50 50 L70 70%22 fill=%22none%22 stroke=%22%23FFD700%22 stroke-width=%223%22/><rect x=%2235%22 y=%2265%22 width=%2230%22 height=%2220%22 fill=%22%23FFD700%22 rx=%222%22/><text x=%2250%22 y=%2292%22 text-anchor=%22middle%22 fill=%22%23FFD700%22 font-size=%226%22 font-weight=%22bold%22>SIBAGUAN</text></svg>'">
-                </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                <div class="stat-info"><h3 id="totalCount">0</h3><p>Total Members</p></div>
+                <button class="stat-refresh" id="refreshStatsBtn" onclick="refreshStats()" title="Refresh Stats"><i class="fas fa-sync-alt"></i></button>
             </div>
-
-            <h1 class="main-title">BARANGAY SIBAGUAN</h1>
-            <h2 class="sub-title">KATIPUNAN NG KABATAAN</h2>
-            <h2 class="kk-title">(KK) PROFILING</h2>
-
-            <div class="realtime-clock">
-                <div class="clock-label">⏰ Philippine Standard Time</div>
-                <div class="clock-time" id="realtimeClock">00:00:00</div>
-                <div class="clock-date" id="realtimeDate">Loading...</div>
+            <div class="stat-card">
+                <div class="stat-icon gold"><i class="fas fa-user-check"></i></div>
+                <div class="stat-info"><h3 id="todayCount">0</h3><p>Registered Today</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-graduation-cap"></i></div>
+                <div class="stat-info"><h3 id="studentCount">0</h3><p>Students</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-briefcase"></i></div>
+                <div class="stat-info"><h3 id="employedCount">0</h3><p>Employed</p></div>
             </div>
         </div>
 
-        <div class="info-card">
-            <p>Ang Sangguniang Kabataan Council sang Barangay Sibaguan maga-lunsad sang <strong>Katipunan ng Kabataan (KK) Profiling</strong> sa mga pamatan-on nga naga-edad <strong>15-30 years old</strong>. Ini bahin sa pag-sunod sa <strong>RA 10742</strong> o Sangguniang Kabataan Reform Act of 2015.</p>
-            <p style="margin-top:12px; color:#FFD700; font-weight:600; font-size:0.9rem;">📍 Barangay Sibaguan, Philippines | 📅 2026-2027</p>
-        </div>
-
-        <div class="form-container">
-            <h2 class="form-title">📝 KK MEMBER PROFILING FORM</h2>
-
-            <form id="kkForm">
-                <div class="section-divider">👤 Personal Information</div>
-
-                <div class="form-group">
-                    <label class="form-label">Full Name <span class="required">*</span></label>
-                    <div class="form-row">
-                        <input type="text" class="form-input" id="lastName" placeholder="Apelyido (Last Name)" required>
-                        <input type="text" class="form-input" id="firstName" placeholder="Pangalan (First Name)" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Middle Name</label>
-                    <input type="text" class="form-input" id="middleName" placeholder="Gitnang Pangalan">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Date of Birth <span class="required">*</span></label>
-                    <input type="date" class="form-input" id="birthDate" required>
-                    <div class="age-display" id="ageDisplay"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Age (Auto-calculated)</label>
-                    <input type="number" class="form-input" id="age" placeholder="Auto-calculated" readonly style="background:#e8e8e8; cursor:not-allowed;">
-                    <span class="error-msg" id="ageError">❌ Hindi matatanggap! Ang edad ay dapat 15-30 years old lamang.</span>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Gender <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="gender" value="Male" required>
-                            <span>👨 Lalaki</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="gender" value="Female" required>
-                            <span>👩 Babae</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Civil Status <span class="required">*</span></label>
-                        <select class="form-select" id="civilStatus" required>
-                            <option value="">Pumili...</option>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Widowed">Widowed</option>
-                            <option value="Separated">Separated</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Purok / Sitio <span class="required">*</span></label>
-                        <select class="form-select" id="purok" required>
-                            <option value="">Pumili...</option>
-                            <option value="Purok 1">Purok 1</option>
-                            <option value="Purok 2">Purok 2</option>
-                            <option value="Purok 3">Purok 3</option>
-                            <option value="Purok 4">Purok 4</option>
-                            <option value="Purok 5">Purok 5</option>
-                            <option value="Purok 6">Purok 6</option>
-                            <option value="Purok 7">Purok 7</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="section-divider">📞 Contact Information</div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Contact Number <span class="required">*</span></label>
-                        <input type="tel" class="form-input" id="contactNumber" placeholder="09XX-XXX-XXXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address <span class="required">*</span></label>
-                        <input type="email" class="form-input" id="email" placeholder="email@example.com" required>
-                    </div>
-                </div>
-
-                <div class="section-divider">🎓 Education & Work</div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Education <span class="required">*</span></label>
-                        <select class="form-select" id="education" required>
-                            <option value="">Pumili...</option>
-                            <option value="Elementary Level">Elementary Level</option>
-                            <option value="Elementary Graduate">Elementary Graduate</option>
-                            <option value="High School Level">High School Level</option>
-                            <option value="High School Graduate">High School Graduate</option>
-                            <option value="College Level">College Level</option>
-                            <option value="College Graduate">College Graduate</option>
-                            <option value="Vocational">Vocational</option>
-                            <option value="Post Graduate">Post Graduate</option>
-                            <option value="Out of School Youth">Out of School Youth</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Employment <span class="required">*</span></label>
-                        <select class="form-select" id="employment" required>
-                            <option value="">Pumili...</option>
-                            <option value="Employed">Employed</option>
-                            <option value="Self-Employed">Self-Employed</option>
-                            <option value="Unemployed">Unemployed</option>
-                            <option value="Student">Student</option>
-                            <option value="OFW">OFW</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="section-divider">⭐ Skills & Programs</div>
-
-                <div class="form-group">
-                    <label class="form-label">Skills / Talents</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Sports"><span>⚽ Sports</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Music"><span>🎵 Music/Singing</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Dance"><span>💃 Dance</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Arts"><span>🎨 Arts/Drawing</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Leadership"><span>👑 Leadership</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Technology"><span>💻 Technology/IT</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="skills" value="Writing"><span>✍️ Writing</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">KK Member Before? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="kkBefore" value="Yes" required><span>✅ OO</span></label>
-                        <label class="radio-item"><input type="radio" name="kkBefore" value="No" required><span>❌ HINDI</span></label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Interested Programs</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Livelihood"><span>💼 Livelihood/Skills</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Sports"><span>🏃 Sports & Rec</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Education"><span>📚 Education/Scholarship</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Health"><span>❤️ Health & Wellness</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Environment"><span>🌿 Environment</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="programs" value="Leadership"><span>🎯 Leadership Training</span></label>
-                    </div>
-                </div>
-
-                <div class="section-divider">🚨 Emergency Contact</div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Name <span class="required">*</span></label>
-                        <input type="text" class="form-input" id="emergencyName" placeholder="Pangalan" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Contact <span class="required">*</span></label>
-                        <input type="tel" class="form-input" id="emergencyContact" placeholder="09XX-XXX-XXXX" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Relationship</label>
-                    <input type="text" class="form-input" id="emergencyRelation" placeholder="Hal: Nanay, Tatay, Kapatid">
-                </div>
-
-                <div class="section-divider">📎 ID Picture Upload</div>
-
-                <div class="form-group">
-                    <label class="form-label">ID Picture (Optional pero recommended)</label>
-                    <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('idPicture').click()">
-                        <div class="photo-upload-content" id="uploadContent">
-                            <div class="photo-upload-icon">📷</div>
-                            <div class="photo-upload-text">I-click para mag-upload ng ID Picture</div>
-                            <div class="photo-upload-hint">JPG, PNG, GIF (max 5MB)</div>
+        <div class="form-card">
+            <div class="form-header">
+                <h2><i class="fas fa-id-card"></i> KK Member Registration Form</h2>
+                <p>Fill out all required fields. Your information will be securely stored.</p>
+            </div>
+            <div class="form-body">
+                <form id="kkForm" onsubmit="handleSubmit(event)">
+                    <div class="section-title"><div class="section-number">1</div><span>Personal Information</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Last Name <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-user input-icon"></i><input type="text" id="lastName" placeholder="e.g. Dela Cruz" required></div>
+                            <div class="error-message" id="lastNameError">Please enter your last name</div>
                         </div>
-                        <img id="photoPreview" class="photo-preview" alt="ID Preview">
-                        <button type="button" class="photo-remove-btn" id="removePhotoBtn" style="display:none;" onclick="removePhoto(event)">🗑️ Alisin</button>
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-user input-icon"></i><input type="text" id="firstName" placeholder="e.g. Juan" required></div>
+                            <div class="error-message" id="firstNameError">Please enter your first name</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Middle Name</label>
+                            <div class="input-wrapper"><i class="fas fa-user input-icon"></i><input type="text" id="middleName" placeholder="e.g. Santos"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Suffix</label>
+                            <div class="input-wrapper"><i class="fas fa-tag input-icon"></i>
+                                <select id="suffix"><option value="">None</option><option value="Jr.">Jr.</option><option value="Sr.">Sr.</option><option value="II">II</option><option value="III">III</option><option value="IV">IV</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Birthdate <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-calendar input-icon"></i><input type="date" id="birthDate" required onchange="calculateAge()"><span class="age-display" id="ageDisplay"></span></div>
+                            <div class="error-message" id="birthDateError">Age must be between 13-30 years old</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-venus-mars input-icon"></i>
+                                <select id="gender" required><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Civil Status <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-heart input-icon"></i>
+                                <select id="civilStatus" required><option value="">Select Status</option><option value="Single">Single</option><option value="Married">Married</option><option value="Widowed">Widowed</option><option value="Separated">Separated</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Purok/Zone <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-map-marker-alt input-icon"></i>
+                                <select id="purok" required><option value="">Select Purok</option><option value="Purok 1">Purok 1</option><option value="Purok 2">Purok 2</option><option value="Purok 3">Purok 3</option><option value="Purok 4">Purok 4</option><option value="Purok 5">Purok 5</option><option value="Purok 6">Purok 6</option><option value="Purok 7">Purok 7</option></select>
+                            </div>
+                        </div>
                     </div>
-                    <input type="file" class="form-input" id="idPicture" accept="image/*" style="display:none;" onchange="handlePhotoUpload(this)">
-                </div>
 
-                <div class="section-divider">📝 Others</div>
+                    <div class="section-title"><div class="section-number">2</div><span>Contact Information</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Contact Number <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-phone input-icon"></i><input type="tel" id="contactNumber" placeholder="09XX XXX XXXX" maxlength="11" required oninput="formatPhone(this)"></div>
+                            <div class="error-message" id="contactError">Please enter a valid 11-digit number</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <div class="input-wrapper"><i class="fas fa-envelope input-icon"></i><input type="email" id="email" placeholder="example@email.com"></div>
+                            <div class="error-message" id="emailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Complete Address <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-home input-icon"></i><input type="text" id="address" placeholder="House No., Street, Barangay Sibaguan, Lambunao, Iloilo" required></div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Comments / Suggestions</label>
-                    <textarea class="form-textarea" id="comments" placeholder="Ano pa ang gusto mong i-share?"></textarea>
-                </div>
+                    <div class="section-title"><div class="section-number">3</div><span>Educational Background</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Education Level <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-graduation-cap input-icon"></i>
+                                <select id="education" required><option value="">Select Level</option><option value="Elementary">Elementary</option><option value="High School">High School</option><option value="Senior High">Senior High</option><option value="College">College</option><option value="Vocational">Vocational</option><option value="Post Graduate">Post Graduate</option><option value="Out of School">Out of School</option></select>
+                            </div>
+                        </div>
+                    </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span class="spinner"></span>
-                    <span class="btn-text">📤 SUBMITE ANG PROFILE</span>
-                </button>
-            </form>
-        </div>
+                    <div class="section-title"><div class="section-number">4</div><span>Employment Status</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Employment Status <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-briefcase input-icon"></i>
+                                <select id="employment" required><option value="">Select Status</option><option value="Employed">Employed</option><option value="Self-employed">Self-employed</option><option value="Unemployed">Unemployed</option><option value="Student">Student</option><option value="Student (Working)">Student (Working)</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Skills &amp; Talents</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item"><input type="checkbox" id="skill1" value="Sports"><label for="skill1">Sports</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill2" value="Music"><label for="skill2">Music</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill3" value="Dance"><label for="skill3">Dance</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill4" value="Arts"><label for="skill4">Arts</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill5" value="Writing"><label for="skill5">Writing</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill6" value="Public Speaking"><label for="skill6">Public Speaking</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill7" value="Leadership"><label for="skill7">Leadership</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="skill8" value="IT/Tech"><label for="skill8">IT/Tech</label></div>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="admin-link">
-            <a href="admin.html">🔐 Admin Dashboard (Admin Only)</a>
+                    <div class="section-title"><div class="section-number">5</div><span>KK Participation</span></div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Have you been a KK member before? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-item" onclick="selectRadio(this, 'kkBefore', 'Yes')"><input type="radio" name="kkBefore" id="kkYes" value="Yes" required><label for="kkYes">Yes</label></div>
+                                <div class="radio-item" onclick="selectRadio(this, 'kkBefore', 'No')"><input type="radio" name="kkBefore" id="kkNo" value="No"><label for="kkNo">No</label></div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Programs Interested In</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item"><input type="checkbox" id="prog1" value="Sports &amp; Recreation"><label for="prog1">Sports &amp; Recreation</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="prog2" value="Education &amp; Training"><label for="prog2">Education &amp; Training</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="prog3" value="Health &amp; Wellness"><label for="prog3">Health &amp; Wellness</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="prog4" value="Environment"><label for="prog4">Environment</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="prog5" value="Livelihood"><label for="prog5">Livelihood</label></div>
+                                <div class="checkbox-item"><input type="checkbox" id="prog6" value="Peace &amp; Order"><label for="prog6">Peace &amp; Order</label></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title"><div class="section-number">6</div><span>Emergency Contact</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Contact Name <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-user-shield input-icon"></i><input type="text" id="emergencyName" placeholder="Full Name" required></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-phone input-icon"></i><input type="tel" id="emergencyContact" placeholder="09XX XXX XXXX" maxlength="11" required oninput="formatPhone(this)"></div>
+                            <div class="error-message" id="emergencyContactError">Please enter a valid number</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-link input-icon"></i>
+                                <select id="emergencyRelation" required><option value="">Select</option><option value="Parent">Parent</option><option value="Sibling">Sibling</option><option value="Spouse">Spouse</option><option value="Relative">Relative</option><option value="Friend">Friend</option><option value="Guardian">Guardian</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title"><div class="section-number">7</div><span>ID Picture Upload</span></div>
+                    <div class="form-group full-width">
+                        <label>ID Picture (Optional pero recommended)</label>
+                        <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('idPicture').click()">
+                            <div class="photo-upload-content" id="uploadContent">
+                                <div class="photo-upload-icon">&#128247;</div>
+                                <div class="photo-upload-text">I-click para mag-upload ng ID Picture</div>
+                                <div class="photo-upload-hint">JPG, PNG, GIF (max 5MB)</div>
+                            </div>
+                            <img id="photoPreview" class="photo-preview" alt="ID Preview">
+                            <button type="button" class="photo-remove-btn" id="removePhotoBtn" style="display:none;" onclick="removePhoto(event)">&#128465; Alisin</button>
+                        </div>
+                        <input type="file" class="form-input" id="idPicture" accept="image/*" style="display:none;" onchange="handlePhotoUpload(this)">
+                    </div>
+
+                    <div class="section-title"><div class="section-number">8</div><span>Additional Information</span></div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Comments or Suggestions</label>
+                            <textarea id="comments" placeholder="Any additional information you want to share..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <div class="submit-info"><i class="fas fa-shield-alt"></i><span>Your data is secure and will only be used for KK profiling purposes.</span></div>
+                        <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-paper-plane"></i><span>Submit Registration</span></button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- ========== FOOTER ========== -->
     <footer class="site-footer">
         <div class="footer-waves">
             <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
             </svg>
         </div>
-        <div class="footer-glow"></div>
-        <div class="footer-glow"></div>
+        <div class="footer-glow"></div><div class="footer-glow"></div>
         <div class="footer-particles">
-            <div class="footer-particle"></div>
-            <div class="footer-particle"></div>
-            <div class="footer-particle"></div>
-            <div class="footer-particle"></div>
-            <div class="footer-particle"></div>
+            <div class="footer-particle"></div><div class="footer-particle"></div><div class="footer-particle"></div>
+            <div class="footer-particle"></div><div class="footer-particle"></div>
         </div>
         <div class="footer-content">
             <div class="footer-badge">
-                <span class="footer-badge-icon">⚙️</span>
+                <span class="footer-badge-icon">&#9881;</span>
                 <span class="footer-badge-text">System Developer</span>
             </div>
             <div class="footer-developer">Developed by: Roniel Nyke Gonzales</div>
-            <div class="footer-company">Lambunao Web Developer</div>
+            <div class="footer-company">Lambunao Web Developer | Digital Barangay Solutions Inc.</div>
             <div class="footer-divider"></div>
             <div class="footer-copyright">
-                © 2026 <strong>Barangay Sibaguan</strong> — KK Profiling System. All rights reserved.
+                &#169; 2026 <strong>Barangay Sibaguan</strong> &#8212; KK Profiling System. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <div class="offline-badge" id="offlineBadge">
-        ⚠️ Offline Mode - Data will sync when online
-    </div>
+    <div class="offline-badge" id="offlineBadge">&#9888; Offline Mode - Data will sync when online</div>
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
-            <div class="spinner" style="display:inline-block;"></div>
+            <div class="spinner"></div>
             <p>Nagse-save sa database...</p>
         </div>
     </div>
 
+    <div class="connection-status disconnected" id="connectionStatus">
+        <div class="status-dot disconnected" id="statusDot"></div>
+        <span id="statusText">Google Sheets: Not Connected</span>
+    </div>
+
     <div class="modal-overlay" id="successModal">
-        <div class="modal-content">
-            <div class="success-icon">✓</div>
-            <h3 class="modal-title">Maraming Salamat!</h3>
-            <p class="modal-text">
-                Ang iyong KK Profiling ay matagumpay na naisumite.<br><br>
-                <strong style="color:#0033A0;">Nakatanggap ka ng confirmation email sa <span id="sentEmail"></span>!</strong><br><br>
-                <small style="color:#666;">Tingnan ang inbox o spam folder mo.</small>
-            </p>
-            <button class="modal-btn" onclick="closeModal()">OK, Salamat!</button>
+        <div class="modal">
+            <div class="modal-icon success"><i class="fas fa-check-circle"></i></div>
+            <h3>Registration Successful!</h3>
+            <p>Your KK profiling data has been saved. Thank you for registering, <span id="successName"></span>!</p>
+            <button class="modal-btn primary" onclick="closeModal('successModal'); resetForm();">Register Another</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal">
+            <div class="modal-icon error"><i class="fas fa-times-circle"></i></div>
+            <h3>Registration Failed</h3>
+            <p id="errorMessage">Something went wrong. Please try again.</p>
+            <button class="modal-btn danger" onclick="closeModal('errorModal')">Try Again</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="duplicateModal">
+        <div class="modal">
+            <div class="modal-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>Duplicate Entry</h3>
+            <p>This person appears to be already registered in our system. Please check your information or contact the barangay office.</p>
+            <button class="modal-btn warning" onclick="closeModal('duplicateModal')">OK</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="alreadySubmittedModal">
+        <div class="modal">
+            <div class="modal-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>Already Submitted</h3>
+            <p><strong>Paumanhin!</strong><br><br>Mukhang nakapag-submit ka na ng registration mula sa device na ito.<br>Bawat isa ay isang beses lang maaaring mag-register.<br><br>Kung may problema, mangyaring makipag-ugnayan sa Barangay Office.</p>
+            <button class="modal-btn warning" onclick="closeModal('alreadySubmittedModal')">Naiintindihan Ko</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="rejectModal">
-        <div class="modal-content reject-modal">
-            <div class="success-icon">✕</div>
-            <h3 class="modal-title">Hindi Matatanggap</h3>
-            <p class="modal-text">
-                <strong>Paumanhin!</strong><br><br>
-                Ang iyong edad ay lagpas na sa 30 years old.<br>
-                Ang KK Profiling ay para lamang sa mga kabataang<br>
-                <strong>15-30 years old</strong> ayon sa RA 10742.<br><br>
-                Maraming salamat sa iyong pag-unawa.
-            </p>
-            <button class="modal-btn" onclick="closeRejectModal()">Naiintindihan Ko</button>
+        <div class="modal">
+            <div class="modal-icon error"><i class="fas fa-times-circle"></i></div>
+            <h3>Hindi Matatanggap</h3>
+            <p><strong>Paumanhin!</strong><br><br>Ang iyong edad ay lagpas na sa 30 years old.<br>Ang KK Profiling ay para lamang sa mga kabataang<br><strong>13-30 years old</strong> ayon sa RA 10742.<br><br>Maraming salamat sa iyong pag-unawa.</p>
+            <button class="modal-btn danger" onclick="closeModal('rejectModal')">Naiintindihan Ko</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="submissionsModal">
+        <div class="modal" style="max-width:800px;width:95%;">
+            <div class="modal-icon success"><i class="fas fa-list-alt"></i></div>
+            <h3>Registered Members</h3>
+            <div id="submissionsList" style="max-height:400px;overflow-y:auto;text-align:left;margin:20px 0;"><p style="text-align:center;color:var(--gray);">Loading...</p></div>
+            <button class="modal-btn primary" onclick="closeModal('submissionsModal')">Close</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <script>
-        // ============================================================
-        // BARANGAY SIBAGUAN KK PROFILING - FIXED CONNECTION
-        // ============================================================
+        const CONFIG = {
+            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzzriIhh1sPXwuSOEH1glW6d_2086KSVby00XXkVyp9VybGSZ79pYgJ46GgA8aw3xTlyQ/exec',
+            SHEET_ID: '1Wcn_iz39wJCYZYBGNTUW0AybcfaoAr2YWOM1oER9HXk',
+            SHEET_NAME: 'Sibaguan_KK_Profiling',
+            EMAILJS_SERVICE: 'service_djne9ym',
+            EMAILJS_TEMPLATE: 'template_q5v9o8w',
+            EMAILJS_PUBLIC_KEY: 'S3_XQI5mfn8MMdGhM',
+            MIN_AGE: 13, MAX_AGE: 30,
+            DEVELOPER_NAME: 'Roniel Nyke Gonzales',
+            COMPANY_NAME: 'Lambunao Web Developer | Digital Barangay Solutions Inc.'
+        };
 
-        // ========== GOOGLE SHEETS WEB APP URL (FIXED) ==========
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoWFYtOXHelXFNvTMJghql-rT_lr3uarm4L2LFoMBdj75LuZgncCpLVxAcWcgCIT5j/exec';
-
-        const MIN_AGE = 15;
-        const MAX_AGE = 30;
-        const DB_NAME = 'sibaguan_kk_db';
-        const PENDING_SYNC_KEY = 'kk_pending_sync';
-
+        let isSubmitting = false;
+        let speechSynthesis = window.speechSynthesis;
+        let currentGreeting = '';
         let uploadedImageBase64 = '';
         let isGoogleScriptConnected = false;
+        let autoGreetPlayed = false;
+        let currentLanguage = 'tagalog';
 
-        // ========== CONNECTION STATUS ==========
-        function showConnectionStatus(status, text) {
-            const el = document.getElementById('connectionStatus');
-            const dot = document.getElementById('connectionDot');
-            const txt = document.getElementById('connectionText');
+        // FIX #1: Initialize submissions array properly - this was causing the "Registration Failed" error
+        let submissions = [];
 
-            el.className = 'connection-status show ' + status;
-            dot.textContent = status === 'connected' ? '🟢' : status === 'testing' ? '🟡' : '🔴';
-            txt.textContent = text;
+        const PENDING_SYNC_KEY = 'kk_pending_sync';
+        const STATS_CACHE_KEY = 'kk_stats_cache';
+        const STATS_CACHE_TIME_KEY = 'kk_stats_cache_time';
+        const STATS_CACHE_DURATION = 5 * 60 * 1000;
+        const DEVICE_SUBMITTED_KEY = 'kk_device_submitted';
+        const SUBMISSIONS_KEY = 'kkSubmissions';
 
-            setTimeout(() => {
-                if (status === 'connected') {
-                    setTimeout(() => el.classList.remove('show'), 3000);
-                }
-            }, 100);
-        }
-
-        // ========== TEST CONNECTION TO GOOGLE SCRIPT ==========
-        async function testConnection() {
-            showConnectionStatus('testing', 'Testing Google Sheets connection...');
-
+        document.addEventListener('DOMContentLoaded', function() {
+            // FIX #2: Load submissions from localStorage on startup
             try {
-                const testUrl = GOOGLE_SCRIPT_URL + '?action=test&_=' + Date.now();
-                const response = await fetch(testUrl, {
-                    method: 'GET'
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        isGoogleScriptConnected = true;
-                        showConnectionStatus('connected', 'Connected to Google Sheets: ' + data.spreadsheetName);
-                        console.log('Google Script connection successful:', data);
-                        return true;
-                    }
+                const stored = localStorage.getItem(SUBMISSIONS_KEY);
+                if (stored) {
+                    submissions = JSON.parse(stored);
                 }
-
-                throw new Error('Connection test failed');
-            } catch (error) {
-                console.log('Google Script connection test failed:', error);
-                showConnectionStatus('disconnected', 'Google Sheets offline - Saving to localStorage');
-                isGoogleScriptConnected = false;
-                return false;
+            } catch (e) {
+                submissions = [];
             }
+
+            updateGreeting();
+            updateClock();
+            updateStats();
+            checkConnection();
+            initAutoGreeting();
+            setInterval(updateGreeting, 60000);
+            setInterval(updateClock, 1000);
+            setInterval(checkConnection, 30000);
+            if (typeof emailjs !== 'undefined') { emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY); }
+            updateOnlineStatus();
+            testConnection();
+        });
+
+        // ==================== LANGUAGE SYSTEM ====================
+        const LANGUAGE_DATA = {
+            tagalog: {
+                morning: { greeting: 'Magandang Umaga!', icon: '🌅', sub: 'Maayong aga! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                afternoon: { greeting: 'Magandang Hapon!', icon: '☀️', sub: 'Maayong hapon! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                evening: { greeting: 'Magandang Gabi!', icon: '🌙', sub: 'Maayong gab-i! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                autoTitle: 'Welcome!',
+                voiceGreeting: function(hour, devName, company) {
+                    let timeGreeting = '';
+                    if (hour >= 5 && hour < 12) timeGreeting = 'Magandang umaga';
+                    else if (hour >= 12 && hour < 18) timeGreeting = 'Magandang hapon';
+                    else timeGreeting = 'Magandang gabi';
+                    return timeGreeting + '! Welcome sa Barangay Sibaguan Katipunan ng Kabataan Profiling System. Ako si ' + devName + ', ang developer ng system na ito. Mula sa ' + company + '. Ang ating SK Chairperson ay si Baeta Segura. Malugod naming tinatanggap ang iyong pagrehistro. Mangyaring punan ang form na ito ng tama. Salamat sa iyong kooperasyon!';
+                },
+                langCode: 'fil-PH'
+            },
+            english: {
+                morning: { greeting: 'Good Morning!', icon: '🌅', sub: 'Welcome to Barangay Sibaguan KK Profiling System.' },
+                afternoon: { greeting: 'Good Afternoon!', icon: '☀️', sub: 'Welcome to Barangay Sibaguan KK Profiling System.' },
+                evening: { greeting: 'Good Evening!', icon: '🌙', sub: 'Welcome to Barangay Sibaguan KK Profiling System.' },
+                autoTitle: 'Welcome!',
+                voiceGreeting: function(hour, devName, company) {
+                    let timeGreeting = '';
+                    if (hour >= 5 && hour < 12) timeGreeting = 'Good morning';
+                    else if (hour >= 12 && hour < 18) timeGreeting = 'Good afternoon';
+                    else timeGreeting = 'Good evening';
+                    return timeGreeting + '! Welcome to the Barangay Sibaguan Katipunan ng Kabataan Profiling System. I am ' + devName + ', the developer of this system. From ' + company + '. Our SK Chairperson is Baeta Segura. We warmly welcome your registration. Please fill out this form correctly. Thank you for your cooperation!';
+                },
+                langCode: 'en-US'
+            },
+            karaya: {
+                morning: { greeting: 'Mayad nga Aga!', icon: '🌅', sub: 'Maayong aga! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                afternoon: { greeting: 'Mayad nga Hapon!', icon: '☀️', sub: 'Maayong hapon! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                evening: { greeting: 'Mayad nga Gabii!', icon: '🌙', sub: 'Maayong gab-i! Welcome sa Barangay Sibaguan KK Profiling System.' },
+                autoTitle: 'Welcome!',
+                voiceGreeting: function(hour, devName, company) {
+                    let timeGreeting = '';
+                    if (hour >= 5 && hour < 12) timeGreeting = 'Mayad nga aga';
+                    else if (hour >= 12 && hour < 18) timeGreeting = 'Mayad nga hapon';
+                    else timeGreeting = 'Mayad nga gabii';
+                    return timeGreeting + '! Welcome sa Barangay Sibaguan Katipunan ng Kabataan Profiling System. Ako si ' + devName + ', ang developer sang system nga ini. Halin sa ' + company + '. Ang aton SK Chairperson ay si Baeta Segura. Ginabaton namon ang imo pagrehistro. Palihog pun-an sing matuod ang form. Salamat sa imo kooperasyon!';
+                },
+                langCode: 'fil-PH'
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) btn.classList.add('active');
+            });
+            updateGreeting();
+            initAutoGreeting();
         }
 
-        // ========== REAL-TIME CLOCK ==========
+        // ==================== AUTO GREETING SYSTEM ====================
+        function initAutoGreeting() {
+            const hour = new Date().getHours();
+            let period = 'evening';
+            if (hour >= 5 && hour < 12) period = 'morning';
+            else if (hour >= 12 && hour < 18) period = 'afternoon';
+
+            const data = LANGUAGE_DATA[currentLanguage][period];
+            document.getElementById('autoGreetIcon').textContent = data.icon;
+            document.getElementById('autoGreetTitle').textContent = data.greeting;
+            document.getElementById('autoGreetText').textContent = data.sub;
+
+            setTimeout(function() {
+                if (!autoGreetPlayed) {
+                    playAutoGreeting();
+                }
+            }, 2000);
+        }
+
+        function getBestVoice() {
+            const voices = speechSynthesis.getVoices();
+            const preferredVoices = [
+                'Filipino', 'Tagalog', 'tl-PH', 'en-PH',
+                'Samantha', 'Victoria', 'Karen', 'Moira',
+                'Google US English', 'Microsoft Zira', 'Microsoft Hazel'
+            ];
+
+            for (let name of preferredVoices) {
+                const found = voices.find(v => v.name.includes(name));
+                if (found) return found;
+            }
+
+            const femaleVoice = voices.find(v => 
+                v.name.toLowerCase().includes('female') || 
+                v.name.toLowerCase().includes('woman') ||
+                v.name.toLowerCase().includes('girl')
+            );
+
+            return femaleVoice || voices[0] || null;
+        }
+
+        function playAutoGreeting() {
+            if (!speechSynthesis) {
+                console.log('Speech synthesis not supported');
+                return;
+            }
+
+            speechSynthesis.cancel();
+            const hour = new Date().getHours();
+            const message = LANGUAGE_DATA[currentLanguage].voiceGreeting(hour, CONFIG.DEVELOPER_NAME, CONFIG.COMPANY_NAME);
+
+            const utterance = new SpeechSynthesisUtterance(message);
+            utterance.lang = LANGUAGE_DATA[currentLanguage].langCode;
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            utterance.volume = 1;
+
+            const bestVoice = getBestVoice();
+            if (bestVoice) {
+                utterance.voice = bestVoice;
+                console.log('Using voice:', bestVoice.name);
+            }
+
+            const btn = document.getElementById('autoGreetBtn');
+            const btnText = document.getElementById('greetBtnText');
+
+            utterance.onstart = function() {
+                btn.classList.add('speaking');
+                btnText.textContent = 'Playing...';
+                autoGreetPlayed = true;
+            };
+
+            utterance.onend = function() {
+                btn.classList.remove('speaking');
+                btnText.textContent = 'Play Again';
+            };
+
+            utterance.onerror = function(e) {
+                console.error('Speech error:', e);
+                btn.classList.remove('speaking');
+                btnText.textContent = 'Play Greeting';
+            };
+
+            speechSynthesis.speak(utterance);
+        }
+
+        if (speechSynthesis) {
+            speechSynthesis.onvoiceschanged = function() {
+                console.log('Voices loaded:', speechSynthesis.getVoices().length);
+            };
+            speechSynthesis.getVoices();
+        }
+
         function updateClock() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-PH', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            });
-            const dateString = now.toLocaleDateString('fil-PH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long'
-            });
-
+            const timeString = now.toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            const dateString = now.toLocaleDateString('fil-PH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
             document.getElementById('realtimeClock').textContent = timeString;
             document.getElementById('realtimeDate').textContent = dateString;
         }
 
-        setInterval(updateClock, 1000);
-        updateClock();
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greetingIcon = document.getElementById('greetingIcon');
+            const greetingText = document.getElementById('greetingText');
+            const greetingSub = document.getElementById('greetingSub');
 
-        // ========== SYNC STATUS ==========
-        function showSyncStatus(status, text) {
-            const el = document.getElementById('syncStatus');
-            const txt = document.getElementById('syncText');
+            let period = 'evening';
+            if (hour >= 5 && hour < 12) period = 'morning';
+            else if (hour >= 12 && hour < 18) period = 'afternoon';
 
-            el.className = 'sync-status show ' + status;
-            txt.textContent = text;
-
-            setTimeout(() => {
-                el.classList.remove('show');
-            }, 3000);
+            const data = LANGUAGE_DATA[currentLanguage][period];
+            currentGreeting = data.greeting;
+            greetingIcon.innerHTML = data.icon;
+            greetingText.textContent = data.greeting;
+            greetingSub.textContent = data.sub;
         }
 
-        function updateOnlineStatus() {
-            const badge = document.getElementById('offlineBadge');
-            if (!navigator.onLine) {
-                badge.classList.add('show');
+        function speakGreeting() {
+            if (!speechSynthesis) { showError('Speech synthesis not supported in your browser'); return; }
+            speechSynthesis.cancel();
+            const hour = new Date().getHours();
+            const message = LANGUAGE_DATA[currentLanguage].voiceGreeting(hour, CONFIG.DEVELOPER_NAME, CONFIG.COMPANY_NAME);
+
+            const utterance = new SpeechSynthesisUtterance(message);
+            utterance.lang = LANGUAGE_DATA[currentLanguage].langCode;
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            utterance.volume = 1;
+
+            const bestVoice = getBestVoice();
+            if (bestVoice) utterance.voice = bestVoice;
+
+            const btn = document.getElementById('voiceBtn');
+            btn.classList.add('speaking');
+            utterance.onend = function() { btn.classList.remove('speaking'); };
+            speechSynthesis.speak(utterance);
+        }
+
+        function calculateAge() {
+            const birthDate = document.getElementById('birthDate').value;
+            const ageDisplay = document.getElementById('ageDisplay');
+            const birthDateInput = document.getElementById('birthDate');
+            if (!birthDate) { ageDisplay.textContent = ''; birthDateInput.classList.remove('error', 'success'); return; }
+            const today = new Date(); const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) { age--; }
+            ageDisplay.textContent = age + ' yrs';
+            if (age < CONFIG.MIN_AGE || age > CONFIG.MAX_AGE) {
+                ageDisplay.classList.add('invalid'); ageDisplay.classList.remove('valid');
+                birthDateInput.classList.add('error'); birthDateInput.classList.remove('success');
+                document.getElementById('birthDateError').classList.add('show');
             } else {
-                badge.classList.remove('show');
-                syncPendingData();
+                ageDisplay.classList.add('valid'); ageDisplay.classList.remove('invalid');
+                birthDateInput.classList.add('success'); birthDateInput.classList.remove('error');
+                document.getElementById('birthDateError').classList.remove('show');
             }
         }
 
-        window.addEventListener('online', () => {
-            updateOnlineStatus();
-            showSyncStatus('', 'Back Online! Syncing...');
-        });
-        window.addEventListener('offline', () => {
-            updateOnlineStatus();
-            showSyncStatus('error', 'Offline Mode');
-        });
-
-        // ========== PHOTO UPLOAD HANDLER ==========
-        function handlePhotoUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            if (file.size > 5 * 1024 * 1024) {
-                alert('Ang file ay masyadong malaki! Maximum 5MB lang.');
-                input.value = '';
-                return;
-            }
-
-            if (!file.type.startsWith('image/')) {
-                alert('Image file lang ang pwede!');
-                input.value = '';
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedImageBase64 = e.target.result;
-
-                const preview = document.getElementById('photoPreview');
-                const uploadArea = document.getElementById('photoUploadArea');
-                const uploadContent = document.getElementById('uploadContent');
-                const removeBtn = document.getElementById('removePhotoBtn');
-
-                preview.src = uploadedImageBase64;
-                preview.classList.add('show');
-                uploadArea.classList.add('has-image');
-                uploadContent.style.display = 'none';
-                removeBtn.style.display = 'inline-block';
-            };
-            reader.readAsDataURL(file);
+        function selectRadio(element, name, value) {
+            const radios = document.querySelectorAll('input[name="' + name + '"]');
+            radios.forEach(function(radio) { radio.checked = false; radio.parentElement.classList.remove('selected'); });
+            const radio = element.querySelector('input[type="radio"]');
+            radio.checked = true; element.classList.add('selected');
         }
 
-        function removePhoto(event) {
-            event.stopPropagation();
-
-            uploadedImageBase64 = '';
-            document.getElementById('idPicture').value = '';
-
-            const preview = document.getElementById('photoPreview');
-            const uploadArea = document.getElementById('photoUploadArea');
-            const uploadContent = document.getElementById('uploadContent');
-            const removeBtn = document.getElementById('removePhotoBtn');
-
-            preview.src = '';
-            preview.classList.remove('show');
-            uploadArea.classList.remove('has-image');
-            uploadContent.style.display = 'block';
-            removeBtn.style.display = 'none';
+        function formatPhone(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            input.value = value;
         }
 
-        // ========== EMAILJS SEND CONFIRMATION EMAIL ==========
-        async function sendConfirmationEmail(formData) {
+        async function refreshStats() {
+            const btn = document.getElementById('refreshStatsBtn');
+            btn.classList.add('spinning');
             try {
-                const templateParams = {
-                    to_name: formData.fullName,
-                    from_name: "Barangay Sibaguan KK Profiling",
-                    message: "Maraming salamat sa iyong pagsali sa Katipunan ng Kabataan (KK) Profiling! Ang iyong application ay kasalukuyang under review. Makakatanggap ka ng update sa status ng iyong application.",
-                    reply_to: formData.email,
-                    to_email: formData.email,
-                    member_id: formData.id,
-                    address: "Barangay Sibaguan",
-                    purok: formData.purok,
-                    date: formData.formattedDate,
-                    contact: formData.contactNumber,
-                    education: formData.education,
-                    employment: formData.employment,
-                    status_class: "status-pending",
-                    status_icon: "⏳",
-                    status_text: "PENDING REVIEW"
-                };
-
-                await emailjs.send(
-                    "service_djne9ym",
-                    "template_q5v9o8w",
-                    templateParams
-                );
-
-                console.log('Confirmation email sent to:', formData.email);
-                return true;
-            } catch (error) {
-                console.error('Email sending failed:', error);
-                return false;
+                await updateStats(true);
+                showSyncStatus('', 'Stats refreshed!');
+            } catch (e) {
+                console.error('Refresh failed:', e);
+                showSyncStatus('error', 'Refresh failed - using local data');
+            } finally {
+                setTimeout(() => btn.classList.remove('spinning'), 500);
             }
         }
 
-        // ========== SYNC PENDING DATA ==========
-        async function syncPendingData() {
+        async function updateStats(forceRefresh = false) {
+            try {
+                const sheetData = await fetchStatsFromGoogleSheets(forceRefresh);
+                const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+
+                // FIX #3: Properly merge data - avoid duplicates by checking ID
+                const sheetIds = new Set();
+                const allData = [];
+
+                if (Array.isArray(sheetData)) {
+                    sheetData.forEach(function(item) {
+                        if (item && item.id) {
+                            sheetIds.add(item.id);
+                            allData.push(item);
+                        }
+                    });
+                }
+
+                if (Array.isArray(localData)) {
+                    localData.forEach(function(item) {
+                        if (item && item.id && !sheetIds.has(item.id)) {
+                            allData.push(item);
+                        }
+                    });
+                }
+
+                calculateAndDisplayStats(allData);
+                console.log('Stats updated: Sheet=' + sheetData.length + ', Total=' + allData.length);
+            } catch (error) {
+                console.error('Error updating stats:', error);
+                const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+                calculateAndDisplayStats(localData);
+            }
+        }
+
+        async function fetchStatsFromGoogleSheets(forceRefresh = false) {
+            if (!forceRefresh) {
+                const cachedTime = localStorage.getItem(STATS_CACHE_TIME_KEY);
+                const cachedData = localStorage.getItem(STATS_CACHE_KEY);
+                if (cachedTime && cachedData) {
+                    const age = Date.now() - parseInt(cachedTime);
+                    if (age < STATS_CACHE_DURATION) {
+                        console.log('Using cached stats data');
+                        return JSON.parse(cachedData);
+                    }
+                }
+            }
+
+            try {
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=getStats&_=' + Date.now(), {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const result = await response.json();
+                if (result.success) {
+                    const sheetData = result.data || [];
+                    localStorage.setItem(STATS_CACHE_KEY, JSON.stringify(sheetData));
+                    localStorage.setItem(STATS_CACHE_TIME_KEY, Date.now().toString());
+                    console.log('Fetched ' + sheetData.length + ' records from Google Sheets');
+                    return sheetData;
+                }
+                throw new Error('Invalid response format');
+            } catch (error) {
+                console.log('Google Sheets fetch failed:', error);
+                return [];
+            }
+        }
+
+        function calculateAndDisplayStats(data) {
+            if (!Array.isArray(data)) data = [];
+            document.getElementById('totalCount').textContent = data.length;
+            const today = new Date().toDateString();
+            const todayCount = data.filter(function(s) {
+                if (!s.timestamp) return false;
+                return new Date(s.timestamp).toDateString() === today;
+            }).length;
+            document.getElementById('todayCount').textContent = todayCount;
+            const studentCount = data.filter(function(s) {
+                return s.employment === 'Student' || s.employment === 'Student (Working)';
+            }).length;
+            document.getElementById('studentCount').textContent = studentCount;
+            const employedCount = data.filter(function(s) {
+                return s.employment === 'Employed' || s.employment === 'Self-employed';
+            }).length;
+            document.getElementById('employedCount').textContent = employedCount;
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['lastName','firstName','birthDate','gender','civilStatus','purok','contactNumber','address','education','employment','emergencyName','emergencyContact','emergencyRelation'];
+            requiredFields.forEach(function(field) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) { element.classList.add('error'); isValid = false; }
+                else { element.classList.remove('error'); }
+            });
+
+            const birthDate = document.getElementById('birthDate').value;
+            if (birthDate) {
+                const today = new Date(); const birth = new Date(birthDate);
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) { age--; }
+                if (age < CONFIG.MIN_AGE || age > CONFIG.MAX_AGE) {
+                    document.getElementById('birthDate').classList.add('error');
+                    document.getElementById('birthDateError').classList.add('show');
+                    isValid = false;
+                }
+            }
+
+            const contact = document.getElementById('contactNumber').value;
+            if (contact && !/^09\d{9}$/.test(contact)) {
+                document.getElementById('contactNumber').classList.add('error');
+                document.getElementById('contactError').classList.add('show'); isValid = false;
+            } else { document.getElementById('contactError').classList.remove('show'); }
+
+            const emergencyContact = document.getElementById('emergencyContact').value;
+            if (emergencyContact && !/^09\d{9}$/.test(emergencyContact)) {
+                document.getElementById('emergencyContact').classList.add('error');
+                document.getElementById('emergencyContactError').classList.add('show'); isValid = false;
+            } else { document.getElementById('emergencyContactError').classList.remove('show'); }
+
+            const email = document.getElementById('email').value;
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('email').classList.add('error');
+                document.getElementById('emailError').classList.add('show'); isValid = false;
+            } else { document.getElementById('emailError').classList.remove('show'); }
+
+            const kkBefore = document.querySelector('input[name="kkBefore"]:checked');
+            if (!kkBefore) { isValid = false; }
+
+            return isValid;
+        }
+
+        // FIX #4: COMPLETELY REWRITTEN handleSubmit - fixes the "Registration Failed" error
+        async function handleSubmit(event) {
+            event.preventDefault();
+            if (isSubmitting) return;
+
+            // Check if already submitted from this device
+            const deviceSubmitted = localStorage.getItem(DEVICE_SUBMITTED_KEY);
+            if (deviceSubmitted) {
+                showModal('alreadySubmittedModal');
+                return;
+            }
+
+            if (!validateForm()) { 
+                showError('Please fill in all required fields correctly.'); 
+                return; 
+            }
+
+            isSubmitting = true;
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            submitBtn.classList.add('loading'); 
+            submitBtn.disabled = true;
+            loadingOverlay.classList.add('active');
+
+            try {
+                const formData = collectFormData();
+                const age = formData.age;
+
+                // Check age validation
+                if (age > CONFIG.MAX_AGE || age < CONFIG.MIN_AGE) {
+                    submitBtn.classList.remove('loading'); 
+                    submitBtn.disabled = false;
+                    loadingOverlay.classList.remove('active');
+                    isSubmitting = false;
+                    showModal('rejectModal');
+                    return;
+                }
+
+                // FIX #5: Check for duplicates in localStorage first (more reliable)
+                let isDuplicate = false;
+                const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+
+                // Check by exact name + birthdate match
+                isDuplicate = localData.some(function(sub) {
+                    return sub.firstName && sub.lastName && sub.birthDate &&
+                           sub.firstName.toLowerCase().trim() === formData.firstName.toLowerCase().trim() &&
+                           sub.lastName.toLowerCase().trim() === formData.lastName.toLowerCase().trim() &&
+                           sub.birthDate === formData.birthDate;
+                });
+
+                // Also try Google Sheets duplicate check if online
+                if (!isDuplicate) {
+                    try {
+                        const checkResponse = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=checkDuplicate&firstName=' + encodeURIComponent(formData.firstName) + '&lastName=' + encodeURIComponent(formData.lastName) + '&birthDate=' + encodeURIComponent(formData.birthDate) + '&_=' + Date.now(), {
+                            method: 'GET',
+                            redirect: 'follow'
+                        });
+                        if (checkResponse.ok) {
+                            const checkResult = await checkResponse.json();
+                            if (checkResult.isDuplicate) isDuplicate = true;
+                        }
+                    } catch (e) { 
+                        console.log('Duplicate check via Google Sheets failed, using local check only:', e); 
+                    }
+                }
+
+                if (isDuplicate) {
+                    submitBtn.classList.remove('loading'); 
+                    submitBtn.disabled = false;
+                    loadingOverlay.classList.remove('active');
+                    isSubmitting = false;
+                    showModal('duplicateModal');
+                    return;
+                }
+
+                // FIX #6: Save to localStorage FIRST (always works offline)
+                submissions.push(formData);
+                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
+
+                // Mark device as submitted (ONE TIME ONLY)
+                localStorage.setItem(DEVICE_SUBMITTED_KEY, 'true');
+
+                // Try to save to Google Sheets (best effort - won't fail if offline)
+                let googleSuccess = false;
+                try {
+                    const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        redirect: 'follow',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(formData)
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.success) {
+                            googleSuccess = true;
+                            // Mark as synced in localStorage
+                            const idx = submissions.findIndex(s => s.id === formData.id);
+                            if (idx >= 0) {
+                                submissions[idx].synced = true;
+                                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
+                            }
+                        }
+                    }
+                } catch (e) { 
+                    console.log('Google Sheets submission failed, data saved locally:', e); 
+                }
+
+                // Try to send email notification (best effort)
+                try {
+                    if (typeof emailjs !== 'undefined' && formData.email) {
+                        await emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, {
+                            to_email: formData.email, 
+                            to_name: formData.fullName,
+                            from_name: 'Barangay Sibaguan KK',
+                            message: 'Thank you for registering in the KK Profiling System!'
+                        });
+                    }
+                } catch (e) { 
+                    console.log('Email sending failed:', e); 
+                }
+
+                // Show success
+                document.getElementById('successName').textContent = formData.firstName + ' ' + formData.lastName;
+                showModal('successModal');
+                updateStats();
+
+                // If not synced to Google, queue for later sync
+                if (!googleSuccess) { 
+                    queueForSync(formData);
+                }
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                showError('An error occurred: ' + error.message + '. Please try again.');
+            } finally {
+                isSubmitting = false;
+                submitBtn.classList.remove('loading'); 
+                submitBtn.disabled = false;
+                loadingOverlay.classList.remove('active');
+            }
+        }
+
+        function collectFormData() {
+            const skills = [];
+            for (let i = 1; i <= 8; i++) {
+                const checkbox = document.getElementById('skill' + i);
+                if (checkbox && checkbox.checked) skills.push(checkbox.value);
+            }
+            const programs = [];
+            for (let i = 1; i <= 6; i++) {
+                const checkbox = document.getElementById('prog' + i);
+                if (checkbox && checkbox.checked) programs.push(checkbox.value);
+            }
+            const kkBefore = document.querySelector('input[name="kkBefore"]:checked');
+            const now = new Date();
+            const id = 'KK-' + now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const middleName = document.getElementById('middleName').value.trim();
+            const suffix = document.getElementById('suffix').value;
+
+            let fullName = firstName + ' ';
+            if (middleName) fullName += middleName + ' ';
+            fullName += lastName; 
+            if (suffix) fullName += ' ' + suffix;
+
+            const birthDate = document.getElementById('birthDate').value;
+            const birth = new Date(birthDate); 
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+
+            return {
+                id: id, 
+                timestamp: now.toISOString(),
+                formattedDate: now.toLocaleString('fil-PH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                fullName: fullName, 
+                lastName: lastName, 
+                firstName: firstName, 
+                middleName: middleName, 
+                suffix: suffix,
+                age: age, 
+                birthDate: birthDate,
+                gender: document.getElementById('gender').value,
+                civilStatus: document.getElementById('civilStatus').value,
+                purok: document.getElementById('purok').value,
+                contactNumber: document.getElementById('contactNumber').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                education: document.getElementById('education').value,
+                employment: document.getElementById('employment').value,
+                skills: skills, 
+                kkBefore: kkBefore ? kkBefore.value : '',
+                programs: programs,
+                emergencyName: document.getElementById('emergencyName').value,
+                emergencyContact: document.getElementById('emergencyContact').value,
+                emergencyRelation: document.getElementById('emergencyRelation').value,
+                comments: document.getElementById('comments').value,
+                status: 'Pending Review',
+                synced: false
+            };
+        }
+
+        // FIX #7: Queue data for sync when back online
+        function queueForSync(data) {
+            try {
+                const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
+                // Check if already in pending queue
+                const exists = pending.some(p => p.id === data.id);
+                if (!exists) {
+                    pending.push(data);
+                    localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(pending));
+                }
+            } catch (e) {
+                console.error('Error queueing for sync:', e);
+            }
+        }
+
+        async function syncToGoogleSheets() {
             const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
             if (pending.length === 0) return;
 
@@ -1465,19 +1268,36 @@
             showSyncStatus('syncing', 'Syncing ' + pending.length + ' records...');
 
             const successful = [];
-
-            for (const data of pending) {
+            for (let i = 0; i < pending.length; i++) {
                 try {
-                    const result = await sendToGoogleScript(data);
-                    if (result && result.success) {
-                        successful.push(data);
+                    const data = pending[i];
+                    const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        redirect: 'follow',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(data)
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.success) {
+                            successful.push(data);
+                            // Mark as synced in main submissions
+                            const allSubs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+                            const idx = allSubs.findIndex(s => s.id === data.id);
+                            if (idx >= 0) {
+                                allSubs[idx].synced = true;
+                                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(allSubs));
+                                submissions = allSubs;
+                            }
+                        }
                     }
-                } catch (e) {
-                    console.error('Sync failed for:', data.fullName, e);
+                } catch (e) { 
+                    console.log('Sync failed for item:', i, e); 
                 }
             }
 
-            const remaining = pending.filter(p => !successful.includes(p));
+            // Remove successful ones from pending
+            const remaining = pending.filter(p => !successful.some(s => s.id === p.id));
             localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(remaining));
 
             if (remaining.length === 0) {
@@ -1487,585 +1307,299 @@
             }
         }
 
-        // ========== SEND TO GOOGLE SCRIPT (FIXED) ==========
-        async function sendToGoogleScript(data) {
+        async function checkConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            const dotEl = document.getElementById('statusDot');
+            const textEl = document.getElementById('statusText');
             try {
-                // Method 1: Try JSON POST
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=test', {
+                    method: 'GET',
+                    redirect: 'follow'
                 });
-
-                let result;
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    result = await response.json();
+                if (response.ok) {
+                    statusEl.classList.remove('disconnected'); 
+                    statusEl.classList.add('connected');
+                    dotEl.classList.remove('disconnected'); 
+                    dotEl.classList.add('connected');
+                    textEl.textContent = 'Google Sheets: Connected';
+                    syncToGoogleSheets();
                 } else {
-                    result = { success: true, message: 'Data sent (response opaque due to CORS)' };
+                    throw new Error('HTTP ' + response.status);
                 }
-
-                console.log('Google Script response:', result);
-                return result;
-
-            } catch (fetchError) {
-                console.log('Fetch error, trying alternative method:', fetchError);
-
-                // Method 2: Try with no-cors as fallback
-                try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
-                    return { success: true, message: 'Data sent via no-cors mode' };
-                } catch (e) {
-                    console.error('Alternative method also failed:', e);
-                    throw e;
-                }
+            } catch (e) {
+                statusEl.classList.remove('connected'); 
+                statusEl.classList.add('disconnected');
+                dotEl.classList.remove('connected'); 
+                dotEl.classList.add('disconnected');
+                textEl.textContent = 'Google Sheets: Offline Mode';
             }
         }
 
-        // ========== AGE CALCULATION ==========
-        document.getElementById('birthDate').addEventListener('change', function() {
-            const birthDate = new Date(this.value);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
+        async function testConnection() {
+            try {
+                const testUrl = CONFIG.GOOGLE_SCRIPT_URL + '?action=test&_=' + Date.now();
+                const response = await fetch(testUrl, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        isGoogleScriptConnected = true;
+                        console.log('Google Script connection successful');
+                        return true;
+                    }
+                }
+                throw new Error('Connection test failed');
+            } catch (error) {
+                console.log('Google Script connection test failed:', error);
+                isGoogleScriptConnected = false; 
+                return false;
             }
-            document.getElementById('age').value = age;
-            const ageDisplay = document.getElementById('ageDisplay');
-            const ageError = document.getElementById('ageError');
-            if (age >= MIN_AGE && age <= MAX_AGE) {
-                ageDisplay.textContent = 'Edad: ' + age + ' years old - KWALIPIKADO';
-                ageDisplay.className = 'age-display show';
-                ageError.classList.remove('show');
+        }
+
+        function viewSubmissions() {
+            const subs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+            const listEl = document.getElementById('submissionsList');
+            if (subs.length === 0) {
+                listEl.innerHTML = '<p style="text-align:center;color:var(--gray);">No submissions yet.</p>';
             } else {
-                ageDisplay.textContent = 'Edad: ' + age + ' years old - HINDI KWALIPIKADO (Dapat 15-30 lang)';
-                ageDisplay.className = 'age-display show rejected';
-                ageError.classList.add('show');
+                let html = '<table style="width:100%;border-collapse:collapse;">';
+                html += '<thead><tr style="background:var(--primary);color:white;">';
+                html += '<th style="padding:10px;text-align:left;">Name</th>';
+                html += '<th style="padding:10px;text-align:left;">Age</th>';
+                html += '<th style="padding:10px;text-align:left;">Purok</th>';
+                html += '<th style="padding:10px;text-align:left;">Date</th>';
+                html += '</tr></thead><tbody>';
+                subs.slice().reverse().forEach(function(sub, index) {
+                    const bg = index % 2 === 0 ? '#f8f9fa' : 'white';
+                    html += '<tr style="background:' + bg + ';border-bottom:1px solid #dee2e6;">';
+                    html += '<td style="padding:10px;">' + (sub.fullName || 'N/A') + '</td>';
+                    html += '<td style="padding:10px;">' + (sub.age || 'N/A') + '</td>';
+                    html += '<td style="padding:10px;">' + (sub.purok || 'N/A') + '</td>';
+                    html += '<td style="padding:10px;">' + (sub.formattedDate || 'N/A') + '</td>';
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                listEl.innerHTML = html;
             }
+            showModal('submissionsModal');
+        }
+
+        // FIX #8: Proper exportData function with actual CSV content
+        function exportData() {
+            const subs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
+            if (subs.length === 0) { showError('No data to export.'); return; }
+
+            let csv = 'ID,Timestamp,Full Name,Last Name,First Name,Middle Name,Age,Birth Date,Gender,Civil Status,Purok,Contact Number,Email,Address,Education,Employment,Skills,KK Before,Programs,Emergency Name,Emergency Contact,Emergency Relation,Comments,Status\n';
+
+            subs.forEach(function(sub) {
+                csv += '"' + (sub.id || '') + '",';
+                csv += '"' + (sub.timestamp || '') + '",';
+                csv += '"' + (sub.fullName || '') + '",';
+                csv += '"' + (sub.lastName || '') + '",';
+                csv += '"' + (sub.firstName || '') + '",';
+                csv += '"' + (sub.middleName || '') + '",';
+                csv += '"' + (sub.age || '') + '",';
+                csv += '"' + (sub.birthDate || '') + '",';
+                csv += '"' + (sub.gender || '') + '",';
+                csv += '"' + (sub.civilStatus || '') + '",';
+                csv += '"' + (sub.purok || '') + '",';
+                csv += '"' + (sub.contactNumber || '') + '",';
+                csv += '"' + (sub.email || '') + '",';
+                csv += '"' + (sub.address || '') + '",';
+                csv += '"' + (sub.education || '') + '",';
+                csv += '"' + (sub.employment || '') + '",';
+                csv += '"' + (sub.skills ? sub.skills.join('; ') : '') + '",';
+                csv += '"' + (sub.kkBefore || '') + '",';
+                csv += '"' + (sub.programs ? sub.programs.join('; ') : '') + '",';
+                csv += '"' + (sub.emergencyName || '') + '",';
+                csv += '"' + (sub.emergencyContact || '') + '",';
+                csv += '"' + (sub.emergencyRelation || '') + '",';
+                csv += '"' + (sub.comments || '') + '",';
+                csv += '"' + (sub.status || '') + '"\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'Sibaguan_KK_Data_' + new Date().toISOString().split('T')[0] + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link); 
+            link.click(); 
+            document.body.removeChild(link);
+        }
+
+        function handlePhotoUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) { 
+                alert('Ang file ay masyadong malaki! Maximum 5MB lang.'); 
+                input.value = ''; 
+                return; 
+            }
+            if (!file.type.startsWith('image/')) { 
+                alert('Image file lang ang pwede!'); 
+                input.value = ''; 
+                return; 
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageBase64 = e.target.result;
+                const preview = document.getElementById('photoPreview');
+                const uploadArea = document.getElementById('photoUploadArea');
+                const uploadContent = document.getElementById('uploadContent');
+                const removeBtn = document.getElementById('removePhotoBtn');
+                preview.src = uploadedImageBase64; 
+                preview.classList.add('show');
+                uploadArea.classList.add('has-image'); 
+                uploadContent.style.display = 'none';
+                removeBtn.style.display = 'inline-block';
+            };
+            reader.onerror = function() {
+                alert('Error reading file. Please try again.');
+                input.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto(event) {
+            event.stopPropagation();
+            uploadedImageBase64 = ''; 
+            document.getElementById('idPicture').value = '';
+            const preview = document.getElementById('photoPreview');
+            const uploadArea = document.getElementById('photoUploadArea');
+            const uploadContent = document.getElementById('uploadContent');
+            const removeBtn = document.getElementById('removePhotoBtn');
+            preview.src = ''; 
+            preview.classList.remove('show');
+            uploadArea.classList.remove('has-image'); 
+            uploadContent.style.display = 'block';
+            removeBtn.style.display = 'none';
+        }
+
+        function showSyncStatus(status, text) {
+            const el = document.getElementById('syncStatus');
+            const txt = document.getElementById('syncText');
+            el.className = 'sync-status show ' + status;
+            txt.textContent = text;
+            setTimeout(() => { el.classList.remove('show'); }, 3000);
+        }
+
+        function updateOnlineStatus() {
+            const badge = document.getElementById('offlineBadge');
+            if (!navigator.onLine) { 
+                badge.classList.add('show'); 
+            } else { 
+                badge.classList.remove('show'); 
+                syncPendingData(); 
+            }
+        }
+
+        window.addEventListener('online', () => { 
+            updateOnlineStatus(); 
+            showSyncStatus('', 'Back Online! Syncing...'); 
+        });
+        window.addEventListener('offline', () => { 
+            updateOnlineStatus(); 
+            showSyncStatus('error', 'Offline Mode'); 
         });
 
-        // ========== RADIO BUTTON SELECTION ==========
-        document.querySelectorAll('.radio-item input[type="radio"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                const name = this.name;
-                document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
-                    r.parentElement.classList.remove('selected');
+        async function syncPendingData() {
+            const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
+            if (pending.length === 0) return;
+            console.log('Syncing ' + pending.length + ' pending records...');
+            showSyncStatus('syncing', 'Syncing ' + pending.length + ' records...');
+            const successful = [];
+            for (const data of pending) {
+                try {
+                    const result = await sendToGoogleScript(data);
+                    if (result && result.success) successful.push(data);
+                } catch (e) { 
+                    console.error('Sync failed for:', data.fullName, e); 
+                }
+            }
+            const remaining = pending.filter(p => !successful.some(s => s.id === p.id));
+            localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(remaining));
+            if (remaining.length === 0) showSyncStatus('', 'All data synced to Google Sheets!');
+            else showSyncStatus('error', remaining.length + ' still pending');
+        }
+
+        function sendToGoogleScript(data) {
+            return new Promise((resolve, reject) => {
+                fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    redirect: 'follow',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
+                    return response.json();
+                }).then(result => { 
+                    console.log('Google Sheets response:', result); 
+                    resolve(result); 
+                })
+                .catch(error => { 
+                    console.error('Failed to send to Google Sheets:', error); 
+                    reject(error); 
                 });
-                this.parentElement.classList.add('selected');
+            });
+        }
+
+        function showModal(modalId) { 
+            document.getElementById(modalId).classList.add('show'); 
+        }
+
+        function closeModal(modalId) { 
+            document.getElementById(modalId).classList.remove('show'); 
+        }
+
+        function showError(message) { 
+            document.getElementById('errorMessage').textContent = message; 
+            showModal('errorModal'); 
+        }
+
+        function showDuplicateModal() { 
+            showModal('duplicateModal'); 
+        }
+
+        function showHelp() { 
+            alert('Barangay Sibaguan KK Profiling System\n\n1. Fill out all required fields\n2. Age must be between 13-30 years old\n3. Contact number must be 11 digits starting with 09\n4. Click Submit to save your data\n5. Data will be synced to Google Sheets when online\n\nFor support, contact: ronielnyke.dev@gmail.com'); 
+        }
+
+        function resetForm() {
+            document.getElementById('kkForm').reset();
+            document.querySelectorAll('input, select, textarea').forEach(function(el) { 
+                el.classList.remove('error', 'success'); 
+            });
+            document.querySelectorAll('.error-message').forEach(function(el) { 
+                el.classList.remove('show'); 
+            });
+            document.querySelectorAll('.radio-item').forEach(function(el) { 
+                el.classList.remove('selected'); 
+            });
+            document.getElementById('ageDisplay').textContent = '';
+            document.getElementById('ageDisplay').classList.remove('valid', 'invalid');
+            removePhoto({ stopPropagation: () => {} });
+            uploadedImageBase64 = '';
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+            overlay.addEventListener('click', function(e) { 
+                if (e.target === overlay) overlay.classList.remove('show'); 
             });
         });
 
-        // ========== CONTACT NUMBER FORMATTING ==========
-        document.getElementById('contactNumber').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            e.target.value = value;
-        });
-
-        document.getElementById('emergencyContact').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            e.target.value = value;
-        });
-
-        // ========== FORM SUBMISSION (FIXED) ==========
-        document.getElementById('kkForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const submitBtn = document.getElementById('submitBtn');
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            submitBtn.disabled = true;
-            submitBtn.classList.add('loading');
-            loadingOverlay.classList.add('active');
-
-            const age = parseInt(document.getElementById('age').value);
-
-            if (age > MAX_AGE || age < MIN_AGE) {
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-                loadingOverlay.classList.remove('active');
-                document.getElementById('rejectModal').classList.add('active');
-                return;
-            }
-
-            const now = new Date();
-            const formData = {
-                action: 'submit',
-                timestamp: now.toISOString(),
-                formattedDate: now.toLocaleDateString('fil-PH', {
-                    year: 'numeric', month: 'long', day: 'numeric',
-                    hour: '2-digit', minute: '2-digit', second: '2-digit'
-                }),
-                lastName: document.getElementById('lastName').value.trim(),
-                firstName: document.getElementById('firstName').value.trim(),
-                middleName: document.getElementById('middleName').value.trim(),
-                fullName: document.getElementById('firstName').value.trim() + ' ' +
-                         (document.getElementById('middleName').value.trim() ? document.getElementById('middleName').value.trim() + ' ' : '') +
-                         document.getElementById('lastName').value.trim(),
-                age: age,
-                birthDate: document.getElementById('birthDate').value,
-                gender: document.querySelector('input[name="gender"]:checked') ? document.querySelector('input[name="gender"]:checked').value : '',
-                civilStatus: document.getElementById('civilStatus').value,
-                contactNumber: document.getElementById('contactNumber').value,
-                email: document.getElementById('email').value.trim(),
-                purok: document.getElementById('purok').value,
-                education: document.getElementById('education').value,
-                employment: document.getElementById('employment').value,
-                skills: Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value),
-                kkBefore: document.querySelector('input[name="kkBefore"]:checked') ? document.querySelector('input[name="kkBefore"]:checked').value : '',
-                programs: Array.from(document.querySelectorAll('input[name="programs"]:checked')).map(cb => cb.value),
-                emergencyName: document.getElementById('emergencyName').value.trim(),
-                emergencyContact: document.getElementById('emergencyContact').value,
-                emergencyRelation: document.getElementById('emergencyRelation').value.trim(),
-                idPicture: uploadedImageBase64,
-                comments: document.getElementById('comments').value.trim(),
-                status: 'Pending Review'
-            };
-
-            try {
-                // 1. Save to localStorage for immediate admin access
-                const existingData = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
-                formData.id = Date.now().toString();
-                existingData.push(formData);
-                localStorage.setItem(DB_NAME, JSON.stringify(existingData));
-                localStorage.setItem('kk_last_update', Date.now().toString());
-
-                // 2. Notify admin via BroadcastChannel
-                try {
-                    const bc = new BroadcastChannel('sibaguan_kk_sync');
-                    bc.postMessage({ type: 'new_submission', data: formData });
-                } catch(e) { console.log('BroadcastChannel not supported'); }
-
-                // 3. Send to Google Sheets (FIXED)
-                let googleSuccess = false;
-                if (navigator.onLine) {
-                    showSyncStatus('syncing', 'Saving to Google Sheets...');
-                    try {
-                        const result = await sendToGoogleScript(formData);
-                        if (result && result.success) {
-                            googleSuccess = true;
-                            console.log('Data saved to Google Sheets:', result);
-                            showSyncStatus('', 'Saved to Google Sheets!');
-                        }
-                    } catch (googleError) {
-                        console.log('Google Sheets save failed, queued for later:', googleError);
-                    }
-                }
-
-                // If Google Sheets failed or offline, queue for later
-                if (!googleSuccess) {
-                    const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
-                    pending.push(formData);
-                    localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(pending));
-                    console.log('Data queued for later sync');
-                    showSyncStatus('error', 'Saved locally - will sync to Google Sheets later');
-                }
-
-                // 4. Send confirmation email via EmailJS
-                await sendConfirmationEmail(formData);
-
-                document.getElementById('sentEmail').textContent = formData.email;
-                document.getElementById('successModal').classList.add('active');
-
-                // Reset form
-                document.getElementById('kkForm').reset();
-                removePhoto({ stopPropagation: () => {} });
-                document.getElementById('ageDisplay').classList.remove('show');
-                document.querySelectorAll('.radio-item').forEach(item => item.classList.remove('selected'));
-                uploadedImageBase64 = '';
-
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('sentEmail').textContent = formData.email;
-                document.getElementById('successModal').classList.add('active');
-            }
-
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-            loadingOverlay.classList.remove('active');
-        });
-
-        function closeModal() {
-            document.getElementById('successModal').classList.remove('active');
-        }
-
-        function closeRejectModal() {
-            document.getElementById('rejectModal').classList.remove('active');
-        }
-
-        document.getElementById('successModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.getElementById('rejectModal').addEventListener('click', function(e) {
-            if (e.target === this) closeRejectModal();
-        });
-
-        // Initialize
-        updateOnlineStatus();
-
-        // Test connection on load
-        testConnection();
-
         console.log('Barangay Sibaguan KK Profiling loaded');
+        console.log('Developer: ' + CONFIG.DEVELOPER_NAME);
+        console.log('Company: ' + CONFIG.COMPANY_NAME);
         console.log('Database: Google Sheets + localStorage');
         console.log('Offline sync: Enabled');
         console.log('Real-time clock: Active');
         console.log('ID Picture upload: Enabled');
-    </script>
-
-    <!-- ========== VOICE & SOUND EFFECTS (ENHANCED) ========== -->
-    <script>
-        // ========== ENHANCED AUDIO ENGINE ==========
-        const AudioEngine = {
-            ctx: null,
-            initialized: false,
-
-            init() {
-                if (this.initialized) return;
-                try {
-                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    this.initialized = true;
-                } catch(e) {
-                    console.log('Web Audio API not supported');
-                }
-            },
-
-            playTone(freq, duration, type, volume, fadeIn) {
-                if (!this.ctx) return;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = type || 'sine';
-                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-                gain.gain.setValueAtTime(0, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(volume || 0.15, this.ctx.currentTime + (fadeIn || 0.02));
-                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + duration);
-            },
-
-            playChord(freqs, duration, volume, stagger) {
-                freqs.forEach((f, i) => {
-                    setTimeout(() => this.playTone(f, duration, 'sine', volume || 0.12), i * (stagger || 0.08) * 1000);
-                });
-            },
-
-            playArpeggio(freqs, duration, volume) {
-                freqs.forEach((f, i) => {
-                    setTimeout(() => this.playTone(f, duration * 0.6, 'sine', volume || 0.1, 0.01), i * 120);
-                });
-            },
-
-            playWelcomeMusic() {
-                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((f, i) => {
-                    setTimeout(() => {
-                        this.playTone(f, 1.5, 'sine', 0.08, 0.05);
-                        setTimeout(() => this.playTone(f * 2, 1.0, 'sine', 0.03), 50);
-                    }, i * 180);
-                });
-                setTimeout(() => this.playTone(130.81, 2.0, 'triangle', 0.06, 0.1), 200);
-            },
-
-            playSuccessFanfare() {
-                this.playChord([523.25, 659.25, 783.99, 1046.50], 1.5, 0.12, 0.06);
-                setTimeout(() => {
-                    this.playChord([659.25, 783.99, 1046.50, 1318.51], 1.2, 0.10, 0.05);
-                }, 400);
-                setTimeout(() => {
-                    [1567.98, 1975.53, 2349.32].forEach((f, i) => {
-                        setTimeout(() => this.playTone(f, 0.6, 'sine', 0.06), i * 80);
-                    });
-                }, 600);
-                setTimeout(() => this.playTone(261.63, 2.0, 'triangle', 0.08), 300);
-            },
-
-            playRejectionSound() {
-                this.playTone(440, 0.4, 'sine', 0.08);
-                setTimeout(() => this.playTone(392, 0.5, 'sine', 0.07), 200);
-                setTimeout(() => this.playTone(349.23, 0.6, 'sine', 0.06), 450);
-                setTimeout(() => this.playTone(329.63, 0.8, 'sine', 0.05), 700);
-            },
-
-            playClick() {
-                this.playTone(880, 0.06, 'sine', 0.04, 0.005);
-            },
-
-            playHover() {
-                this.playTone(1320, 0.04, 'sine', 0.02, 0.003);
-            },
-
-            playType() {
-                const freq = 600 + Math.random() * 300;
-                this.playTone(freq, 0.03, 'sine', 0.015, 0.002);
-            },
-
-            playFocus() {
-                this.playTone(990, 0.08, 'sine', 0.04, 0.01);
-            },
-
-            playSubmit() {
-                this.playArpeggio([440, 554.37, 659.25, 880], 0.3, 0.08);
-            },
-
-            playGreetingChime() {
-                this.playTone(1046.50, 0.8, 'sine', 0.08, 0.03);
-                setTimeout(() => this.playTone(1318.51, 0.6, 'sine', 0.06), 150);
-                setTimeout(() => this.playTone(1567.98, 0.7, 'sine', 0.07), 300);
-                setTimeout(() => this.playTone(2093.00, 1.0, 'sine', 0.05), 450);
-            }
-        };
-
-        // ========== ENHANCED VOICE ENGINE ==========
-        const VoiceEngine = {
-            synth: window.speechSynthesis,
-            voices: [],
-            preferredVoice: null,
-            initialized: false,
-
-            init() {
-                if (this.initialized) return;
-                this.voices = this.synth.getVoices();
-
-                const voicePriority = [
-                    'Microsoft Michelle Online (Natural)',
-                    'Microsoft Sonia Online (Natural)',
-                    'Microsoft Emma Online (Natural)',
-                    'Microsoft Jenny Online (Natural)',
-                    'Microsoft Ana Online (Natural)',
-                    'Google US English',
-                    'Google UK English Female',
-                    'Google UK English Male',
-                    'Samantha',
-                    'Victoria',
-                    'Karen',
-                    'Samsung English (United States)',
-                    'English United States',
-                    'English',
-                    'en-US',
-                    'en-GB'
-                ];
-
-                for (const voiceName of voicePriority) {
-                    const found = this.voices.find(v =>
-                        v.name.includes(voiceName) || v.name === voiceName
-                    );
-                    if (found) {
-                        this.preferredVoice = found;
-                        console.log('Voice selected:', found.name);
-                        break;
-                    }
-                }
-
-                if (!this.preferredVoice) {
-                    this.preferredVoice = this.voices.find(v =>
-                        v.lang.startsWith('en') &&
-                        (v.name.includes('Female') || v.name.includes('Natural'))
-                    ) || this.voices.find(v => v.lang.startsWith('en')) || this.voices[0];
-                }
-
-                this.initialized = true;
-            },
-
-            speak(text, rate, pitch, volume) {
-                if (!this.synth) return Promise.resolve(false);
-                this.synth.cancel();
-
-                return new Promise((resolve) => {
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    if (this.preferredVoice) utterance.voice = this.preferredVoice;
-                    utterance.rate = rate || 0.92;
-                    utterance.pitch = pitch || 1.05;
-                    utterance.volume = volume || 0.95;
-                    utterance.lang = 'en-US';
-                    utterance.onend = () => resolve(true);
-                    utterance.onerror = () => resolve(false);
-                    this.synth.speak(utterance);
-                });
-            },
-
-            async welcome() {
-                const welcomeText = "Welcome to Barangay Sibaguan Katipunan ng Kabataan Profiling System. Please fill out the form with your accurate information. Your data is secure and protected.";
-                await this.speak(welcomeText, 0.9, 1.08, 0.95);
-            },
-
-            async success(name) {
-                const text = "Congratulations " + name + "! Your KK Profiling has been successfully submitted. A confirmation email has been sent to your email address. Thank you for participating in the Katipunan ng Kabataan program.";
-                await this.speak(text, 0.92, 1.05, 0.95);
-            },
-
-            async reject() {
-                const text = "We apologize, but your age does not meet the requirements. The KK Profiling is only for youth aged 15 to 30 years old, according to Republic Act 10,742. Thank you for your understanding.";
-                await this.speak(text, 0.88, 0.98, 0.9);
-            },
-
-            async greetingByTime() {
-                const hour = new Date().getHours();
-                let greeting = '';
-                if (hour >= 5 && hour < 12) {
-                    greeting = 'Magandang umaga! Good morning! Welcome to Barangay Sibaguan KK Profiling System.';
-                } else if (hour >= 12 && hour < 17) {
-                    greeting = 'Magandang hapon! Good afternoon! Welcome to Barangay Sibaguan KK Profiling System.';
-                } else {
-                    greeting = 'Magandang gabi! Good evening! Welcome to Barangay Sibaguan KK Profiling System.';
-                }
-                await this.speak(greeting, 0.9, 1.08, 0.95);
-            }
-        };
-
-        // ========== INITIALIZATION ==========
-        let audioInitialized = false;
-
-        async function initAudio() {
-            if (audioInitialized) return;
-            audioInitialized = true;
-
-            AudioEngine.init();
-            VoiceEngine.init();
-
-            const banner = document.getElementById('welcomeBanner');
-            const welcomeText = document.getElementById('welcomeText');
-            const hour = new Date().getHours();
-            let greetingText = '';
-
-            if (hour >= 5 && hour < 12) {
-                greetingText = '☀️ Magandang Umaga! Good Morning! Welcome to Barangay Sibaguan KK Profiling System!';
-            } else if (hour >= 12 && hour < 17) {
-                greetingText = '🌤️ Magandang Hapon! Good Afternoon! Welcome to Barangay Sibaguan KK Profiling System!';
-            } else {
-                greetingText = '🌙 Magandang Gabi! Good Evening! Welcome to Barangay Sibaguan KK Profiling System!';
-            }
-
-            welcomeText.textContent = greetingText;
-            banner.classList.add('show');
-
-            setTimeout(() => {
-                banner.classList.remove('show');
-            }, 5000);
-
-            setTimeout(async () => {
-                AudioEngine.playWelcomeMusic();
-                await VoiceEngine.greetingByTime();
-            }, 600);
-        }
-
-        document.addEventListener('click', initAudio, { once: true });
-        document.addEventListener('touchstart', initAudio, { once: true });
-
-        // ========== FORM INTERACTION SOUNDS ==========
-        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
-            input.addEventListener('focus', () => AudioEngine.playFocus());
-            input.addEventListener('input', () => AudioEngine.playType());
-        });
-
-        document.querySelectorAll('.radio-item, .checkbox-item').forEach(item => {
-            item.addEventListener('click', () => AudioEngine.playClick());
-            item.addEventListener('mouseenter', () => AudioEngine.playHover());
-        });
-
-        document.querySelectorAll('.submit-btn, .modal-btn, .photo-upload-area').forEach(btn => {
-            btn.addEventListener('click', () => AudioEngine.playClick());
-            btn.addEventListener('mouseenter', () => AudioEngine.playHover());
-        });
-
-        // ========== SUCCESS MODAL ==========
-        const successModal = document.getElementById('successModal');
-        const successObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.target.classList.contains('active')) {
-                    AudioEngine.playSuccessFanfare();
-                    const firstName = document.getElementById('firstName').value.trim();
-                    const lastName = document.getElementById('lastName').value.trim();
-                    const fullName = firstName + (lastName ? ' ' + lastName : '');
-                    if (fullName) VoiceEngine.success(fullName);
-                }
-            });
-        });
-        successObserver.observe(successModal, { attributes: true, attributeFilter: ['class'] });
-
-        // ========== REJECT MODAL ==========
-        const rejectModal = document.getElementById('rejectModal');
-        const rejectObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.target.classList.contains('active')) {
-                    AudioEngine.playRejectionSound();
-                    VoiceEngine.reject();
-                }
-            });
-        });
-        rejectObserver.observe(rejectModal, { attributes: true, attributeFilter: ['class'] });
-
-        // ========== SUBMIT BUTTON SOUND ==========
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            AudioEngine.playSubmit();
-        });
-
-        // ========== AGE VALIDATION SOUND ==========
-        const ageDisplay = document.getElementById('ageDisplay');
-        const ageObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.target.classList.contains('show')) {
-                    if (mutation.target.classList.contains('rejected')) {
-                        AudioEngine.playRejectionSound();
-                    } else {
-                        AudioEngine.playChord([523.25, 659.25], 0.4, 0.08);
-                    }
-                }
-            });
-        });
-        ageObserver.observe(ageDisplay, { attributes: true, attributeFilter: ['class'] });
-
-        // ========== PHOTO UPLOAD SOUND ==========
-        document.getElementById('photoUploadArea').addEventListener('click', () => {
-            AudioEngine.playClick();
-        });
-
-        // ========== ONLINE/OFFLINE SOUNDS ==========
-        window.addEventListener('online', () => {
-            AudioEngine.playChord([523.25, 659.25, 783.99], 0.5, 0.08);
-        });
-        window.addEventListener('offline', () => {
-            AudioEngine.playRejectionSound();
-        });
-
-        // ========== SCROLL SOUND EFFECTS ==========
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const current = window.scrollY;
-            if (Math.abs(current - lastScroll) > 150) {
-                AudioEngine.playTone(400, 0.04, 'sine', 0.015);
-                lastScroll = current;
-            }
-        }, { passive: true });
-
-        // ========== MINUTE CHIME ==========
-        let tickCount = 0;
-        setInterval(() => {
-            tickCount++;
-            if (tickCount % 60 === 0) {
-                AudioEngine.playTone(1200, 0.06, 'sine', 0.02);
-            }
-        }, 1000);
-
-        console.log('Enhanced Voice & Sound Effects loaded!');
-        console.log('Click anywhere to activate beautiful audio');
-        console.log('Text-to-Speech with premium voice selection');
-        console.log('Personalized name announcement on submit');
-        console.log('Google Sheets connection: Testing on load...');
+        console.log('Auto-greeting: Enabled');
+        console.log('One-time submission: Enabled');
     </script>
 </body>
 </html>
