@@ -241,7 +241,6 @@
 <base target="_blank">
 </head>
 <body>
-
     <div class="bg-animation">
         <div class="bg-circle"></div><div class="bg-circle"></div><div class="bg-circle"></div>
     </div>
@@ -297,7 +296,7 @@
             <h3 id="autoGreetTitle">Welcome!</h3>
             <p id="autoGreetText">Loading greeting...</p>
             <div class="developer-credit">
-                <small>&#9881; System by: Roniel Nyke Gonzales | Lambunao Web Developer | Digital Barangay Solutions Inc.</small>
+                <small>&#9881; System by Roniel Nyke Gonzales | Lambunao Web Developer | Digital Barangay Solutions Inc.</small>
             </div>
         </div>
         <button class="auto-greet-btn" id="autoGreetBtn" onclick="playAutoGreeting()">
@@ -341,7 +340,7 @@
                 <p>Fill out all required fields. Your information will be securely stored.</p>
             </div>
             <div class="form-body">
-                <form id="kkForm" onsubmit="handleSubmit(event)">
+                <form id="kkForm" onsubmit="return handleSubmit(event)">
                     <div class="section-title"><div class="section-number">1</div><span>Personal Information</span></div>
                     <div class="form-grid">
                         <div class="form-group">
@@ -607,20 +606,22 @@
     </div>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
     <script>
+        // ==================== CONFIGURATION ====================
         const CONFIG = {
-            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzzriIhh1sPXwuSOEH1glW6d_2086KSVby00XXkVyp9VybGSZ79pYgJ46GgA8aw3xTlyQ/exec',
+            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz8aHyjV-xFnivpgqViqzRcsMo77SPHBbp3NDyDOhflr6mpe6oJg0_IyffosC8z4SfohA/exec',
             SHEET_ID: '1Wcn_iz39wJCYZYBGNTUW0AybcfaoAr2YWOM1oER9HXk',
             SHEET_NAME: 'Sibaguan_KK_Profiling',
             EMAILJS_SERVICE: 'service_djne9ym',
             EMAILJS_TEMPLATE: 'template_q5v9o8w',
             EMAILJS_PUBLIC_KEY: 'S3_XQI5mfn8MMdGhM',
-            MIN_AGE: 13, MAX_AGE: 30,
+            MIN_AGE: 13, 
+            MAX_AGE: 30,
             DEVELOPER_NAME: 'Roniel Nyke Gonzales',
             COMPANY_NAME: 'Lambunao Web Developer | Digital Barangay Solutions Inc.'
         };
 
+        // ==================== STATE VARIABLES ====================
         let isSubmitting = false;
         let speechSynthesis = window.speechSynthesis;
         let currentGreeting = '';
@@ -629,9 +630,23 @@
         let autoGreetPlayed = false;
         let currentLanguage = 'tagalog';
 
-        // FIX #1: Initialize submissions array properly - this was causing the "Registration Failed" error
+        // CRITICAL FIX: Always initialize submissions from localStorage immediately
         let submissions = [];
+        try {
+            const stored = localStorage.getItem('kkSubmissions');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    submissions = parsed;
+                    console.log('Loaded ' + submissions.length + ' submissions from localStorage');
+                }
+            }
+        } catch (e) {
+            console.error('Error loading submissions:', e);
+            submissions = [];
+        }
 
+        // ==================== CONSTANTS ====================
         const PENDING_SYNC_KEY = 'kk_pending_sync';
         const STATS_CACHE_KEY = 'kk_stats_cache';
         const STATS_CACHE_TIME_KEY = 'kk_stats_cache_time';
@@ -639,31 +654,7 @@
         const DEVICE_SUBMITTED_KEY = 'kk_device_submitted';
         const SUBMISSIONS_KEY = 'kkSubmissions';
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // FIX #2: Load submissions from localStorage on startup
-            try {
-                const stored = localStorage.getItem(SUBMISSIONS_KEY);
-                if (stored) {
-                    submissions = JSON.parse(stored);
-                }
-            } catch (e) {
-                submissions = [];
-            }
-
-            updateGreeting();
-            updateClock();
-            updateStats();
-            checkConnection();
-            initAutoGreeting();
-            setInterval(updateGreeting, 60000);
-            setInterval(updateClock, 1000);
-            setInterval(checkConnection, 30000);
-            if (typeof emailjs !== 'undefined') { emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY); }
-            updateOnlineStatus();
-            testConnection();
-        });
-
-        // ==================== LANGUAGE SYSTEM ====================
+        // ==================== LANGUAGE DATA ====================
         const LANGUAGE_DATA = {
             tagalog: {
                 morning: { greeting: 'Magandang Umaga!', icon: '🌅', sub: 'Maayong aga! Welcome sa Barangay Sibaguan KK Profiling System.' },
@@ -709,6 +700,44 @@
             }
         };
 
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== KK Profiling System Initializing ===');
+
+            // Reload submissions from localStorage to be sure
+            try {
+                const stored = localStorage.getItem(SUBMISSIONS_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed)) {
+                        submissions = parsed;
+                    }
+                }
+            } catch (e) {
+                submissions = [];
+            }
+
+            updateGreeting();
+            updateClock();
+            updateStats();
+            checkConnection();
+            initAutoGreeting();
+
+            setInterval(updateGreeting, 60000);
+            setInterval(updateClock, 1000);
+            setInterval(checkConnection, 30000);
+
+            if (typeof emailjs !== 'undefined') { 
+                emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY); 
+            }
+
+            updateOnlineStatus();
+            testConnection();
+
+            console.log('System ready. Submissions in memory:', submissions.length);
+        });
+
+        // ==================== LANGUAGE SYSTEM ====================
         function setLanguage(lang) {
             currentLanguage = lang;
             document.querySelectorAll('.lang-btn').forEach(function(btn) {
@@ -731,6 +760,7 @@
             document.getElementById('autoGreetTitle').textContent = data.greeting;
             document.getElementById('autoGreetText').textContent = data.sub;
 
+            // Auto-play greeting after 2 seconds (with user interaction workaround)
             setTimeout(function() {
                 if (!autoGreetPlayed) {
                     playAutoGreeting();
@@ -812,6 +842,7 @@
             speechSynthesis.getVoices();
         }
 
+        // ==================== CLOCK & GREETING ====================
         function updateClock() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
@@ -858,6 +889,7 @@
             speechSynthesis.speak(utterance);
         }
 
+        // ==================== FORM HELPERS ====================
         function calculateAge() {
             const birthDate = document.getElementById('birthDate').value;
             const ageDisplay = document.getElementById('ageDisplay');
@@ -892,6 +924,7 @@
             input.value = value;
         }
 
+        // ==================== STATS SYSTEM ====================
         async function refreshStats() {
             const btn = document.getElementById('refreshStatsBtn');
             btn.classList.add('spinning');
@@ -908,34 +941,36 @@
 
         async function updateStats(forceRefresh = false) {
             try {
-                const sheetData = await fetchStatsFromGoogleSheets(forceRefresh);
+                // Always start with local data (never resets to 0)
+                let allData = [];
+
+                // Get local submissions
                 const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
-
-                // FIX #3: Properly merge data - avoid duplicates by checking ID
-                const sheetIds = new Set();
-                const allData = [];
-
-                if (Array.isArray(sheetData)) {
-                    sheetData.forEach(function(item) {
-                        if (item && item.id) {
-                            sheetIds.add(item.id);
-                            allData.push(item);
-                        }
-                    });
+                if (Array.isArray(localData)) {
+                    allData = allData.concat(localData);
                 }
 
-                if (Array.isArray(localData)) {
-                    localData.forEach(function(item) {
-                        if (item && item.id && !sheetIds.has(item.id)) {
-                            allData.push(item);
-                        }
-                    });
+                // Try to get sheet data (but don't let it fail)
+                try {
+                    const sheetData = await fetchStatsFromGoogleSheets(forceRefresh);
+                    if (Array.isArray(sheetData)) {
+                        // Merge without duplicates
+                        const existingIds = new Set(allData.map(d => d.id));
+                        sheetData.forEach(function(item) {
+                            if (item && item.id && !existingIds.has(item.id)) {
+                                allData.push(item);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.log('Sheet fetch failed, using local only:', e);
                 }
 
                 calculateAndDisplayStats(allData);
-                console.log('Stats updated: Sheet=' + sheetData.length + ', Total=' + allData.length);
+                console.log('Stats updated: Total=' + allData.length);
             } catch (error) {
                 console.error('Error updating stats:', error);
+                // Fallback to local data only
                 const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
                 calculateAndDisplayStats(localData);
             }
@@ -994,6 +1029,7 @@
             document.getElementById('employedCount').textContent = employedCount;
         }
 
+        // ==================== VALIDATION ====================
         function validateForm() {
             let isValid = true;
             const requiredFields = ['lastName','firstName','birthDate','gender','civilStatus','purok','contactNumber','address','education','employment','emergencyName','emergencyContact','emergencyRelation'];
@@ -1040,21 +1076,26 @@
             return isValid;
         }
 
-        // FIX #4: COMPLETELY REWRITTEN handleSubmit - fixes the "Registration Failed" error
-        async function handleSubmit(event) {
-            event.preventDefault();
-            if (isSubmitting) return;
+        // ==================== CRITICAL FIX: BULLETPROOF SUBMIT ====================
+        function handleSubmit(event) {
+            // CRITICAL: Prevent default form submission FIRST THING
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            if (isSubmitting) return false;
 
             // Check if already submitted from this device
             const deviceSubmitted = localStorage.getItem(DEVICE_SUBMITTED_KEY);
             if (deviceSubmitted) {
                 showModal('alreadySubmittedModal');
-                return;
+                return false;
             }
 
             if (!validateForm()) { 
                 showError('Please fill in all required fields correctly.'); 
-                return; 
+                return false; 
             }
 
             isSubmitting = true;
@@ -1064,121 +1105,165 @@
             submitBtn.disabled = true;
             loadingOverlay.classList.add('active');
 
+            // Use setTimeout to allow UI to update before processing
+            setTimeout(function() {
+                processSubmission();
+            }, 100);
+
+            return false;
+        }
+
+        function processSubmission() {
             try {
                 const formData = collectFormData();
                 const age = formData.age;
 
                 // Check age validation
                 if (age > CONFIG.MAX_AGE || age < CONFIG.MIN_AGE) {
-                    submitBtn.classList.remove('loading'); 
-                    submitBtn.disabled = false;
-                    loadingOverlay.classList.remove('active');
-                    isSubmitting = false;
+                    finishSubmit();
                     showModal('rejectModal');
                     return;
                 }
 
-                // FIX #5: Check for duplicates in localStorage first (more reliable)
+                // Check for duplicates in localStorage FIRST
                 let isDuplicate = false;
-                const localData = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
 
-                // Check by exact name + birthdate match
-                isDuplicate = localData.some(function(sub) {
-                    return sub.firstName && sub.lastName && sub.birthDate &&
-                           sub.firstName.toLowerCase().trim() === formData.firstName.toLowerCase().trim() &&
-                           sub.lastName.toLowerCase().trim() === formData.lastName.toLowerCase().trim() &&
-                           sub.birthDate === formData.birthDate;
-                });
+                // Normalize for comparison
+                const newFirst = formData.firstName.toLowerCase().trim();
+                const newLast = formData.lastName.toLowerCase().trim();
+                const newBirth = formData.birthDate;
 
-                // Also try Google Sheets duplicate check if online
-                if (!isDuplicate) {
-                    try {
-                        const checkResponse = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=checkDuplicate&firstName=' + encodeURIComponent(formData.firstName) + '&lastName=' + encodeURIComponent(formData.lastName) + '&birthDate=' + encodeURIComponent(formData.birthDate) + '&_=' + Date.now(), {
-                            method: 'GET',
-                            redirect: 'follow'
-                        });
-                        if (checkResponse.ok) {
-                            const checkResult = await checkResponse.json();
-                            if (checkResult.isDuplicate) isDuplicate = true;
+                for (let i = 0; i < submissions.length; i++) {
+                    const sub = submissions[i];
+                    if (sub.firstName && sub.lastName && sub.birthDate) {
+                        const existingFirst = String(sub.firstName).toLowerCase().trim();
+                        const existingLast = String(sub.lastName).toLowerCase().trim();
+                        const existingBirth = String(sub.birthDate).trim();
+
+                        if (existingFirst === newFirst && existingLast === newLast && existingBirth === newBirth) {
+                            isDuplicate = true;
+                            break;
                         }
-                    } catch (e) { 
-                        console.log('Duplicate check via Google Sheets failed, using local check only:', e); 
                     }
                 }
 
                 if (isDuplicate) {
-                    submitBtn.classList.remove('loading'); 
-                    submitBtn.disabled = false;
-                    loadingOverlay.classList.remove('active');
-                    isSubmitting = false;
+                    finishSubmit();
                     showModal('duplicateModal');
                     return;
                 }
 
-                // FIX #6: Save to localStorage FIRST (always works offline)
-                submissions.push(formData);
-                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
-
-                // Mark device as submitted (ONE TIME ONLY)
-                localStorage.setItem(DEVICE_SUBMITTED_KEY, 'true');
-
-                // Try to save to Google Sheets (best effort - won't fail if offline)
-                let googleSuccess = false;
-                try {
-                    const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        redirect: 'follow',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(formData)
-                    });
-                    if (response.ok) {
-                        const result = await response.json();
-                        if (result.success) {
-                            googleSuccess = true;
-                            // Mark as synced in localStorage
-                            const idx = submissions.findIndex(s => s.id === formData.id);
-                            if (idx >= 0) {
-                                submissions[idx].synced = true;
-                                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
-                            }
-                        }
+                // Also check Google Sheets for duplicates (async, but we continue regardless)
+                checkGoogleSheetsDuplicate(formData).then(function(sheetDuplicate) {
+                    if (sheetDuplicate) {
+                        finishSubmit();
+                        showModal('duplicateModal');
+                        return;
                     }
-                } catch (e) { 
-                    console.log('Google Sheets submission failed, data saved locally:', e); 
-                }
 
-                // Try to send email notification (best effort)
-                try {
-                    if (typeof emailjs !== 'undefined' && formData.email) {
-                        await emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, {
-                            to_email: formData.email, 
-                            to_name: formData.fullName,
-                            from_name: 'Barangay Sibaguan KK',
-                            message: 'Thank you for registering in the KK Profiling System!'
-                        });
-                    }
-                } catch (e) { 
-                    console.log('Email sending failed:', e); 
-                }
+                    // Save to localStorage (THIS ALWAYS WORKS)
+                    submissions.push(formData);
+                    localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
 
-                // Show success
-                document.getElementById('successName').textContent = formData.firstName + ' ' + formData.lastName;
-                showModal('successModal');
-                updateStats();
+                    // Mark device as submitted (ONE TIME ONLY)
+                    localStorage.setItem(DEVICE_SUBMITTED_KEY, 'true');
 
-                // If not synced to Google, queue for later sync
-                if (!googleSuccess) { 
-                    queueForSync(formData);
-                }
+                    // Try Google Sheets (best effort)
+                    saveToGoogleSheets(formData);
+
+                    // Try email (best effort)
+                    sendEmailNotification(formData);
+
+                    // Show success
+                    document.getElementById('successName').textContent = formData.firstName + ' ' + formData.lastName;
+                    finishSubmit();
+                    showModal('successModal');
+                    updateStats();
+
+                }).catch(function(err) {
+                    console.log('Sheet check error:', err);
+                    // Still save locally even if sheet check fails
+                    submissions.push(formData);
+                    localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
+                    localStorage.setItem(DEVICE_SUBMITTED_KEY, 'true');
+
+                    document.getElementById('successName').textContent = formData.firstName + ' ' + formData.lastName;
+                    finishSubmit();
+                    showModal('successModal');
+                    updateStats();
+                });
 
             } catch (error) {
                 console.error('Submission error:', error);
+                finishSubmit();
                 showError('An error occurred: ' + error.message + '. Please try again.');
-            } finally {
-                isSubmitting = false;
-                submitBtn.classList.remove('loading'); 
-                submitBtn.disabled = false;
-                loadingOverlay.classList.remove('active');
+            }
+        }
+
+        function finishSubmit() {
+            isSubmitting = false;
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            submitBtn.classList.remove('loading'); 
+            submitBtn.disabled = false;
+            loadingOverlay.classList.remove('active');
+        }
+
+        async function checkGoogleSheetsDuplicate(formData) {
+            try {
+                const checkResponse = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=checkDuplicate&firstName=' + encodeURIComponent(formData.firstName) + '&lastName=' + encodeURIComponent(formData.lastName) + '&birthDate=' + encodeURIComponent(formData.birthDate) + '&_=' + Date.now(), {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+                if (checkResponse.ok) {
+                    const checkResult = await checkResponse.json();
+                    return checkResult.isDuplicate === true;
+                }
+            } catch (e) { 
+                console.log('Duplicate check via Google Sheets failed:', e); 
+            }
+            return false;
+        }
+
+        async function saveToGoogleSheets(formData) {
+            try {
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    redirect: 'follow',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(formData)
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        console.log('Saved to Google Sheets');
+                        // Mark as synced
+                        const idx = submissions.findIndex(s => s.id === formData.id);
+                        if (idx >= 0) {
+                            submissions[idx].synced = true;
+                            localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions));
+                        }
+                        return true;
+                    }
+                }
+            } catch (e) { 
+                console.log('Google Sheets save failed:', e); 
+            }
+            return false;
+        }
+
+        async function sendEmailNotification(formData) {
+            try {
+                if (typeof emailjs !== 'undefined' && formData.email) {
+                    await emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, {
+                        to_email: formData.email, 
+                        to_name: formData.fullName,
+                        from_name: 'Barangay Sibaguan KK',
+                        message: 'Thank you for registering in the KK Profiling System!'
+                    });
+                }
+            } catch (e) { 
+                console.log('Email sending failed:', e); 
             }
         }
 
@@ -1245,21 +1330,7 @@
             };
         }
 
-        // FIX #7: Queue data for sync when back online
-        function queueForSync(data) {
-            try {
-                const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
-                // Check if already in pending queue
-                const exists = pending.some(p => p.id === data.id);
-                if (!exists) {
-                    pending.push(data);
-                    localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(pending));
-                }
-            } catch (e) {
-                console.error('Error queueing for sync:', e);
-            }
-        }
-
+        // ==================== SYNC & CONNECTION ====================
         async function syncToGoogleSheets() {
             const pending = JSON.parse(localStorage.getItem(PENDING_SYNC_KEY) || '[]');
             if (pending.length === 0) return;
@@ -1271,32 +1342,13 @@
             for (let i = 0; i < pending.length; i++) {
                 try {
                     const data = pending[i];
-                    const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        redirect: 'follow',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(data)
-                    });
-                    if (response.ok) {
-                        const result = await response.json();
-                        if (result.success) {
-                            successful.push(data);
-                            // Mark as synced in main submissions
-                            const allSubs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
-                            const idx = allSubs.findIndex(s => s.id === data.id);
-                            if (idx >= 0) {
-                                allSubs[idx].synced = true;
-                                localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(allSubs));
-                                submissions = allSubs;
-                            }
-                        }
-                    }
+                    const saved = await saveToGoogleSheets(data);
+                    if (saved) successful.push(data);
                 } catch (e) { 
                     console.log('Sync failed for item:', i, e); 
                 }
             }
 
-            // Remove successful ones from pending
             const remaining = pending.filter(p => !successful.some(s => s.id === p.id));
             localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(remaining));
 
@@ -1358,6 +1410,7 @@
             }
         }
 
+        // ==================== VIEW & EXPORT ====================
         function viewSubmissions() {
             const subs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
             const listEl = document.getElementById('submissionsList');
@@ -1386,7 +1439,6 @@
             showModal('submissionsModal');
         }
 
-        // FIX #8: Proper exportData function with actual CSV content
         function exportData() {
             const subs = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || '[]');
             if (subs.length === 0) { showError('No data to export.'); return; }
@@ -1431,6 +1483,7 @@
             document.body.removeChild(link);
         }
 
+        // ==================== PHOTO UPLOAD ====================
         function handlePhotoUpload(input) {
             const file = input.files[0];
             if (!file) return;
@@ -1479,6 +1532,7 @@
             removeBtn.style.display = 'none';
         }
 
+        // ==================== UI HELPERS ====================
         function showSyncStatus(status, text) {
             const el = document.getElementById('syncStatus');
             const txt = document.getElementById('syncText');
